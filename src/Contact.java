@@ -1,3 +1,6 @@
+import ContactInfo.ContactInfo;
+import ContactInfo.ContactInfoItem;
+
 import java.util.Objects;
 
 public class Contact {
@@ -20,7 +23,8 @@ public class Contact {
     }
 
     public String getName() {
-        return Objects.requireNonNullElseGet(this.fullName, () -> title + " " + firstName + " " + lastName);
+        return Objects.requireNonNullElseGet(this.fullName,
+                () -> title + " " + firstName + " " + lastName);
     }
 
     public void setContactInfo(ContactInfo info) {

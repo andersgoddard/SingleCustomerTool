@@ -1,3 +1,5 @@
+package ContactInfo;
+
 import java.util.ArrayList;
 
 public class ContactInfoParser {

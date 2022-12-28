@@ -1,3 +1,5 @@
+package ContactInfo;
+
 public class EmailAddress implements ContactInfoItem {
     String address;
 

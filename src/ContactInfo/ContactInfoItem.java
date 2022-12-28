@@ -1,5 +1,7 @@
+package ContactInfo;
+
 public interface ContactInfoItem {
-    public String get();
+    String get();
 
     void clean();
 }

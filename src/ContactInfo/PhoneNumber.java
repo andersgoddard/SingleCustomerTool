@@ -1,3 +1,5 @@
+package ContactInfo;
+
 public class PhoneNumber implements ContactInfoItem {
     String number;
     public PhoneNumber(String number) {
