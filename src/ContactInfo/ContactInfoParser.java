@@ -20,7 +20,7 @@ public class ContactInfoParser {
         if (s.contains("@"))
             return new EmailAddress(s);
         else
-            return new PhoneNumber(s);
+            return PhoneNumber.create(s);
     }
 
     public static String[] split(String multiContactInfo) {

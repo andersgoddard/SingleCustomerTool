@@ -2,9 +2,13 @@ package ContactInfo;
 
 public class PhoneNumber implements ContactInfoItem {
     String number;
-    public PhoneNumber(String number) {
+    private PhoneNumber(String number) {
         this.number = number;
         clean();
+    }
+
+    public static PhoneNumber create(String number) {
+        return new PhoneNumber(number);
     }
 
     public String get() {

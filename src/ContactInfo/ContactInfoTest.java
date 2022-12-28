@@ -9,8 +9,8 @@ public class ContactInfoTest {
     @Test
     public void testContactInfo(){
         ContactInfo info = new ContactInfo();
-        info.add(new PhoneNumber("07881266969"));
-        info.add(new PhoneNumber("01472210284"));
+        info.add(PhoneNumber.create("07881266969"));
+        info.add(PhoneNumber.create("01472210284"));
         info.add(new EmailAddress("andersgoddard@gmail.com"));
         info.add(new EmailAddress("agodda02@mail.bbk.ac.uk"));
         assertTrue(info.contains(new EmailAddress("andersgoddard@gmail.com")));

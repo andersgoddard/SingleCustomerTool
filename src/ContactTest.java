@@ -24,7 +24,7 @@ public class ContactTest {
         contact.setLastName("Goddard");
         ContactInfo info = new ContactInfo();
         info.add(new EmailAddress("andersgoddard@gmail.com"));
-        info.add(new PhoneNumber("07881266969"));
+        info.add(PhoneNumber.create("07881266969"));
         contact.setContactInfo(info);
         assertTrue(contact.hasContactInfo(new EmailAddress("andersgoddard@gmail.com")));
     }
