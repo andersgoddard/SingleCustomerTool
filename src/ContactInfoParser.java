@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class ContactInfoParser {
     public static ArrayList<ContactInfoItem> parse(String s) {
         ArrayList<ContactInfoItem> items = new ArrayList<>();
-        if (s.contains(";")) {
+        if (s.contains(";") || s.contains(",")) {
             String[] itemArray = split(s);
             for (String item : itemArray) {
                 items.add(extract(item));
@@ -22,6 +22,6 @@ public class ContactInfoParser {
     }
 
     public static String[] split(String multiContactInfo) {
-        return multiContactInfo.split(";");
+        return multiContactInfo.split("[;,]");
     }
 }

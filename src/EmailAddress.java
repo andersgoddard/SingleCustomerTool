@@ -1,18 +1,16 @@
 public class EmailAddress implements ContactInfoItem {
     String address;
-    boolean valid;
 
     public EmailAddress(String address) {
         this.address = address;
-        this.checkValidity();
+        clean();
     }
 
     public void clean(){
-
-    }
-
-    private void checkValidity() {
-        valid = !(this.address == "test@example.com");
+        String[] components = address.split(" ");
+        for (String component : components)
+            if (component.contains("@"))
+                address = component.toLowerCase();
     }
 
     public String get() {
@@ -20,6 +18,6 @@ public class EmailAddress implements ContactInfoItem {
     }
 
     public boolean isValid() {
-        return valid;
+        return !PlaceholderEmailAddressChecker.isPlaceholder(address);
     }
 }

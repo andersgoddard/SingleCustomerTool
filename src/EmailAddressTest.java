@@ -11,8 +11,26 @@ public class EmailAddressTest {
     }
 
     @Test
-    public void testDuffEmailAddress(){
+    public void testPlaceholderEmailAddress1(){
         EmailAddress email = new EmailAddress("test@example.com");
         assertFalse(email.isValid());
+    }
+
+    @Test
+    public void testPlaceholderEmailAddress2(){
+        EmailAddress email = new EmailAddress("na@na.com");
+        assertFalse(email.isValid());
+    }
+
+    @Test
+    public void testParseNoisyEmail(){
+        EmailAddress email = new EmailAddress("annabel_tino@hotmail.com (Business)");
+        assertEquals("annabel_tino@hotmail.com", email.get());
+    }
+
+    @Test
+    public void testCapitalEmail(){
+        EmailAddress email = new EmailAddress("ANDERSGODDARD@GMAIL.COM");
+        assertEquals("andersgoddard@gmail.com", email.get());
     }
 }
