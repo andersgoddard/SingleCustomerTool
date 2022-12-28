@@ -13,7 +13,7 @@ public class ContactInfoItemTest {
 
     @Test
     public void testEmailAddress(){
-        ContactInfoItem email = new EmailAddress("andersgoddard@gmail.com");
+        ContactInfoItem email = EmailAddress.create("andersgoddard@gmail.com");
         assertEquals("andersgoddard@gmail.com", email.get());
     }
 }

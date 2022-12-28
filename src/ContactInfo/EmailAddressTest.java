@@ -7,32 +7,32 @@ import static org.junit.jupiter.api.Assertions.*;
 public class EmailAddressTest {
     @Test
     public void testGetEmailAddress(){
-        EmailAddress email = new EmailAddress("andersgoddard@gmail.com");
+        EmailAddress email = EmailAddress.create("andersgoddard@gmail.com");
         assertEquals("andersgoddard@gmail.com", email.get());
         assertTrue(email.isValid());
     }
 
     @Test
     public void testPlaceholderEmailAddress1(){
-        EmailAddress email = new EmailAddress("test@example.com");
+        EmailAddress email = EmailAddress.create("test@example.com");
         assertFalse(email.isValid());
     }
 
     @Test
     public void testPlaceholderEmailAddress2(){
-        EmailAddress email = new EmailAddress("na@na.com");
+        EmailAddress email = EmailAddress.create("na@na.com");
         assertFalse(email.isValid());
     }
 
     @Test
     public void testParseNoisyEmail(){
-        EmailAddress email = new EmailAddress("annabel_tino@hotmail.com (Business)");
+        EmailAddress email = EmailAddress.create("annabel_tino@hotmail.com (Business)");
         assertEquals("annabel_tino@hotmail.com", email.get());
     }
 
     @Test
     public void testCapitalEmail(){
-        EmailAddress email = new EmailAddress("ANDERSGODDARD@GMAIL.COM");
+        EmailAddress email = EmailAddress.create("ANDERSGODDARD@GMAIL.COM");
         assertEquals("andersgoddard@gmail.com", email.get());
     }
 }

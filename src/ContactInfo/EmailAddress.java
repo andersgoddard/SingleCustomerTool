@@ -3,9 +3,13 @@ package ContactInfo;
 public class EmailAddress implements ContactInfoItem {
     String address;
 
-    public EmailAddress(String address) {
+    private EmailAddress(String address) {
         this.address = address;
         clean();
+    }
+
+    public static EmailAddress create(String address) {
+        return new EmailAddress(address);
     }
 
     public void clean(){

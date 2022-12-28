@@ -23,10 +23,10 @@ public class ContactTest {
         contact.setFirstName("Andrew");
         contact.setLastName("Goddard");
         ContactInfo info = new ContactInfo();
-        info.add(new EmailAddress("andersgoddard@gmail.com"));
+        info.add(EmailAddress.create("andersgoddard@gmail.com"));
         info.add(PhoneNumber.create("07881266969"));
         contact.setContactInfo(info);
-        assertTrue(contact.hasContactInfo(new EmailAddress("andersgoddard@gmail.com")));
+        assertTrue(contact.hasContactInfo(EmailAddress.create("andersgoddard@gmail.com")));
     }
 
     @Test

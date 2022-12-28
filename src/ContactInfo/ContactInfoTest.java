@@ -11,9 +11,9 @@ public class ContactInfoTest {
         ContactInfo info = new ContactInfo();
         info.add(PhoneNumber.create("07881266969"));
         info.add(PhoneNumber.create("01472210284"));
-        info.add(new EmailAddress("andersgoddard@gmail.com"));
-        info.add(new EmailAddress("agodda02@mail.bbk.ac.uk"));
-        assertTrue(info.contains(new EmailAddress("andersgoddard@gmail.com")));
-        assertFalse(info.contains(new EmailAddress("agoddard@kfh.co.uk")));
+        info.add(EmailAddress.create("andersgoddard@gmail.com"));
+        info.add(EmailAddress.create("agodda02@mail.bbk.ac.uk"));
+        assertTrue(info.contains(EmailAddress.create("andersgoddard@gmail.com")));
+        assertFalse(info.contains(EmailAddress.create("agoddard@kfh.co.uk")));
     }
 }

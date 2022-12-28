@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class PlaceholderEmailAddressChecker {
     public static boolean isPlaceholder(String emailAddress) {
-        EmailAddress email = new EmailAddress(emailAddress);
+        EmailAddress email = EmailAddress.create(emailAddress);
         return checkPlaceholderFileFor(email);
     }
 

@@ -18,7 +18,7 @@ public class ContactInfoParser {
 
     public static ContactInfoItem extract(String s){
         if (s.contains("@"))
-            return new EmailAddress(s);
+            return EmailAddress.create(s);
         else
             return PhoneNumber.create(s);
     }
