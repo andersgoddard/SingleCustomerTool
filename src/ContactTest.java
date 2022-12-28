@@ -25,4 +25,11 @@ public class ContactTest {
         contact.setContactInfo(info);
         assertTrue(contact.hasContactInfo(new EmailAddress("andersgoddard@gmail.com")));
     }
+
+    @Test
+    public void testContactFullName(){
+        Contact contact = new Contact();
+        contact.setName("Mrs India Goddard");
+        assertEquals("Mrs India Goddard", contact.getName());
+    }
 }

@@ -1,7 +1,10 @@
+import java.util.Objects;
+
 public class Contact {
     private String title;
     private String firstName;
     private String lastName;
+    private String fullName;
     private ContactInfo info;
     
     public void setTitle(String title) {
@@ -17,7 +20,7 @@ public class Contact {
     }
 
     public String getName() {
-        return title + " " + firstName + " " + lastName;
+        return Objects.requireNonNullElseGet(this.fullName, () -> title + " " + firstName + " " + lastName);
     }
 
     public void setContactInfo(ContactInfo info) {
@@ -26,5 +29,9 @@ public class Contact {
 
     public boolean hasContactInfo(ContactInfoItem item) {
         return info.contains(item);
+    }
+
+    public void setName(String fullName) {
+        this.fullName = fullName;
     }
 }
