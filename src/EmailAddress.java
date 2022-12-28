@@ -4,15 +4,19 @@ public class EmailAddress implements ContactInfoItem {
 
     public EmailAddress(String address) {
         this.address = address;
+        clean();
         this.checkValidity();
     }
 
     public void clean(){
-
+        String[] components = address.split(" ");
+        for (String component : components)
+            if (component.contains("@"))
+                address = component;
     }
 
     private void checkValidity() {
-        valid = !(this.address == "test@example.com");
+        valid = !(this.address.equals("test@example.com"));
     }
 
     public String get() {

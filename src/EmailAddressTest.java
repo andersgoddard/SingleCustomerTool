@@ -15,4 +15,10 @@ public class EmailAddressTest {
         EmailAddress email = new EmailAddress("test@example.com");
         assertFalse(email.isValid());
     }
+
+    @Test
+    public void testParseNoisyEmail(){
+        EmailAddress email = new EmailAddress("annabel_tino@hotmail.com (Business)");
+        assertEquals("annabel_tino@hotmail.com", email.get());
+    }
 }

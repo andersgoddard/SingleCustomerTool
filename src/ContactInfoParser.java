@@ -22,6 +22,6 @@ public class ContactInfoParser {
     }
 
     public static String[] split(String multiContactInfo) {
-        return multiContactInfo.split(";");
+        return multiContactInfo.split("[;,]");
     }
 }
