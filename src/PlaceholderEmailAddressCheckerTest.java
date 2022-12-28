@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PlaceholderEmailAddressCheckerTest {
@@ -15,6 +16,11 @@ public class PlaceholderEmailAddressCheckerTest {
 
     @Test
     public void testPlaceholderEmail3(){
+        assertTrue(PlaceholderEmailAddressChecker.isPlaceholder("xxx@xx.com"));
+    }
 
+    @Test
+    public void testNotAPlaceholderEmail(){
+        assertFalse(PlaceholderEmailAddressChecker.isPlaceholder("andersgoddard@gmail.com"));
     }
 }

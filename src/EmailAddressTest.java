@@ -11,8 +11,14 @@ public class EmailAddressTest {
     }
 
     @Test
-    public void testPlaceholderEmailAddress(){
+    public void testPlaceholderEmailAddress1(){
         EmailAddress email = new EmailAddress("test@example.com");
+        assertFalse(email.isValid());
+    }
+
+    @Test
+    public void testPlaceholderEmailAddress2(){
+        EmailAddress email = new EmailAddress("na@na.com");
         assertFalse(email.isValid());
     }
 

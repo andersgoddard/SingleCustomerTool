@@ -1,11 +1,9 @@
 public class EmailAddress implements ContactInfoItem {
     String address;
-    boolean valid;
 
     public EmailAddress(String address) {
         this.address = address;
         clean();
-        this.checkValidity();
     }
 
     public void clean(){
@@ -15,15 +13,11 @@ public class EmailAddress implements ContactInfoItem {
                 address = component.toLowerCase();
     }
 
-    private void checkValidity() {
-        valid = !(this.address.equals("test@example.com"));
-    }
-
     public String get() {
         return address;
     }
 
     public boolean isValid() {
-        return valid;
+        return !PlaceholderEmailAddressChecker.isPlaceholder(address);
     }
 }

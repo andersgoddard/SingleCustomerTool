@@ -1,5 +1,26 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 public class PlaceholderEmailAddressChecker {
     public static boolean isPlaceholder(String emailAddress) {
-        return emailAddress.equals("test@example.com") || emailAddress.equals("no@email.com");
+        EmailAddress email = new EmailAddress(emailAddress);
+        return checkPlaceholderFileFor(email);
+    }
+
+    private static boolean checkPlaceholderFileFor(EmailAddress email) {
+        BufferedReader reader;
+        try {
+            reader = new BufferedReader(new FileReader("src/placeholder_email_addresses.txt"));
+            String line = reader.readLine();
+            while (line != null){
+                if (line.equals(email.get()))
+                        return true;
+                line = reader.readLine();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
     }
 }
