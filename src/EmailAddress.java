@@ -12,7 +12,7 @@ public class EmailAddress implements ContactInfoItem {
         String[] components = address.split(" ");
         for (String component : components)
             if (component.contains("@"))
-                address = component;
+                address = component.toLowerCase();
     }
 
     private void checkValidity() {
