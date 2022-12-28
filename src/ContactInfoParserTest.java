@@ -60,6 +60,14 @@ public class ContactInfoParserTest {
 
     @Test
     public void testParseWithCommas(){
+        String multiContactInfo = "Annepher@163.com, 18861820224@163.com";
+        List<ContactInfoItem> items = ContactInfoParser.parse(multiContactInfo);
+        assertEquals("Annepher@163.com", items.get(0).get());
+        assertEquals("18861820224@163.com", items.get(1).get());
+    }
+
+    @Test
+    public void testParseWithCommasAndSemiColons(){
         String multiContactInfo = "Annepher@163.com; 18861820224@163.com; yangmaolin97@outlook.com, 352492942@qq.com";
         List<ContactInfoItem> items = ContactInfoParser.parse(multiContactInfo);
         assertEquals("Annepher@163.com", items.get(0).get());
