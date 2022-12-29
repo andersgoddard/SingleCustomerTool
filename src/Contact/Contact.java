@@ -5,7 +5,10 @@ import ContactInfo.ContactInfoItem;
 
 import java.util.UUID;
 
+/* Represents a single contact, for example a person in a database. Largely a data-carrying class. */
+
 public class Contact {
+
     private final String fullName;
     private final ContactInfo info;
     private String uniqueIdentifier;
@@ -19,6 +22,10 @@ public class Contact {
         ContactList.getInstance().add(this);
     }
 
+/*    Checks the global list of Contacts (the singleton class ContactList) for Contacts containing any of the contact information
+ *    contained in this Contact. If one is found, the UUID for that Contact is set as the UUID for this one, otherwise a new random
+ *    UUID is set.
+ */
     private void setUniqueIdentifier() {
         ContactList allContacts = ContactList.getInstance();
         Contact similarContact = allContacts.contains(info);
@@ -49,10 +56,12 @@ public class Contact {
         return info.contains(item);
     }
 
+/*  Sets a new random UUID for the Contact. Used by the ContactSplitter class.*/
     public void setNewUniqueIdentifier() {
         this.uniqueIdentifier = UUID.randomUUID().toString();
     }
 
+/*  Sets the String uniqueIdentifier as the UUID for the Contact. Used by the ContactMerger class.*/
     public void setNewUniqueIdentifier(String uniqueIdentifier) {
         this.uniqueIdentifier = uniqueIdentifier;
     }
