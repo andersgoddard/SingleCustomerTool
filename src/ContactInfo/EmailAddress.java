@@ -1,9 +1,11 @@
 package ContactInfo;
 
 public class EmailAddress implements ContactInfoItem {
+    String originalAddress;
     String address;
 
     private EmailAddress(String address) {
+        this.originalAddress = address;
         this.address = address;
         clean();
     }
@@ -25,5 +27,9 @@ public class EmailAddress implements ContactInfoItem {
 
     public boolean isValid() {
         return !PlaceholderEmailAddressChecker.isPlaceholder(address);
+    }
+
+    public String getOriginal() {
+        return originalAddress;
     }
 }

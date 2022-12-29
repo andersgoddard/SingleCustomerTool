@@ -35,4 +35,10 @@ public class EmailAddressTest {
         EmailAddress email = EmailAddress.create("ANDERSGODDARD@GMAIL.COM");
         assertEquals("andersgoddard@gmail.com", email.get());
     }
+
+    @Test
+    public void testGetOriginalEmail(){
+        EmailAddress email = EmailAddress.create("annabel_tino@hotmail.com (Business)");
+        assertEquals("annabel_tino@hotmail.com (Business)", email.getOriginal());
+    }
 }

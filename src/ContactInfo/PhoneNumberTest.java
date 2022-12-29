@@ -28,4 +28,10 @@ public class PhoneNumberTest {
         PhoneNumber number = PhoneNumber.create("+61 (0)401 811 872 (australian mobile)");
         assertEquals("0061401811872", number.get());
     }
+
+    @Test
+    public void testGetOriginalNumber(){
+        PhoneNumber number = PhoneNumber.create("07881 266 969 - Andrew");
+        assertEquals("07881 266 969 - Andrew", number.getOriginal());
+    }
 }

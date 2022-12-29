@@ -2,7 +2,9 @@ package ContactInfo;
 
 public class PhoneNumber implements ContactInfoItem {
     String number;
+    String originalNumber;
     private PhoneNumber(String number) {
+        this.originalNumber = number;
         this.number = number;
         clean();
     }
@@ -45,5 +47,9 @@ public class PhoneNumber implements ContactInfoItem {
     private boolean charIsNumeric(char character){
         String integers = "0123456789";
         return integers.contains(String.valueOf(character));
+    }
+
+    public String getOriginal(){
+        return originalNumber;
     }
 }
