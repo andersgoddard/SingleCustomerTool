@@ -1,3 +1,5 @@
+package Contact;
+
 import java.util.ArrayList;
 import ContactInfo.ContactInfo;
 import ContactInfo.ContactInfoItem;

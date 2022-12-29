@@ -1,3 +1,5 @@
+package Contact;
+
 import ContactInfo.ContactInfo;
 import ContactInfo.ContactInfoItem;
 
@@ -7,10 +9,12 @@ public class Contact {
     private final String fullName;
     private final ContactInfo info;
     private String uniqueIdentifier;
+    private final String reference;
 
-    private Contact(String name, ContactInfo info) {
+    private Contact(String name, ContactInfo info, String reference) {
         this.fullName = name;
         this.info = info;
+        this.reference = reference;
         setUniqueIdentifier();
         ContactList.getInstance().add(this);
     }
@@ -25,12 +29,12 @@ public class Contact {
         }
     }
 
-    public static Contact create(String name, ContactInfo info){
-        return new Contact(name, info);
+    public static Contact create(String name, ContactInfo info, String reference){
+        return new Contact(name, info, reference);
     }
 
-    public static Contact create(String title, String firstName, String lastName, ContactInfo info){
-        return new Contact(title + " " + firstName + " " + lastName, info);
+    public static Contact create(String title, String firstName, String lastName, ContactInfo info, String reference){
+        return new Contact(title + " " + firstName + " " + lastName, info, reference);
     }
 
     public String getName() {
