@@ -1,41 +1,47 @@
 import ContactInfo.ContactInfo;
 import ContactInfo.ContactInfoItem;
 
-import java.util.Objects;
+import java.util.UUID;
 
 public class Contact {
-    private String title;
-    private String firstName;
-    private String lastName;
-    private String fullName;
-    private ContactInfo info;
-    
-    public void setTitle(String title) {
-        this.title = title;
+    private final String fullName;
+    private final ContactInfo info;
+    private String uniqueIdentifier;
+
+    private Contact(String name, ContactInfo info) {
+        this.fullName = name;
+        this.info = info;
+        setUniqueIdentifier();
+        ContactList.getInstance().add(this);
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    private void setUniqueIdentifier() {
+        ContactList allContacts = ContactList.getInstance();
+        Contact similarContact = allContacts.contains(info);
+        if (similarContact == null) {
+            this.uniqueIdentifier = UUID.randomUUID().toString();
+        } else {
+            this.uniqueIdentifier = similarContact.getUniqueIdentifier();
+        }
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public static Contact create(String name, ContactInfo info){
+        return new Contact(name, info);
+    }
+
+    public static Contact create(String title, String firstName, String lastName, ContactInfo info){
+        return new Contact(title + " " + firstName + " " + lastName, info);
     }
 
     public String getName() {
-        return Objects.requireNonNullElseGet(this.fullName,
-                () -> title + " " + firstName + " " + lastName);
+        return fullName;
     }
 
-    public void setContactInfo(ContactInfo info) {
-        this.info = info;
+    public String getUniqueIdentifier() {
+        return uniqueIdentifier;
     }
 
-    public boolean hasContactInfo(ContactInfoItem item) {
+    public boolean hasContactInfoItem(ContactInfoItem item) {
         return info.contains(item);
-    }
-
-    public void setName(String fullName) {
-        this.fullName = fullName;
     }
 }

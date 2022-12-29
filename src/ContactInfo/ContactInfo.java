@@ -15,4 +15,8 @@ public class ContactInfo {
         }
         return false;
     }
+
+    public ArrayList<ContactInfoItem> getItems() {
+        return items;
+    }
 }
