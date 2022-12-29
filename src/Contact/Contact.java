@@ -48,4 +48,8 @@ public class Contact {
     public boolean hasContactInfoItem(ContactInfoItem item) {
         return info.contains(item);
     }
+
+    public void setNewUniqueIdentifier() {
+        this.uniqueIdentifier = UUID.randomUUID().toString();
+    }
 }
