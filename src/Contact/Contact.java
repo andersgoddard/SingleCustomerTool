@@ -52,4 +52,8 @@ public class Contact {
     public void setNewUniqueIdentifier() {
         this.uniqueIdentifier = UUID.randomUUID().toString();
     }
+
+    public void setNewUniqueIdentifier(String uniqueIdentifier) {
+        this.uniqueIdentifier = uniqueIdentifier;
+    }
 }
