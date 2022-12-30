@@ -2,6 +2,7 @@ package Contact;
 
 import ContactInfo.ContactInfo;
 import ContactInfo.ContactInfoItem;
+import ContactInfo.EmailAddress;
 
 import java.util.UUID;
 
@@ -13,6 +14,7 @@ public class Contact {
     private final ContactInfo info;
     private String uniqueIdentifier;
     private final String reference;
+    private String companyId;
 
     private Contact(String name, ContactInfo info, String reference) {
         this.fullName = name;
@@ -64,5 +66,25 @@ public class Contact {
 /*  Sets the String uniqueIdentifier as the UUID for the Contact. Used by the ContactMerger class.*/
     public void setNewUniqueIdentifier(String uniqueIdentifier) {
         this.uniqueIdentifier = uniqueIdentifier;
+    }
+
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
+
+    public boolean hasEmailDomain(String emailDomain) {
+        for (ContactInfoItem item : info.getItems()){
+            if (item.getClass() == EmailAddress.class){
+                EmailAddress address = (EmailAddress)item;
+                if (address.getEmailDomain().equals(emailDomain)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

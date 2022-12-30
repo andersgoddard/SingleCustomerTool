@@ -41,4 +41,10 @@ public class EmailAddressTest {
         EmailAddress email = EmailAddress.create("annabel_tino@hotmail.com (Business)");
         assertEquals("annabel_tino@hotmail.com (Business)", email.getOriginal());
     }
+
+    @Test
+    public void testGetEmailDomain(){
+        EmailAddress email = EmailAddress.create("test@example.com");
+        assertEquals("example.com", email.getEmailDomain());
+    }
 }

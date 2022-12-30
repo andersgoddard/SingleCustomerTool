@@ -47,4 +47,15 @@ public class ContactList {
         }
         return null;
     }
+
+    public ArrayList<Contact> getContactsWith(String emailDomain) {
+        ArrayList<Contact> associatedContacts = new ArrayList<>();
+
+        for (Contact contact : contacts){
+            if (contact.hasEmailDomain(emailDomain))
+                associatedContacts.add(contact);
+        }
+
+        return associatedContacts;
+    }
 }
