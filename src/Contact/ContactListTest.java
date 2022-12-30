@@ -2,6 +2,7 @@ package Contact;
 
 import ContactInfo.ContactInfo;
 import ContactInfo.EmailAddress;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +18,6 @@ public class ContactListTest {
     @Test
     public void testEmptyContactList(){
         assertEquals(0, list.size());
-        list.clear();
     }
 
     @Test
@@ -27,7 +27,6 @@ public class ContactListTest {
         String reference = "2000000";
         Contact contact = Contact.create("Andrew", info, reference);
         assertEquals(1, list.size());
-        list.clear();
     }
 
     @Test
@@ -43,6 +42,10 @@ public class ContactListTest {
         Contact contact2 = Contact.create("India", info2, reference2);
 
         assertEquals(2, list.size());
+    }
+
+    @AfterEach
+    public void tearDown(){
         list.clear();
     }
 }

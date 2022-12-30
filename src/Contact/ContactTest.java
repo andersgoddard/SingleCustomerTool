@@ -3,11 +3,19 @@ package Contact;
 import ContactInfo.ContactInfo;
 import ContactInfo.EmailAddress;
 import ContactInfo.PhoneNumber;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ContactTest {
+    ContactList list;
+    @BeforeEach
+    public void setUp(){
+        list = ContactList.getInstance();
+    }
+
     @Test
     public void testBasicContactName(){
         String title = "Mr";
@@ -43,19 +51,11 @@ public class ContactTest {
 
     @Test
     public void testContactAddedToContactList(){
-        ContactList list = getEmptyContactList();
         String name = "Mrs India Goddard";
         ContactInfo info = new ContactInfo();
         String reference = "2000000";
         Contact contact = Contact.create(name, info, reference);
         assertEquals(1, list.size());
-        list.clear();
-    }
-
-    private ContactList getEmptyContactList() {
-        ContactList list = ContactList.getInstance();
-        list.clear();
-        return ContactList.getInstance();
     }
 
     @Test
@@ -88,5 +88,10 @@ public class ContactTest {
         Contact contact1 = Contact.create(name1, info1, reference1);
         Contact contact2 = Contact.create(name2, info2, reference2);
         assertEquals(contact1.getUniqueIdentifier(), contact2.getUniqueIdentifier());
+    }
+
+    @AfterEach
+    public void tearDown(){
+        list.clear();
     }
 }
