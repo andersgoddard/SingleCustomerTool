@@ -2,18 +2,22 @@ package Group;
 
 import Contact.ContactList;
 import Contact.Contact;
+import ContactInfo.PhoneNumber;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class Company implements Group {
     String name;
     String companyId;
     String emailDomain;
+    List<PhoneNumber> sharedPhoneNumbers;
 
     private Company(String name) {
         this.name = name;
         this.companyId = UUID.randomUUID().toString();
+        this.sharedPhoneNumbers = new ArrayList<>();
         CompanyList.getInstance().add(this);
     }
 
@@ -41,6 +45,21 @@ public class Company implements Group {
 
     public String getUniqueIdentifier() {
         return companyId;
+    }
+
+    @Override
+    public void setSharedPhoneNumbers(String number) {
+        sharedPhoneNumbers.add(PhoneNumber.create(number));
+    }
+
+    @Override
+    public void setSharedPhoneNumbers(List<PhoneNumber> numbers) {
+        sharedPhoneNumbers.addAll(numbers);
+    }
+
+    @Override
+    public List<PhoneNumber> getSharedPhoneNumbers() {
+        return sharedPhoneNumbers;
     }
 
     public void setEmailDomain(String emailDomain) {

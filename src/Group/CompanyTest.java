@@ -4,9 +4,13 @@ import Contact.ContactList;
 import Contact.Contact;
 import ContactInfo.ContactInfo;
 import ContactInfo.EmailAddress;
+import ContactInfo.PhoneNumber;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -81,6 +85,22 @@ public class CompanyTest {
         Contact india = Contact.create("India", info2, "2001");
         assertNotNull(andrew.getCompanyId());
         assertEquals(andrew.getCompanyId(), india.getCompanyId());
+    }
+
+    @Test
+    public void testCompanyPhoneNumbersAddedIndividually(){
+        company.setSharedPhoneNumbers("02078930000");
+        assertEquals("02078930000", company.getSharedPhoneNumbers().get(0).get());
+    }
+
+    @Test
+    public void testCompanyPhoneNumbersAddedAsList(){
+        List<PhoneNumber> numbers = new ArrayList<>();
+        numbers.add(PhoneNumber.create("02078930000"));
+        numbers.add(PhoneNumber.create("02088882000"));
+        company.setSharedPhoneNumbers(numbers);
+        assertEquals("02078930000", company.getSharedPhoneNumbers().get(0).get());
+        assertEquals("02088882000", company.getSharedPhoneNumbers().get(1).get());
     }
 
     @AfterEach
