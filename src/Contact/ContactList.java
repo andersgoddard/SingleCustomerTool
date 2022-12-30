@@ -1,12 +1,15 @@
 package Contact;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import ContactInfo.ContactInfo;
 import ContactInfo.ContactInfoItem;
+import ContactInfo.PhoneNumber;
 
 /* A singleton class representing all of the Contacts */
 public class ContactList {
-    private ArrayList<Contact> contacts;
+    private final ArrayList<Contact> contacts;
     private static ContactList list = null;
 
     private ContactList() {
@@ -53,6 +56,17 @@ public class ContactList {
 
         for (Contact contact : contacts){
             if (contact.hasEmailDomain(emailDomain))
+                associatedContacts.add(contact);
+        }
+
+        return associatedContacts;
+    }
+
+    public ArrayList<Contact> getContactsWith(List<PhoneNumber> sharedPhoneNumbers) {
+        ArrayList<Contact> associatedContacts = new ArrayList<>();
+
+        for (Contact contact : contacts) {
+            if (contact.hasPhoneNumberIn(sharedPhoneNumbers))
                 associatedContacts.add(contact);
         }
 

@@ -103,6 +103,15 @@ public class CompanyTest {
         assertEquals("02088882000", company.getSharedPhoneNumbers().get(1).get());
     }
 
+    @Test
+    public void testCompanyAssociatedWithContactBySharedPhoneNumberOnCompanyCreation(){
+        ContactInfo info = new ContactInfo();
+        info.add(PhoneNumber.create("02070002000"));
+        Contact andrew = Contact.create("Andrew", info, "000");
+        company.setSharedPhoneNumbers("02070002000");
+        assertEquals(company.companyId, andrew.getCompanyId());
+    }
+
     @AfterEach
     public void tearDown(){
         companies.clear();

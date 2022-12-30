@@ -3,10 +3,12 @@ package Contact;
 import ContactInfo.ContactInfo;
 import ContactInfo.ContactInfoItem;
 import ContactInfo.EmailAddress;
+import ContactInfo.PhoneNumber;
 import Group.Company;
 import Group.CompanyList;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /* Represents a single contact, for example a person in a database. Largely a data-carrying class. */
@@ -105,5 +107,15 @@ public class Contact {
             }
         }
         return emailDomains;
+    }
+
+    public boolean hasPhoneNumberIn(List<PhoneNumber> sharedPhoneNumbers) {
+        for (PhoneNumber number : sharedPhoneNumbers){
+            for (ContactInfoItem item : info.getItems()){
+                if (number.get().equals(item.get()))
+                    return true;
+            }
+        }
+        return false;
     }
 }

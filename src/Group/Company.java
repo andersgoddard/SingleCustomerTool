@@ -23,7 +23,9 @@ public class Company implements Group {
 
     private void associateContacts() {
         ContactList list = ContactList.getInstance();
-        ArrayList<Contact> associatedContacts = list.getContactsWith(emailDomain);
+        ArrayList<Contact> associatedContacts = new ArrayList<>();
+        associatedContacts.addAll(list.getContactsWith(emailDomain));
+        associatedContacts.addAll(list.getContactsWith(sharedPhoneNumbers));
         for (Contact contact : associatedContacts) {
             contact.setCompanyId(companyId);
         }
@@ -50,11 +52,13 @@ public class Company implements Group {
     @Override
     public void setSharedPhoneNumbers(String number) {
         sharedPhoneNumbers.add(PhoneNumber.create(number));
+        associateContacts();
     }
 
     @Override
     public void setSharedPhoneNumbers(List<PhoneNumber> numbers) {
         sharedPhoneNumbers.addAll(numbers);
+        associateContacts();
     }
 
     @Override
