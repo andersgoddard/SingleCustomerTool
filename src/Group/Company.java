@@ -14,6 +14,7 @@ public class Company implements Group {
     private Company(String name) {
         this.name = name;
         this.companyId = UUID.randomUUID().toString();
+        CompanyList.getInstance().add(this);
     }
 
     private void associateContacts() {

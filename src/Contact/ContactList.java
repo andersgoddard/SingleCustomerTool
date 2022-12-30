@@ -23,7 +23,7 @@ public class ContactList {
 /*    Clears the global list of Contacts. Necessary for the unit tests. */
     public void clear() {
         list = null;
-        contacts = null;
+        contacts.clear();
     }
 
     public int size() {
