@@ -1,7 +1,6 @@
 package Group;
 
-import Contact.ContactList;
-
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class CompanyList {
@@ -29,5 +28,9 @@ public class CompanyList {
 
     public void add(Company company) {
         companies.add(company);
+    }
+
+    public ArrayList<Company> getCompanies() {
+        return companies;
     }
 }

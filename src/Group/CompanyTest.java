@@ -8,17 +8,18 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CompanyTest {
     Company company;
-    ContactList list;
+    ContactList contacts;
+    CompanyList companies;
 
     @BeforeEach
     public void setUp(){
         company = Company.create("Example Company");
-        list = ContactList.getInstance();
+        contacts = ContactList.getInstance();
+        companies = CompanyList.getInstance();
     }
 
     @Test
@@ -38,46 +39,53 @@ public class CompanyTest {
     }
 
     @Test
-    public void testContactsAssociatedWhenCompanyCreated(){
+    public void testContactsAssociatedWhenEmailDomainSet(){
         ContactInfo info1 = new ContactInfo();
         ContactInfo info2 = new ContactInfo();
-        info1.add(EmailAddress.create("andrew@residentialland.com"));
-        info2.add(EmailAddress.create("india@residentialland.com"));
+        info1.add(EmailAddress.create("andrew@exampleco.com"));
+        info2.add(EmailAddress.create("india@exampleco.com"));
         Contact andrew = Contact.create("Andrew", info1, "2000");
         Contact india = Contact.create("India", info2, "2001");
-        Company resiland = Company.create("Residential Land");
-        resiland.setEmailDomain("residentialland.com");
+        company.setEmailDomain("exampleco.com");
         assertEquals(andrew.getCompanyId(), india.getCompanyId());
     }
 
     @Test
     public void testCompanyCreatedWithEmailDomain(){
-        Company company2 = Company.create("Residential Land", "residentialland.com");
-        assertEquals("Residential Land", company2.get());
-        assertEquals("residentialland.com", company2.getEmailDomain());
+        Company company2 = Company.create("Another Example Company", "anotherexampleco.com");
+        assertEquals("Another Example Company", company2.get());
+        assertEquals("anotherexampleco.com", company2.getEmailDomain());
         assertNotNull(company2.getUniqueIdentifier());
     }
 
     @Test
-    public void testCompanyCreatedWithDomainContactsAssociated(){
+    public void testContactsAssociatedWhenCompanyCreatedWithDomain(){
         ContactInfo info1 = new ContactInfo();
         ContactInfo info2 = new ContactInfo();
-        info1.add(EmailAddress.create("andrew@residentialland.com"));
-        info2.add(EmailAddress.create("india@residentialland.com"));
+        info1.add(EmailAddress.create("andrew@anotherexampleco.com"));
+        info2.add(EmailAddress.create("india@anotherexampleco.com"));
         Contact andrew = Contact.create("Andrew", info1, "2000");
         Contact india = Contact.create("India", info2, "2001");
-        Company resiland = Company.create("Residential Land", "residentialland.com");
+        Company exampleCo = Company.create("Another Example Company", "anotherexampleco.com");
         assertEquals(andrew.getCompanyId(), india.getCompanyId());
     }
 
     @Test
     public void testCompanyAssociatedWhenContactCreated(){
-        ContactList contacts = ContactList.getInstance();
-//        CompanyList companies = CompanyList.getInstance();
+        company.setEmailDomain("exampleco.com");
+        ContactInfo info1 = new ContactInfo();
+        ContactInfo info2 = new ContactInfo();
+        info1.add(EmailAddress.create("andrew@exampleco.com"));
+        info2.add(EmailAddress.create("india@exampleco.com"));
+        Contact andrew = Contact.create("Andrew", info1, "2000");
+        Contact india = Contact.create("India", info2, "2001");
+        assertNotNull(andrew.getCompanyId());
+        assertEquals(andrew.getCompanyId(), india.getCompanyId());
     }
 
     @AfterEach
     public void tearDown(){
-        list.clear();
+        companies.clear();
+        contacts.clear();
     }
 }

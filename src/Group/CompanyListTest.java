@@ -26,6 +26,11 @@ public class CompanyListTest {
         assertEquals(2, list.size());
     }
 
+    @Test
+    public void testNoCompanies(){
+        assertEquals(0, list.size());
+    }
+
     @AfterEach
     public void tearDown(){
         list.clear();

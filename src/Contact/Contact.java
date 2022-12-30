@@ -3,7 +3,10 @@ package Contact;
 import ContactInfo.ContactInfo;
 import ContactInfo.ContactInfoItem;
 import ContactInfo.EmailAddress;
+import Group.Company;
+import Group.CompanyList;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 /* Represents a single contact, for example a person in a database. Largely a data-carrying class. */
@@ -21,10 +24,11 @@ public class Contact {
         this.info = info;
         this.reference = reference;
         setUniqueIdentifier();
+        setCompanyId(companyIdForEmailDomain());
         ContactList.getInstance().add(this);
     }
 
-/*    Checks the global list of Contacts (the singleton class ContactList) for Contacts containing any of the contact information
+    /*    Checks the global list of Contacts (the singleton class ContactList) for Contacts containing any of the contact information
  *    contained in this Contact. If one is found, the UUID for that Contact is set as the UUID for this one, otherwise a new random
  *    UUID is set.
  */
@@ -36,6 +40,15 @@ public class Contact {
         } else {
             this.uniqueIdentifier = similarContact.getUniqueIdentifier();
         }
+    }
+
+    private String companyIdForEmailDomain() {
+        CompanyList allCompanies = CompanyList.getInstance();
+        for (Company company : allCompanies.getCompanies()){
+            if (this.hasEmailDomain(company.getEmailDomain()))
+                return company.getUniqueIdentifier();
+        }
+        return null;
     }
 
     public static Contact create(String name, ContactInfo info, String reference){
@@ -77,14 +90,20 @@ public class Contact {
     }
 
     public boolean hasEmailDomain(String emailDomain) {
-        for (ContactInfoItem item : info.getItems()){
-            if (item.getClass() == EmailAddress.class){
-                EmailAddress address = (EmailAddress)item;
-                if (address.getEmailDomain().equals(emailDomain)) {
-                    return true;
-                }
-            }
+        for (String domain : getEmailDomains()){
+            if (domain.equals(emailDomain))
+                return true;
         }
         return false;
+    }
+
+    public ArrayList<String> getEmailDomains(){
+        ArrayList<String> emailDomains = new ArrayList<>();
+        for (ContactInfoItem item : info.getItems()) {
+            if (item.getClass() == EmailAddress.class) {
+                emailDomains.add(((EmailAddress)item).getEmailDomain());
+            }
+        }
+        return emailDomains;
     }
 }
