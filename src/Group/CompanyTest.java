@@ -112,6 +112,15 @@ public class CompanyTest {
         assertEquals(company.companyId, andrew.getCompanyId());
     }
 
+    @Test
+    public void testContactAssociatedWithCompanyOnContactCreation(){
+        company.setSharedPhoneNumbers("02070002000");
+        ContactInfo info = new ContactInfo();
+        info.add(PhoneNumber.create("02070002000"));
+        Contact andrew = Contact.create("Andrew", info, "000");
+        assertEquals(company.companyId, andrew.getCompanyId());
+    }
+
     @AfterEach
     public void tearDown(){
         companies.clear();

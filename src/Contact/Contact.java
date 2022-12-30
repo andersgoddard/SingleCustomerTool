@@ -27,6 +27,7 @@ public class Contact {
         this.reference = reference;
         setUniqueIdentifier();
         setCompanyId(companyIdForEmailDomain());
+        setCompanyId(companyIdForPhoneNumbers());
         ContactList.getInstance().add(this);
     }
 
@@ -50,8 +51,18 @@ public class Contact {
             if (this.hasEmailDomain(company.getEmailDomain()))
                 return company.getUniqueIdentifier();
         }
-        return null;
+        return this.companyId;
     }
+
+    private String companyIdForPhoneNumbers() {
+        CompanyList allCompanies = CompanyList.getInstance();
+        for (Company company : allCompanies.getCompanies()){
+            if (this.hasPhoneNumberIn(company.getSharedPhoneNumbers()))
+                return company.getUniqueIdentifier();
+        }
+        return this.companyId;
+    }
+
 
     public static Contact create(String name, ContactInfo info, String reference){
         return new Contact(name, info, reference);
