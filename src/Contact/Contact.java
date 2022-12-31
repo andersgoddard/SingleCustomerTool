@@ -37,7 +37,7 @@ public class Contact {
  */
     private void setUniqueIdentifier() {
         ContactList allContacts = ContactList.getInstance();
-        Contact similarContact = allContacts.contains(info);
+        Contact similarContact = allContacts.contains(fullName, info);
         if (similarContact == null) {
             this.uniqueIdentifier = UUID.randomUUID().toString();
             this.mainContact = true;
@@ -142,7 +142,7 @@ public class Contact {
         childContacts.add(contact);
     }
 
-    public void removeFromChildContacts(ArrayList<Contact> removedChildren) {
-        childContacts.removeAll(removedChildren);
+    public void removeFromChildContacts(ArrayList<Contact> children) {
+        childContacts.removeAll(children);
     }
 }

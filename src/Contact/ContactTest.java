@@ -109,7 +109,14 @@ public class ContactTest {
     public void testContactShouldMergeOnNameAndCompanySharedContactInfo(){
         // Contacts shouldn't merge on name alone - there are many Mr John Smiths.
         // Contacts will merge on email address and phone numbers that aren't identified as shared phone numbers
-        // Perhaps there should also be shared email addresses - i.e. info@ - should the system assume these?
+        // However, the same name and a piece of contact info the same, even if a piece of shared contact info, should merge
+        ContactInfo info = new ContactInfo();
+        info.add(PhoneNumber.create("02078932000"));
+        Company company = Company.create("Example Company");
+        company.setSharedContactInfo("02078932000");
+        Contact contact1 = Contact.create("Mr Andrew Goddard", info, "000");
+        Contact contact2 = Contact.create("Mr Andrew Goddard", info, "001");
+        assertEquals(contact1.getUniqueIdentifier(), contact2.getUniqueIdentifier());
     }
 
 

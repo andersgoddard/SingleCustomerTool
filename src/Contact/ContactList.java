@@ -40,11 +40,11 @@ public class ContactList {
 /*  Loops through all Contacts in the ContactList and checks whether there is any crossover in the contact information.
 *   Returns the Contact containing a ContactInfoItem in the info parameter, otherwise null
 */
-    public Contact contains(ContactInfo info) {
+    public Contact contains(String name, ContactInfo info) {
         CompanyList companies = CompanyList.getInstance();
         for (Contact contact : contacts){
             for (ContactInfoItem item : info.getItems()){
-                if (contact.hasContactInfoItem(item) && companies.doesNotContain(item))
+                if ((contact.hasContactInfoItem(item)) && (companies.doesNotContain(item) || contact.getName().equals(name)))
                     return contact;
             }
         }
