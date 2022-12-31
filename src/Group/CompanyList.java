@@ -1,13 +1,14 @@
 package Group;
 
-import java.lang.reflect.Array;
+import ContactInfo.ContactInfoItem;
+
 import java.util.ArrayList;
 
 public class CompanyList {
     private static CompanyList list = null;
-    private ArrayList<Company> companies;
+    private final ArrayList<Company> companies;
     private CompanyList() {
-        companies = new ArrayList<Company>();
+        companies = new ArrayList<>();
     }
 
     public static CompanyList getInstance() {
@@ -32,5 +33,13 @@ public class CompanyList {
 
     public ArrayList<Company> getCompanies() {
         return companies;
+    }
+
+    public boolean doesNotContain(ContactInfoItem item) {
+        for (Company company : list.getCompanies()){
+            if (company.hasSharedContactInfoItem(item))
+                return false;
+        }
+        return true;
     }
 }

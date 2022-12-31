@@ -3,12 +3,10 @@ package Contact;
 import ContactInfo.ContactInfo;
 import ContactInfo.ContactInfoItem;
 import ContactInfo.EmailAddress;
-import ContactInfo.PhoneNumber;
 import Group.Company;
 import Group.CompanyList;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 /* Represents a single contact, for example a person in a database. Largely a data-carrying class. */
@@ -27,11 +25,11 @@ public class Contact {
         this.reference = reference;
         setUniqueIdentifier();
         setCompanyId(companyIdForEmailDomain());
-        setCompanyId(companyIdForPhoneNumbers());
+        setCompanyId(companyIdForContactInfo());
         ContactList.getInstance().add(this);
     }
 
-    /*    Checks the global list of Contacts (the singleton class ContactList) for Contacts containing any of the contact information
+/*    Checks the global list of Contacts (the singleton class ContactList) for Contacts containing any of the contact information
  *    contained in this Contact. If one is found, the UUID for that Contact is set as the UUID for this one, otherwise a new random
  *    UUID is set.
  */
@@ -54,15 +52,14 @@ public class Contact {
         return this.companyId;
     }
 
-    private String companyIdForPhoneNumbers() {
+    private String companyIdForContactInfo() {
         CompanyList allCompanies = CompanyList.getInstance();
         for (Company company : allCompanies.getCompanies()){
-            if (this.hasPhoneNumberIn(company.getSharedPhoneNumbers()))
+            if (this.hasContactInfoItemIn(company.getSharedContactInfo()))
                 return company.getUniqueIdentifier();
         }
         return this.companyId;
     }
-
 
     public static Contact create(String name, ContactInfo info, String reference){
         return new Contact(name, info, reference);
@@ -120,10 +117,10 @@ public class Contact {
         return emailDomains;
     }
 
-    public boolean hasPhoneNumberIn(List<PhoneNumber> sharedPhoneNumbers) {
-        for (PhoneNumber number : sharedPhoneNumbers){
-            for (ContactInfoItem item : info.getItems()){
-                if (number.get().equals(item.get()))
+    public boolean hasContactInfoItemIn(ContactInfo sharedContactInfo) {
+        for (ContactInfoItem item : sharedContactInfo.getItems()){
+            for (ContactInfoItem existingItem : info.getItems()){
+                if (item.get().equals(existingItem.get()))
                     return true;
             }
         }

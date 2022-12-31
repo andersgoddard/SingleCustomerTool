@@ -1,13 +1,13 @@
 package Group;
 
-import ContactInfo.PhoneNumber;
-import java.util.List;
+import ContactInfo.ContactInfo;
 
 public interface Group {
     String getUniqueIdentifier();
 
-    void setSharedPhoneNumbers(String number);
-    void setSharedPhoneNumbers(List<PhoneNumber> numbers);
+    void setSharedContactInfo(String info);
 
-    List<PhoneNumber> getSharedPhoneNumbers();
+    void setSharedContactInfo(ContactInfo info);
+
+    ContactInfo getSharedContactInfo();
 }

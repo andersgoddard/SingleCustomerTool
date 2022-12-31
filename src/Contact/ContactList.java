@@ -1,11 +1,10 @@
 package Contact;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import ContactInfo.ContactInfo;
 import ContactInfo.ContactInfoItem;
-import ContactInfo.PhoneNumber;
+import Group.CompanyList;
 
 /* A singleton class representing all of the Contacts */
 public class ContactList {
@@ -38,13 +37,14 @@ public class ContactList {
     }
 
 
-/*  Loops through all of the Contacts in the ContactList and checks whether there is any crossover in the contact information.
+/*  Loops through all Contacts in the ContactList and checks whether there is any crossover in the contact information.
 *   Returns the Contact containing a ContactInfoItem in the info parameter, otherwise null
 */
     public Contact contains(ContactInfo info) {
+        CompanyList companies = CompanyList.getInstance();
         for (Contact contact : contacts){
             for (ContactInfoItem item : info.getItems()){
-                if (contact.hasContactInfoItem(item))
+                if (contact.hasContactInfoItem(item) && companies.doesNotContain(item))
                     return contact;
             }
         }
@@ -62,14 +62,12 @@ public class ContactList {
         return associatedContacts;
     }
 
-    public ArrayList<Contact> getContactsWith(List<PhoneNumber> sharedPhoneNumbers) {
+    public ArrayList<Contact> getContactsWith(ContactInfo sharedContactInfo) {
         ArrayList<Contact> associatedContacts = new ArrayList<>();
-
-        for (Contact contact : contacts) {
-            if (contact.hasPhoneNumberIn(sharedPhoneNumbers))
+        for (Contact contact : contacts){
+            if (contact.hasContactInfoItemIn(sharedContactInfo))
                 associatedContacts.add(contact);
         }
-
         return associatedContacts;
     }
 }

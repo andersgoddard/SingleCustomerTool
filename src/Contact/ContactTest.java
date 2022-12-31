@@ -3,6 +3,8 @@ package Contact;
 import ContactInfo.ContactInfo;
 import ContactInfo.EmailAddress;
 import ContactInfo.PhoneNumber;
+import Group.Company;
+import Group.CompanyList;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,10 +12,12 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ContactTest {
-    ContactList list;
+    ContactList contacts;
+    CompanyList companies;
     @BeforeEach
     public void setUp(){
-        list = ContactList.getInstance();
+        contacts = ContactList.getInstance();
+        companies = CompanyList.getInstance();
     }
 
     @Test
@@ -55,7 +59,7 @@ public class ContactTest {
         ContactInfo info = new ContactInfo();
         String reference = "2000000";
         Contact contact = Contact.create(name, info, reference);
-        assertEquals(1, list.size());
+        assertEquals(1, contacts.size());
     }
 
     @Test
@@ -90,8 +94,41 @@ public class ContactTest {
         assertEquals(contact1.getUniqueIdentifier(), contact2.getUniqueIdentifier());
     }
 
+    @Test
+    public void testContactShouldntMergeOnCompanySharedPhoneNumberOnContactCreation(){
+        ContactInfo info = new ContactInfo();
+        info.add(PhoneNumber.create("02078932000"));
+        Company company = Company.create("Example Company");
+        company.setSharedContactInfo("02078932000");
+        Contact contact1 = Contact.create("Mr Andrew Goddard", info, "2000");
+        Contact contact2 = Contact.create("Mrs India Goddard", info, "2001");
+        assertNotEquals(contact1.getUniqueIdentifier(), contact2.getUniqueIdentifier());
+    }
+
+    @Test
+    public void testContactShouldMergeOnNameAndCompanySharedContactInfo(){
+        // Contacts shouldn't merge on name alone - there are many Mr John Smiths.
+        // Contacts will merge on email address and phone numbers that aren't identified as shared phone numbers
+        // Perhaps there should also be shared email addresses - i.e. info@ - should the system assume these?
+    }
+
+
+ /*   @Test
+    public void testMergedContactShouldSplitOnCompanySharedPhoneNumberSet(){
+        ContactInfo info = new ContactInfo();
+        info.add(PhoneNumber.create("02078932000"));
+        Contact contact1 = Contact.create("Mr Andrew Goddard", info, "2000");
+        Contact contact2 = Contact.create("Mrs India Goddard", info, "2001");
+        assertEquals(contact1.getUniqueIdentifier(), contact2.getUniqueIdentifier());
+
+        Company company = Company.create("Example Company");
+        company.setSharedPhoneNumbers("02078932000");
+        assertNotEquals(contact1.getUniqueIdentifier(), contact2.getUniqueIdentifier());
+    }*/
+
     @AfterEach
     public void tearDown(){
-        list.clear();
+        contacts.clear();
+        companies.clear();
     }
 }

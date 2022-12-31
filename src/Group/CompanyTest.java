@@ -9,9 +9,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CompanyTest {
@@ -89,18 +86,18 @@ public class CompanyTest {
 
     @Test
     public void testCompanyPhoneNumbersAddedIndividually(){
-        company.setSharedPhoneNumbers("02078930000");
-        assertEquals("02078930000", company.getSharedPhoneNumbers().get(0).get());
+        company.setSharedContactInfo("02078930000");
+        assertEquals("02078930000", company.getSharedContactInfo().getItems().get(0).get());
     }
 
     @Test
     public void testCompanyPhoneNumbersAddedAsList(){
-        List<PhoneNumber> numbers = new ArrayList<>();
+        ContactInfo numbers = new ContactInfo();
         numbers.add(PhoneNumber.create("02078930000"));
         numbers.add(PhoneNumber.create("02088882000"));
-        company.setSharedPhoneNumbers(numbers);
-        assertEquals("02078930000", company.getSharedPhoneNumbers().get(0).get());
-        assertEquals("02088882000", company.getSharedPhoneNumbers().get(1).get());
+        company.setSharedContactInfo(numbers);
+        assertEquals("02078930000", company.getSharedContactInfo().getItems().get(0).get());
+        assertEquals("02088882000", company.getSharedContactInfo().getItems().get(1).get());
     }
 
     @Test
@@ -108,17 +105,26 @@ public class CompanyTest {
         ContactInfo info = new ContactInfo();
         info.add(PhoneNumber.create("02070002000"));
         Contact andrew = Contact.create("Andrew", info, "000");
-        company.setSharedPhoneNumbers("02070002000");
-        assertEquals(company.companyId, andrew.getCompanyId());
+        company.setSharedContactInfo("02070002000");
+        assertEquals(company.getUniqueIdentifier(), andrew.getCompanyId());
     }
 
     @Test
     public void testContactAssociatedWithCompanyOnContactCreation(){
-        company.setSharedPhoneNumbers("02070002000");
+        company.setSharedContactInfo("02070002000");
         ContactInfo info = new ContactInfo();
         info.add(PhoneNumber.create("02070002000"));
         Contact andrew = Contact.create("Andrew", info, "000");
-        assertEquals(company.companyId, andrew.getCompanyId());
+        assertEquals(company.getUniqueIdentifier(), andrew.getCompanyId());
+    }
+
+    @Test
+    public void testContactAssociatedBySharedEmailAddress(){
+        company.setSharedContactInfo("info@examplecompany.com");
+        ContactInfo info = new ContactInfo();
+        info.add(EmailAddress.create("info@examplecompany.com"));
+        Contact andrew = Contact.create("Andrew", info, "000");
+        assertEquals(company.getUniqueIdentifier(), andrew.getCompanyId());
     }
 
     @AfterEach

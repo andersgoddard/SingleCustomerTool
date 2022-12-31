@@ -2,6 +2,9 @@ package Group;
 
 import Contact.ContactList;
 import Contact.Contact;
+import ContactInfo.ContactInfoItem;
+import ContactInfo.ContactInfoParser;
+import ContactInfo.ContactInfo;
 import ContactInfo.PhoneNumber;
 
 import java.util.ArrayList;
@@ -13,22 +16,14 @@ public class Company implements Group {
     String companyId;
     String emailDomain;
     List<PhoneNumber> sharedPhoneNumbers;
+    ContactInfo sharedContactInfo;
 
     private Company(String name) {
         this.name = name;
         this.companyId = UUID.randomUUID().toString();
         this.sharedPhoneNumbers = new ArrayList<>();
+        this.sharedContactInfo = new ContactInfo();
         CompanyList.getInstance().add(this);
-    }
-
-    private void associateContacts() {
-        ContactList list = ContactList.getInstance();
-        ArrayList<Contact> associatedContacts = new ArrayList<>();
-        associatedContacts.addAll(list.getContactsWith(emailDomain));
-        associatedContacts.addAll(list.getContactsWith(sharedPhoneNumbers));
-        for (Contact contact : associatedContacts) {
-            contact.setCompanyId(companyId);
-        }
     }
 
     public static Company create(String name) {
@@ -49,21 +44,19 @@ public class Company implements Group {
         return companyId;
     }
 
-    @Override
-    public void setSharedPhoneNumbers(String number) {
-        sharedPhoneNumbers.add(PhoneNumber.create(number));
-        associateContacts();
+    private void associateContacts() {
+        ArrayList<Contact> associatedContacts = getAssociatedContacts();
+        for (Contact contact : associatedContacts) {
+            contact.setCompanyId(companyId);
+        }
     }
 
-    @Override
-    public void setSharedPhoneNumbers(List<PhoneNumber> numbers) {
-        sharedPhoneNumbers.addAll(numbers);
-        associateContacts();
-    }
-
-    @Override
-    public List<PhoneNumber> getSharedPhoneNumbers() {
-        return sharedPhoneNumbers;
+    private ArrayList<Contact> getAssociatedContacts(){
+        ContactList list = ContactList.getInstance();
+        ArrayList<Contact> associatedContacts = new ArrayList<>();
+        associatedContacts.addAll(list.getContactsWith(emailDomain));
+        associatedContacts.addAll(list.getContactsWith(sharedContactInfo));
+        return associatedContacts;
     }
 
     public void setEmailDomain(String emailDomain) {
@@ -73,5 +66,30 @@ public class Company implements Group {
 
     public String getEmailDomain() {
         return emailDomain;
+    }
+
+    public boolean hasSharedContactInfoItem(ContactInfoItem item) {
+        for (ContactInfoItem existingItem : sharedContactInfo.getItems()){
+            if (existingItem.get().equals(item.get()))
+                return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void setSharedContactInfo(String item) {
+        this.sharedContactInfo.add(ContactInfoParser.parse(item).get(0));
+        associateContacts();
+    }
+
+    @Override
+    public void setSharedContactInfo(ContactInfo info) {
+        this.sharedContactInfo.addAll(info);
+        associateContacts();
+    }
+
+    @Override
+    public ContactInfo getSharedContactInfo() {
+        return sharedContactInfo;
     }
 }

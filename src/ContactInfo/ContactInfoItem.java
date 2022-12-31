@@ -6,4 +6,5 @@ public interface ContactInfoItem {
     String getOriginal();
 
     void clean();
+
 }

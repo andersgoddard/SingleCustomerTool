@@ -8,6 +8,10 @@ public class ContactInfo {
         items.add(item);
     }
 
+    public void addAll(ContactInfo info) {
+        items.addAll(info.getItems());
+    }
+
     public boolean contains(ContactInfoItem item) {
         for (ContactInfoItem existingItem : items){
             if (existingItem.get().equals(item.get()))
