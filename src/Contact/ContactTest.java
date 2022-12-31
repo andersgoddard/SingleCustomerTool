@@ -113,7 +113,7 @@ public class ContactTest {
     }
 
 
- /*   @Test
+/*    @Test
     public void testMergedContactShouldSplitOnCompanySharedPhoneNumberSet(){
         ContactInfo info = new ContactInfo();
         info.add(PhoneNumber.create("02078932000"));
@@ -122,7 +122,7 @@ public class ContactTest {
         assertEquals(contact1.getUniqueIdentifier(), contact2.getUniqueIdentifier());
 
         Company company = Company.create("Example Company");
-        company.setSharedPhoneNumbers("02078932000");
+        company.setSharedContactInfo("02078932000");
         assertNotEquals(contact1.getUniqueIdentifier(), contact2.getUniqueIdentifier());
     }*/
 

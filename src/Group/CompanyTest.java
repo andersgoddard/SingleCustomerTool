@@ -25,7 +25,7 @@ public class CompanyTest {
 
     @Test
     public void testGetCompanyName(){
-        assertEquals("Example Company", company.get());
+        assertEquals("Example Company", company.getName());
     }
 
     @Test
@@ -54,7 +54,7 @@ public class CompanyTest {
     @Test
     public void testCompanyCreatedWithEmailDomain(){
         Company company2 = Company.create("Another Example Company", "anotherexampleco.com");
-        assertEquals("Another Example Company", company2.get());
+        assertEquals("Another Example Company", company2.getName());
         assertEquals("anotherexampleco.com", company2.getEmailDomain());
         assertNotNull(company2.getUniqueIdentifier());
     }

@@ -5,23 +5,19 @@ import Contact.Contact;
 import ContactInfo.ContactInfoItem;
 import ContactInfo.ContactInfoParser;
 import ContactInfo.ContactInfo;
-import ContactInfo.PhoneNumber;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 public class Company implements Group {
     String name;
     String companyId;
     String emailDomain;
-    List<PhoneNumber> sharedPhoneNumbers;
     ContactInfo sharedContactInfo;
 
     private Company(String name) {
         this.name = name;
         this.companyId = UUID.randomUUID().toString();
-        this.sharedPhoneNumbers = new ArrayList<>();
         this.sharedContactInfo = new ContactInfo();
         CompanyList.getInstance().add(this);
     }
@@ -36,12 +32,30 @@ public class Company implements Group {
         return company;
     }
 
-    public String get() {
+    public String getName() {
         return name;
     }
 
     public String getUniqueIdentifier() {
         return companyId;
+    }
+
+    @Override
+    public void setSharedContactInfo(String item) {
+        ContactInfo info = new ContactInfo();
+        info.add(ContactInfoParser.parse(item).get(0));
+        setSharedContactInfo(info);
+    }
+
+    @Override
+    public void setSharedContactInfo(ContactInfo info) {
+        this.sharedContactInfo.addAll(info);
+        associateContacts();
+    }
+
+    public void setEmailDomain(String emailDomain) {
+        this.emailDomain = emailDomain;
+        associateContacts();
     }
 
     private void associateContacts() {
@@ -59,13 +73,13 @@ public class Company implements Group {
         return associatedContacts;
     }
 
-    public void setEmailDomain(String emailDomain) {
-        this.emailDomain = emailDomain;
-        associateContacts();
-    }
-
     public String getEmailDomain() {
         return emailDomain;
+    }
+
+    @Override
+    public ContactInfo getSharedContactInfo() {
+        return sharedContactInfo;
     }
 
     public boolean hasSharedContactInfoItem(ContactInfoItem item) {
@@ -74,22 +88,5 @@ public class Company implements Group {
                 return true;
         }
         return false;
-    }
-
-    @Override
-    public void setSharedContactInfo(String item) {
-        this.sharedContactInfo.add(ContactInfoParser.parse(item).get(0));
-        associateContacts();
-    }
-
-    @Override
-    public void setSharedContactInfo(ContactInfo info) {
-        this.sharedContactInfo.addAll(info);
-        associateContacts();
-    }
-
-    @Override
-    public ContactInfo getSharedContactInfo() {
-        return sharedContactInfo;
     }
 }

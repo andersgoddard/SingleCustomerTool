@@ -39,7 +39,7 @@ public class Contact {
         if (similarContact == null) {
             this.uniqueIdentifier = UUID.randomUUID().toString();
         } else {
-            this.uniqueIdentifier = similarContact.getUniqueIdentifier();
+            ContactMerger.merge(this, similarContact);
         }
     }
 
