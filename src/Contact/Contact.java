@@ -16,6 +16,8 @@ public class Contact {
     private final String fullName;
     private final ContactInfo info;
     private String uniqueIdentifier;
+    private boolean mainContact;
+    private ArrayList<Contact> childContacts;
     private final String reference;
     private String companyId;
 
@@ -38,8 +40,10 @@ public class Contact {
         Contact similarContact = allContacts.contains(info);
         if (similarContact == null) {
             this.uniqueIdentifier = UUID.randomUUID().toString();
+            this.mainContact = true;
         } else {
             ContactMerger.merge(this, similarContact);
+            this.mainContact = false;
         }
     }
 
@@ -84,6 +88,7 @@ public class Contact {
 /*  Sets a new random UUID for the Contact. Used by the ContactSplitter class.*/
     public void setNewUniqueIdentifier() {
         this.uniqueIdentifier = UUID.randomUUID().toString();
+        this.mainContact = true;
     }
 
 /*  Sets the String uniqueIdentifier as the UUID for the Contact. Used by the ContactMerger class.*/
@@ -125,5 +130,19 @@ public class Contact {
             }
         }
         return false;
+    }
+
+    public ArrayList<Contact> getChildContacts() {
+        return childContacts;
+    }
+
+    public void addToChildContacts(Contact contact) {
+        if (childContacts == null)
+            childContacts = new ArrayList<>();
+        childContacts.add(contact);
+    }
+
+    public void removeFromChildContacts(ArrayList<Contact> removedChildren) {
+        childContacts.removeAll(removedChildren);
     }
 }

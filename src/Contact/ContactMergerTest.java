@@ -23,6 +23,7 @@ public class ContactMergerTest {
         assertNotEquals(andrew1.getUniqueIdentifier(), andrew2.getUniqueIdentifier());
         ContactMerger.merge(andrew1, andrew2);
         assertEquals(andrew1.getUniqueIdentifier(), andrew2.getUniqueIdentifier());
+        assertEquals(1, andrew2.getChildContacts().size());
 
         list.clear();
     }

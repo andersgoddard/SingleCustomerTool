@@ -24,7 +24,7 @@ public class ContactSplitterTest {
         Contact india = Contact.create("Mrs India Goddard", info2, "2000001");
 
         assertEquals(andrew.getUniqueIdentifier(), india.getUniqueIdentifier());
-        ContactSplitter.split(india);
+        ContactSplitter.split(andrew);
         assertNotEquals(andrew.getUniqueIdentifier(), india.getUniqueIdentifier());
 
         list.clear();

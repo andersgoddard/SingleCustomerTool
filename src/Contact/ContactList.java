@@ -70,4 +70,8 @@ public class ContactList {
         }
         return associatedContacts;
     }
+
+    public ArrayList<Contact> get() {
+        return contacts;
+    }
 }

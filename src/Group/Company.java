@@ -2,6 +2,7 @@ package Group;
 
 import Contact.ContactList;
 import Contact.Contact;
+import Contact.ContactSplitter;
 import ContactInfo.ContactInfoItem;
 import ContactInfo.ContactInfoParser;
 import ContactInfo.ContactInfo;
@@ -51,6 +52,22 @@ public class Company implements Group {
     public void setSharedContactInfo(ContactInfo info) {
         this.sharedContactInfo.addAll(info);
         associateContacts();
+        separateIncorrectlyMergedContacts();
+    }
+
+    private void separateIncorrectlyMergedContacts() {
+        ContactList contacts = ContactList.getInstance();
+        for (Contact contact : contacts.get()){
+            ArrayList<Contact> children = contact.getChildContacts();
+            ArrayList<Contact> removedChildren = new ArrayList<>();
+            if (children != null){
+                for (Contact child : children){
+                    ContactSplitter.split(child);
+                    removedChildren.add(child);
+                }
+                contact.removeFromChildContacts(removedChildren);
+            }
+        }
     }
 
     public void setEmailDomain(String emailDomain) {
