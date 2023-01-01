@@ -10,7 +10,7 @@ import ContactInfo.ContactInfo;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class Company implements Group {
+public class Company implements Group, Associatable {
     String name;
     String companyId;
     String emailDomain;
@@ -31,6 +31,24 @@ public class Company implements Group {
         Company company = new Company(name);
         company.setEmailDomain(emailDomain);
         return company;
+    }
+
+    // Getter Methods
+    public String getName() {
+        return name;
+    }
+
+    public String getUniqueIdentifier() {
+        return companyId;
+    }
+
+    public String getEmailDomain() {
+        return emailDomain;
+    }
+
+    @Override
+    public ContactInfo getSharedContactInfo() {
+        return sharedContactInfo;
     }
 
     // Setter Methods
@@ -81,23 +99,4 @@ public class Company implements Group {
         }
         return false;
     }
-
-    // Getters
-    public String getName() {
-        return name;
-    }
-
-    public String getUniqueIdentifier() {
-        return companyId;
-    }
-
-    public String getEmailDomain() {
-        return emailDomain;
-    }
-
-    @Override
-    public ContactInfo getSharedContactInfo() {
-        return sharedContactInfo;
-    }
-
 }
