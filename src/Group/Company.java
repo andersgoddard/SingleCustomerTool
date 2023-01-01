@@ -33,14 +33,7 @@ public class Company implements Group {
         return company;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getUniqueIdentifier() {
-        return companyId;
-    }
-
+    // Setter Methods
     @Override
     public void setSharedContactInfo(String item) {
         ContactInfo info = new ContactInfo();
@@ -52,10 +45,21 @@ public class Company implements Group {
     public void setSharedContactInfo(ContactInfo info) {
         this.sharedContactInfo.addAll(info);
         associateContacts();
-        separateIncorrectlyMergedContacts();
+        separateIncorrectlyMergedContacts(); // Does this belong in the Company class or the Contact?
     }
 
-    private void separateIncorrectlyMergedContacts() {
+    public void setEmailDomain(String emailDomain) {
+        this.emailDomain = emailDomain;
+        associateContacts();
+    }
+
+
+    // Helper Methods
+    private void associateContacts() {
+        ContactAssociater.associate(this);
+    }
+
+    private void separateIncorrectlyMergedContacts() {  // Where does this belong?
         ContactList contacts = ContactList.getInstance();
         for (Contact contact : contacts.get()){
             ArrayList<Contact> children = contact.getChildContacts();
@@ -70,24 +74,21 @@ public class Company implements Group {
         }
     }
 
-    public void setEmailDomain(String emailDomain) {
-        this.emailDomain = emailDomain;
-        associateContacts();
-    }
-
-    private void associateContacts() {
-        ArrayList<Contact> associatedContacts = getAssociatedContacts();
-        for (Contact contact : associatedContacts) {
-            contact.setCompanyId(companyId);
+    public boolean hasSharedContactInfoItem(ContactInfoItem item) {
+        for (ContactInfoItem existingItem : sharedContactInfo.getItems()){
+            if (existingItem.get().equals(item.get()))
+                return true;
         }
+        return false;
     }
 
-    private ArrayList<Contact> getAssociatedContacts(){
-        ContactList list = ContactList.getInstance();
-        ArrayList<Contact> associatedContacts = new ArrayList<>();
-        associatedContacts.addAll(list.getContactsWith(emailDomain));
-        associatedContacts.addAll(list.getContactsWith(sharedContactInfo));
-        return associatedContacts;
+    // Getters
+    public String getName() {
+        return name;
+    }
+
+    public String getUniqueIdentifier() {
+        return companyId;
     }
 
     public String getEmailDomain() {
@@ -99,11 +100,4 @@ public class Company implements Group {
         return sharedContactInfo;
     }
 
-    public boolean hasSharedContactInfoItem(ContactInfoItem item) {
-        for (ContactInfoItem existingItem : sharedContactInfo.getItems()){
-            if (existingItem.get().equals(item.get()))
-                return true;
-        }
-        return false;
-    }
 }

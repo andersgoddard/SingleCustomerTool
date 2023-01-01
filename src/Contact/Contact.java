@@ -3,6 +3,7 @@ package Contact;
 import ContactInfo.ContactInfo;
 import ContactInfo.ContactInfoItem;
 import ContactInfo.EmailAddress;
+import Group.Associatable;
 import Group.Company;
 import Group.CompanyList;
 
@@ -11,7 +12,7 @@ import java.util.UUID;
 
 /* Represents a single contact, for example a person in a database. Largely a data-carrying class. */
 
-public class Contact {
+public class Contact implements Associatable {
 
     private final String fullName;
     private final ContactInfo info;
