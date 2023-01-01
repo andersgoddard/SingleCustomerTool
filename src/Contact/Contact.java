@@ -38,7 +38,6 @@ public class Contact implements Associatable {
     }
 
     // Getter Methods
-
     public String getName() {
         return fullName;
     }
@@ -126,4 +125,5 @@ public class Contact implements Associatable {
     public void removeFromChildContacts(ArrayList<Contact> children) {
         childContacts.removeAll(children);
     }
+
 }

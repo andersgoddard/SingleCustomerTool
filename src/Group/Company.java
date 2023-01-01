@@ -48,6 +48,14 @@ public class Company implements Group, Associatable {
         return sharedContactInfo;
     }
 
+    public boolean hasSharedContactInfoItem(ContactInfoItem item) {
+        for (ContactInfoItem existingItem : sharedContactInfo.getItems()){
+            if (existingItem.get().equals(item.get()))
+                return true;
+        }
+        return false;
+    }
+
     // Setter Methods
     @Override
     public void setSharedContactInfo(String item) {
@@ -72,13 +80,5 @@ public class Company implements Group, Associatable {
     // Helper Methods
     private void associateContacts() {
         ContactAssociater.associate(this);
-    }
-
-    public boolean hasSharedContactInfoItem(ContactInfoItem item) {
-        for (ContactInfoItem existingItem : sharedContactInfo.getItems()){
-            if (existingItem.get().equals(item.get()))
-                return true;
-        }
-        return false;
     }
 }
