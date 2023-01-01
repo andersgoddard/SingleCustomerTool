@@ -1,5 +1,4 @@
-package Group;
+package Associaters;
 
 public interface Associatable {
-
 }

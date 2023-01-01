@@ -3,8 +3,8 @@ package Contact;
 import ContactInfo.ContactInfo;
 import ContactInfo.ContactInfoItem;
 import ContactInfo.EmailAddress;
-import Group.Associatable;
-import Group.CompanyAssociater;
+import Associaters.Associatable;
+import Associaters.CompanyAssociater;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -25,7 +25,7 @@ public class Contact implements Associatable {
         this.info = info;
         this.reference = reference;
         setUniqueIdentifier();
-        CompanyAssociater.associate(this);
+        CompanyAssociater.create().associate(this);
         ContactList.getInstance().add(this);
     }
 
@@ -50,6 +50,10 @@ public class Contact implements Associatable {
         return companyId;
     }
 
+    public ArrayList<Contact> getChildContacts() {
+        return childContacts;
+    }
+
     public ArrayList<String> getEmailDomains(){
         ArrayList<String> emailDomains = new ArrayList<>();
         for (ContactInfoItem item : info.getItems()) {
@@ -58,10 +62,6 @@ public class Contact implements Associatable {
             }
         }
         return emailDomains;
-    }
-
-    public ArrayList<Contact> getChildContacts() {
-        return childContacts;
     }
 
     // Setter Methods
@@ -84,8 +84,8 @@ public class Contact implements Associatable {
         this.uniqueIdentifier = UUID.randomUUID().toString();
     }
 
-    /*  Sets the String uniqueIdentifier as the UUID for the Contact. Used by the ContactMerger class.*/
     public void setNewUniqueIdentifier(String uniqueIdentifier) {
+        /*  Sets the String uniqueIdentifier as the UUID for the Contact. Used by the ContactMerger class. */
         this.uniqueIdentifier = uniqueIdentifier;
     }
 

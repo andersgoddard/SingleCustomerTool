@@ -1,5 +1,7 @@
 package Group;
 
+import Associaters.Associatable;
+import Associaters.ContactAssociater;
 import Contact.ContactList;
 import ContactInfo.ContactInfoItem;
 import ContactInfo.ContactInfoParser;
@@ -79,6 +81,6 @@ public class Company implements Group, Associatable {
 
     // Helper Methods
     private void associateContacts() {
-        ContactAssociater.associate(this);
+        ContactAssociater.create().associate(this);
     }
 }
