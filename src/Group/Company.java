@@ -1,13 +1,10 @@
 package Group;
 
 import Contact.ContactList;
-import Contact.Contact;
-import Contact.ContactSplitter;
 import ContactInfo.ContactInfoItem;
 import ContactInfo.ContactInfoParser;
 import ContactInfo.ContactInfo;
 
-import java.util.ArrayList;
 import java.util.UUID;
 
 public class Company implements Group, Associatable {
@@ -63,7 +60,7 @@ public class Company implements Group, Associatable {
     public void setSharedContactInfo(ContactInfo info) {
         this.sharedContactInfo.addAll(info);
         associateContacts();
-        separateIncorrectlyMergedContacts(); // Does this belong in the Company class or the Contact?
+        ContactList.separateIncorrectlyMergedContacts();
     }
 
     public void setEmailDomain(String emailDomain) {
@@ -75,21 +72,6 @@ public class Company implements Group, Associatable {
     // Helper Methods
     private void associateContacts() {
         ContactAssociater.associate(this);
-    }
-
-    private void separateIncorrectlyMergedContacts() {  // Where does this belong?
-        ContactList contacts = ContactList.getInstance();
-        for (Contact contact : contacts.get()){
-            ArrayList<Contact> children = contact.getChildContacts();
-            ArrayList<Contact> removedChildren = new ArrayList<>();
-            if (children != null){
-                for (Contact child : children){
-                    ContactSplitter.split(child);
-                    removedChildren.add(child);
-                }
-                contact.removeFromChildContacts(removedChildren);
-            }
-        }
     }
 
     public boolean hasSharedContactInfoItem(ContactInfoItem item) {

@@ -22,7 +22,22 @@ public class ContactList {
         return list;
     }
 
-/*    Clears the global list of Contacts. Necessary for the unit tests. */
+    public static void separateIncorrectlyMergedContacts() {
+        ContactList contacts = ContactList.getInstance();
+        for (Contact contact : contacts.get()) {
+            ArrayList<Contact> children = contact.getChildContacts();
+            ArrayList<Contact> removedChildren = new ArrayList<>();
+            if (children != null) {
+                for (Contact child : children) {
+                    ContactSplitter.split(child);
+                    removedChildren.add(child);
+                }
+                contact.removeFromChildContacts(removedChildren);
+            }
+        }
+    }
+
+    /*    Clears the global list of Contacts. Necessary for the unit tests. */
     public void clear() {
         list = null;
         contacts.clear();
