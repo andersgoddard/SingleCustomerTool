@@ -75,7 +75,7 @@ public class Contact implements Associatable {
         if (similarContact == null) {
             this.uniqueIdentifier = UUID.randomUUID().toString();
         } else {
-            ContactMerger.merge(this, similarContact);
+            ContactMerger.merge(similarContact, this);
         }
     }
 
@@ -126,4 +126,7 @@ public class Contact implements Associatable {
         childContacts.removeAll(children);
     }
 
+    public String getReference() {
+        return reference;
+    }
 }

@@ -29,6 +29,7 @@ public class ContactTest {
         String reference = "2000000";
         Contact contact = Contact.create(title, firstName, lastName, info, reference);
         assertEquals("Mr Andrew Goddard", contact.getName());
+        assertEquals("2000000", contact.getReference());
     }
 
     @Test
@@ -92,6 +93,22 @@ public class ContactTest {
         Contact contact1 = Contact.create(name1, info1, reference1);
         Contact contact2 = Contact.create(name2, info2, reference2);
         assertEquals(contact1.getUniqueIdentifier(), contact2.getUniqueIdentifier());
+    }
+
+    @Test
+    public void testSecondContactAddedToChildContactsOnMerge(){
+        ContactInfo info = new ContactInfo();
+        info.add(PhoneNumber.create("07881266969"));
+        info.add(PhoneNumber.create("07746142639"));
+        info.add(EmailAddress.create("andersgoddard@gmail.com"));
+        Contact andrew = Contact.create("Mr Andrew Goddard", info, "2000000");
+
+        ContactInfo info2 = new ContactInfo();
+        info2.add(EmailAddress.create("indiabettsgoddard@outlook.com"));
+        info2.add(PhoneNumber.create("07746142639"));
+        Contact india = Contact.create("Mrs India Goddard", info2, "2000001");
+
+        assertEquals(1, andrew.getChildContacts().size());
     }
 
     @Test

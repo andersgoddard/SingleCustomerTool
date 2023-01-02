@@ -5,8 +5,7 @@ import ContactInfo.PhoneNumber;
 import ContactInfo.EmailAddress;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ContactMergerTest {
     @Test
@@ -23,7 +22,8 @@ public class ContactMergerTest {
         assertNotEquals(andrew1.getUniqueIdentifier(), andrew2.getUniqueIdentifier());
         ContactMerger.merge(andrew1, andrew2);
         assertEquals(andrew1.getUniqueIdentifier(), andrew2.getUniqueIdentifier());
-        assertEquals(1, andrew2.getChildContacts().size());
+        assertEquals(1, andrew1.getChildContacts().size());
+        assertTrue(andrew1.getChildContacts().contains(andrew2));
 
         list.clear();
     }

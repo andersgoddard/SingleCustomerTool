@@ -5,6 +5,9 @@ import ContactInfo.PhoneNumber;
 import ContactInfo.EmailAddress;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
@@ -24,8 +27,11 @@ public class ContactSplitterTest {
         Contact india = Contact.create("Mrs India Goddard", info2, "2000001");
 
         assertEquals(andrew.getUniqueIdentifier(), india.getUniqueIdentifier());
-        ContactSplitter.split(andrew);
+        assertEquals(1, andrew.getChildContacts().size());
+        ContactSplitter.split(india);
+        andrew.removeFromChildContacts(new ArrayList<>(Arrays.asList(india)));
         assertNotEquals(andrew.getUniqueIdentifier(), india.getUniqueIdentifier());
+        assertEquals(0, andrew.getChildContacts().size());
 
         list.clear();
     }
