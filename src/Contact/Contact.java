@@ -2,7 +2,6 @@ package Contact;
 
 import ContactInfo.ContactInfo;
 import ContactInfo.ContactInfoItem;
-import ContactInfo.EmailAddress;
 import Associaters.Associatable;
 import Associaters.CompanyAssociater;
 
@@ -20,15 +19,6 @@ public class Contact implements Associatable {
     private final String reference;
     private String companyId;
 
-    private Contact(String name, ContactInfo info, String reference) {
-        this.fullName = name;
-        this.info = info;
-        this.reference = reference;
-        setUniqueIdentifier();
-        CompanyAssociater.create().associate(this);
-        ContactList.getInstance().add(this);
-    }
-
     public static Contact create(String name, ContactInfo info, String reference){
         return new Contact(name, info, reference);
     }
@@ -37,7 +27,36 @@ public class Contact implements Associatable {
         return new Contact(title + " " + firstName + " " + lastName, info, reference);
     }
 
-    // Getter Methods
+    private Contact(String name, ContactInfo info, String reference) {
+        this.fullName = name;
+        this.info = info;
+        this.reference = reference;
+        setUniqueIdentifier();
+        associateWithOtherCompanies();
+        addToGlobalContactList();
+    }
+
+    private void setUniqueIdentifier() {
+        /*    Checks the global list of Contacts (the singleton class ContactList) for Contacts containing any of the contact information
+         *    contained in this Contact. If one is found, the UUID for that Contact is set as the UUID for this one, otherwise a new random
+         *    UUID is set.
+         */
+        Contact similarContact = ContactList.getInstance().getContactContaining(fullName, info);
+        if (similarContact == null) {
+            this.uniqueIdentifier = UUID.randomUUID().toString();
+        } else {
+            ContactMerger.merge(similarContact, this);
+        }
+    }
+
+    private void addToGlobalContactList() {
+        ContactList.getInstance().add(this);
+    }
+
+    private void associateWithOtherCompanies() {
+        CompanyAssociater.create().associate(this);
+    }
+
     public String getName() {
         return fullName;
     }
@@ -57,26 +76,11 @@ public class Contact implements Associatable {
     public ArrayList<String> getEmailDomains(){
         ArrayList<String> emailDomains = new ArrayList<>();
         for (ContactInfoItem item : info.getItems()) {
-            if (item.getClass() == EmailAddress.class) {
-                emailDomains.add(((EmailAddress)item).getEmailDomain());
+            if (item.isEmailAddress()) {
+                emailDomains.add(item.getEmailDomain());
             }
         }
         return emailDomains;
-    }
-
-    // Setter Methods
-    private void setUniqueIdentifier() {
-        /*    Checks the global list of Contacts (the singleton class ContactList) for Contacts containing any of the contact information
-         *    contained in this Contact. If one is found, the UUID for that Contact is set as the UUID for this one, otherwise a new random
-         *    UUID is set.
-         */
-        ContactList allContacts = ContactList.getInstance();
-        Contact similarContact = allContacts.contains(fullName, info);
-        if (similarContact == null) {
-            this.uniqueIdentifier = UUID.randomUUID().toString();
-        } else {
-            ContactMerger.merge(similarContact, this);
-        }
     }
 
     public void setNewUniqueIdentifier() {
