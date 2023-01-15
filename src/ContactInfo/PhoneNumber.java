@@ -23,6 +23,16 @@ public class PhoneNumber implements ContactInfoItem {
         extractPhoneNumber();
     }
 
+    @Override
+    public boolean isEmail() {
+        return false;
+    }
+
+    @Override
+    public String getEmailDomain() {
+        return null;
+    }
+
     private void removeZeroInBrackets() {
         String zeroInBrackets = "\\(0\\)";
         number = number.replaceAll(zeroInBrackets, "");

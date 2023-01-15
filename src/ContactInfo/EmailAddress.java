@@ -24,6 +24,11 @@ public class EmailAddress implements ContactInfoItem {
             }
     }
 
+    @Override
+    public boolean isEmail() {
+        return true;
+    }
+
     public String get() {
         return address;
     }

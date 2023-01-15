@@ -2,7 +2,6 @@ package Contact;
 
 import ContactInfo.ContactInfo;
 import ContactInfo.ContactInfoItem;
-import ContactInfo.EmailAddress;
 import Associaters.Associatable;
 import Associaters.CompanyAssociater;
 import DatabaseFields.DatabaseFields;
@@ -43,34 +42,6 @@ public class Contact implements Associatable {
         }
     }
 
-    // Getter Methods
-    public String getName() {
-        return fields.getName();
-    }
-
-    public String getUniqueIdentifier() {
-        return uniqueIdentifier;
-    }
-
-    public String getCompanyId() {
-        return companyId;
-    }
-
-    public ArrayList<Contact> getChildContacts() {
-        return childContacts;
-    }
-
-    public ArrayList<String> getEmailDomains(){
-        ArrayList<String> emailDomains = new ArrayList<>();
-        for (ContactInfoItem item : fields.getContactInfo().getItems()) {
-            if (item.getClass() == EmailAddress.class) {
-                emailDomains.add(((EmailAddress)item).getEmailDomain());
-            }
-        }
-        return emailDomains;
-    }
-
-    // Setter Methods
     public void setNewUniqueIdentifier() {
         /*  Sets a new random UUID for the Contact. Used by the ContactSplitter class.*/
         this.uniqueIdentifier = UUID.randomUUID().toString();
@@ -81,25 +52,8 @@ public class Contact implements Associatable {
         this.uniqueIdentifier = uniqueIdentifier;
     }
 
-
-    public void setCompanyId(String companyId) {
-        this.companyId = companyId;
-    }
-
-    public boolean hasContactInfoItem(ContactInfoItem item) {
-        return fields.getContactInfo().contains(item);
-    }
-
-//    public boolean hasContactInfoItem(ContactInfoItem item){
-//        return fields.getContactInfo().contains(item);
-//    }
-
-    public boolean hasEmailDomain(String emailDomain) {
-        for (String domain : getEmailDomains()){
-            if (domain.equals(emailDomain))
-                return true;
-        }
-        return false;
+    public String getUniqueIdentifier() {
+        return uniqueIdentifier;
     }
 
     public boolean hasContactInfoItemIn(ContactInfo sharedContactInfo) {
@@ -112,6 +66,40 @@ public class Contact implements Associatable {
         return false;
     }
 
+    public String getName() {
+        return fields.getName();
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
+
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public boolean hasContactInfoItem(ContactInfoItem item) {
+        return fields.getContactInfo().contains(item);
+    }
+
+    public boolean hasEmailDomain(String emailDomain) {
+        for (String domain : getEmailDomains()){
+            if (domain.equals(emailDomain))
+                return true;
+        }
+        return false;
+    }
+
+    private ArrayList<String> getEmailDomains(){
+        ArrayList<String> emailDomains = new ArrayList<>();
+        for (ContactInfoItem item : fields.getContactInfo().getItems()) {
+            if (item.isEmail()) {
+                emailDomains.add(item.getEmailDomain());
+            }
+        }
+        return emailDomains;
+    }
+
     public void addToChildContacts(Contact contact) {
         if (childContacts == null)
             childContacts = new ArrayList<>();
@@ -120,6 +108,10 @@ public class Contact implements Associatable {
 
     public void removeFromChildContacts(ArrayList<Contact> children) {
         childContacts.removeAll(children);
+    }
+
+    public ArrayList<Contact> getChildContacts() {
+        return childContacts;
     }
 
     public DatabaseFields getDatabaseFields() {

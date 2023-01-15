@@ -7,4 +7,7 @@ public interface ContactInfoItem {
 
     void clean();
 
+    boolean isEmail();
+
+    String getEmailDomain();
 }
