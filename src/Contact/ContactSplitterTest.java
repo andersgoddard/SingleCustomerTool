@@ -3,10 +3,13 @@ package Contact;
 import ContactInfo.ContactInfo;
 import ContactInfo.PhoneNumber;
 import ContactInfo.EmailAddress;
+import DatabaseFields.DatabaseFields;
+import DatabaseFields.SimpleDatabaseFields;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -16,20 +19,25 @@ public class ContactSplitterTest {
     public void testBreakUpContact(){
         ContactList list = ContactList.getInstance();
         ContactInfo info = new ContactInfo();
+        DatabaseFields andrewFields = new SimpleDatabaseFields("Mr Andrew Goddard");
+        DatabaseFields indiaFields = new SimpleDatabaseFields("Mrs India Goddard");
+
         info.add(PhoneNumber.create("07881266969"));
         info.add(PhoneNumber.create("07746142639"));
         info.add(EmailAddress.create("andersgoddard@gmail.com"));
-        Contact andrew = Contact.create("Mr Andrew Goddard", info, "2000000");
+        andrewFields.setContactInfo(info);
+        Contact andrew = Contact.create(andrewFields);
 
         ContactInfo info2 = new ContactInfo();
         info2.add(EmailAddress.create("indiabettsgoddard@outlook.com"));
         info2.add(PhoneNumber.create("07746142639"));
-        Contact india = Contact.create("Mrs India Goddard", info2, "2000001");
+        indiaFields.setContactInfo(info2);
+        Contact india = Contact.create(indiaFields);
 
         assertEquals(andrew.getUniqueIdentifier(), india.getUniqueIdentifier());
         assertEquals(1, andrew.getChildContacts().size());
         ContactSplitter.split(india);
-        andrew.removeFromChildContacts(new ArrayList<>(Arrays.asList(india)));
+        andrew.removeFromChildContacts(new ArrayList<>(List.of(india)));
         assertNotEquals(andrew.getUniqueIdentifier(), india.getUniqueIdentifier());
         assertEquals(0, andrew.getChildContacts().size());
 

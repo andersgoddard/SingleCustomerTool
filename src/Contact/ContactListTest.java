@@ -2,6 +2,8 @@ package Contact;
 
 import ContactInfo.ContactInfo;
 import ContactInfo.EmailAddress;
+import DatabaseFields.SimpleDatabaseFields;
+import DatabaseFields.DatabaseFields;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,10 +12,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ContactListTest {
     ContactList list;
+    DatabaseFields fields;
 
     @BeforeEach
     public void setUp(){
         list = ContactList.getInstance();
+        fields = new SimpleDatabaseFields("Mr Andrew Goddard");
+        fields.setPrimaryKey("2000000");
+        ContactInfo info = new ContactInfo();
+        info.add(EmailAddress.create("andersgoddard@gmail.com"));
+        fields.setContactInfo(info);
     }
     @Test
     public void testEmptyContactList(){
@@ -22,25 +30,14 @@ public class ContactListTest {
 
     @Test
     public void testOneContact(){
-        ContactInfo info = new ContactInfo();
-        info.add(EmailAddress.create("andersgoddard@gmail.com"));
-        String reference = "2000000";
-        Contact contact = Contact.create("Andrew", info, reference);
+        Contact contact = Contact.create(fields);
         assertEquals(1, list.size());
     }
 
     @Test
     public void testTwoContacts(){
-        ContactInfo info1 = new ContactInfo();
-        info1.add(EmailAddress.create("andersgoddard@gmail.com"));
-        String reference1 = "2000000";
-        Contact contact1 = Contact.create("Andrew", info1, reference1);
-
-        ContactInfo info2 = new ContactInfo();
-        info1.add(EmailAddress.create("indiabettsgoddard@outlook.com"));
-        String reference2 = "2000001";
-        Contact contact2 = Contact.create("India", info2, reference2);
-
+        Contact contact1 = Contact.create(fields);
+        Contact contact2 = Contact.create(fields);
         assertEquals(2, list.size());
     }
 

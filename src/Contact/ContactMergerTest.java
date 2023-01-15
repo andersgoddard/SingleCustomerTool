@@ -3,6 +3,8 @@ package Contact;
 import ContactInfo.ContactInfo;
 import ContactInfo.PhoneNumber;
 import ContactInfo.EmailAddress;
+import DatabaseFields.DatabaseFields;
+import DatabaseFields.SimpleDatabaseFields;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -11,13 +13,18 @@ public class ContactMergerTest {
     @Test
     public void testMergeContacts(){
         ContactList list = ContactList.getInstance();
+        DatabaseFields fields1 = new SimpleDatabaseFields("Mr Andrew Goddard");
+        DatabaseFields fields2 = new SimpleDatabaseFields("Mr A Goddard");
+
         ContactInfo info = new ContactInfo();
         info.add(PhoneNumber.create("07881266969"));
-        Contact andrew1 = Contact.create("Mr Andrew Goddard", info, "2000000");
+        fields1.setContactInfo(info);
+        Contact andrew1 = Contact.create(fields1);
 
         ContactInfo info2 = new ContactInfo();
         info2.add(EmailAddress.create("andersgoddard@gmail.com"));
-        Contact andrew2 = Contact.create("Mr A Goddard", info2, "2000001");
+        fields2.setContactInfo(info2);
+        Contact andrew2 = Contact.create(fields2);
 
         assertNotEquals(andrew1.getUniqueIdentifier(), andrew2.getUniqueIdentifier());
         ContactMerger.merge(andrew1, andrew2);

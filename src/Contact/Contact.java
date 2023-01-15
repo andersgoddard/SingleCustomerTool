@@ -5,6 +5,7 @@ import ContactInfo.ContactInfoItem;
 import ContactInfo.EmailAddress;
 import Associaters.Associatable;
 import Associaters.CompanyAssociater;
+import DatabaseFields.DatabaseFields;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -12,34 +13,39 @@ import java.util.UUID;
 /* Represents a single contact, for example a person in a database. Largely a data-carrying class. */
 
 public class Contact implements Associatable {
-
-    private final String fullName;
-    private final ContactInfo info;
     private String uniqueIdentifier;
     private ArrayList<Contact> childContacts;
-    private final String reference;
     private String companyId;
+    private final DatabaseFields fields;
 
-    private Contact(String name, ContactInfo info, String reference) {
-        this.fullName = name;
-        this.info = info;
-        this.reference = reference;
+    public static Contact create(DatabaseFields fields) {
+        return new Contact(fields);
+    }
+
+    private Contact(DatabaseFields fields) {
+        this.fields = fields;
         setUniqueIdentifier();
         CompanyAssociater.create().associate(this);
         ContactList.getInstance().add(this);
     }
 
-    public static Contact create(String name, ContactInfo info, String reference){
-        return new Contact(name, info, reference);
-    }
-
-    public static Contact create(String title, String firstName, String lastName, ContactInfo info, String reference){
-        return new Contact(title + " " + firstName + " " + lastName, info, reference);
+    private void setUniqueIdentifier() {
+        /*    Checks the global list of Contacts (the singleton class ContactList) for Contacts containing any of the contact information
+         *    contained in this Contact. If one is found, the UUID for that Contact is set as the UUID for this one, otherwise a new random
+         *    UUID is set.
+         */
+        ContactList allContacts = ContactList.getInstance();
+        Contact similarContact = allContacts.contains(fields.getName(), fields.getContactInfo());
+        if (similarContact == null) {
+            this.uniqueIdentifier = UUID.randomUUID().toString();
+        } else {
+            ContactMerger.merge(similarContact, this);
+        }
     }
 
     // Getter Methods
     public String getName() {
-        return fullName;
+        return fields.getName();
     }
 
     public String getUniqueIdentifier() {
@@ -56,7 +62,7 @@ public class Contact implements Associatable {
 
     public ArrayList<String> getEmailDomains(){
         ArrayList<String> emailDomains = new ArrayList<>();
-        for (ContactInfoItem item : info.getItems()) {
+        for (ContactInfoItem item : fields.getContactInfo().getItems()) {
             if (item.getClass() == EmailAddress.class) {
                 emailDomains.add(((EmailAddress)item).getEmailDomain());
             }
@@ -65,20 +71,6 @@ public class Contact implements Associatable {
     }
 
     // Setter Methods
-    private void setUniqueIdentifier() {
-        /*    Checks the global list of Contacts (the singleton class ContactList) for Contacts containing any of the contact information
-         *    contained in this Contact. If one is found, the UUID for that Contact is set as the UUID for this one, otherwise a new random
-         *    UUID is set.
-         */
-        ContactList allContacts = ContactList.getInstance();
-        Contact similarContact = allContacts.contains(fullName, info);
-        if (similarContact == null) {
-            this.uniqueIdentifier = UUID.randomUUID().toString();
-        } else {
-            ContactMerger.merge(similarContact, this);
-        }
-    }
-
     public void setNewUniqueIdentifier() {
         /*  Sets a new random UUID for the Contact. Used by the ContactSplitter class.*/
         this.uniqueIdentifier = UUID.randomUUID().toString();
@@ -95,8 +87,12 @@ public class Contact implements Associatable {
     }
 
     public boolean hasContactInfoItem(ContactInfoItem item) {
-        return info.contains(item);
+        return fields.getContactInfo().contains(item);
     }
+
+//    public boolean hasContactInfoItem(ContactInfoItem item){
+//        return fields.getContactInfo().contains(item);
+//    }
 
     public boolean hasEmailDomain(String emailDomain) {
         for (String domain : getEmailDomains()){
@@ -108,7 +104,7 @@ public class Contact implements Associatable {
 
     public boolean hasContactInfoItemIn(ContactInfo sharedContactInfo) {
         for (ContactInfoItem item : sharedContactInfo.getItems()){
-            for (ContactInfoItem existingItem : info.getItems()){
+            for (ContactInfoItem existingItem : fields.getContactInfo().getItems()){
                 if (item.get().equals(existingItem.get()))
                     return true;
             }
@@ -126,7 +122,7 @@ public class Contact implements Associatable {
         childContacts.removeAll(children);
     }
 
-    public String getReference() {
-        return reference;
+    public DatabaseFields getDatabaseFields() {
+        return fields;
     }
 }
