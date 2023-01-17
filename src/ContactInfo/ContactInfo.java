@@ -2,13 +2,13 @@ package ContactInfo;
 
 import java.util.ArrayList;
 
-public class ContactInfo {
+public class ContactInfo implements Info {
     ArrayList<ContactInfoItem> items = new ArrayList<>();
     public void add(ContactInfoItem item) {
         items.add(item);
     }
 
-    public void addAll(ContactInfo info) {
+    public void addAll(Info info) {
         items.addAll(info.getItems());
     }
 

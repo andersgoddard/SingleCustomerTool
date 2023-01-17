@@ -1,10 +1,10 @@
 package DatabaseFields;
 
-import ContactInfo.ContactInfo;
+import ContactInfo.Info;
 
 public class SimpleDatabaseFields implements DatabaseFields {
     String name;
-    ContactInfo info;
+    Info info;
     String primaryKey;
 
     public SimpleDatabaseFields(String name) {
@@ -21,12 +21,12 @@ public class SimpleDatabaseFields implements DatabaseFields {
     }
 
     @Override
-    public void setContactInfo(ContactInfo info) {
+    public void setContactInfo(Info info) {
         this.info = info;
     }
 
     @Override
-    public ContactInfo getContactInfo() {
+    public Info getContactInfo() {
         return info;
     }
 

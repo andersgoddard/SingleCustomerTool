@@ -1,6 +1,6 @@
 package Contact;
 
-import ContactInfo.ContactInfo;
+import ContactInfo.Info;
 import ContactInfo.ContactInfoItem;
 import Associaters.Associatable;
 import Associaters.CompanyAssociater;
@@ -46,7 +46,7 @@ public class Contact implements Associatable {
         return uniqueIdentifier;
     }
 
-    public boolean hasContactInfoItemIn(ContactInfo sharedContactInfo) {
+    public boolean hasContactInfoItemIn(Info sharedContactInfo) {
         for (ContactInfoItem item : sharedContactInfo.getItems()){
             for (ContactInfoItem existingItem : fields.getContactInfo().getItems()){
                 if (item.get().equals(existingItem.get()))

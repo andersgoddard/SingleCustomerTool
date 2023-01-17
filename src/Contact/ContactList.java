@@ -2,7 +2,7 @@ package Contact;
 
 import java.util.ArrayList;
 
-import ContactInfo.ContactInfo;
+import ContactInfo.Info;
 import ContactInfo.ContactInfoItem;
 import Group.CompanyList;
 
@@ -55,7 +55,7 @@ public class ContactList {
 /*  Loops through all Contacts in the ContactList and checks whether there is any crossover in the contact information.
 *   Returns the Contact containing a ContactInfoItem in the info parameter, otherwise null
 */
-    public Contact contains(String name, ContactInfo info) {
+    public Contact contains(String name, Info info) {
         CompanyList companies = CompanyList.getInstance();
         for (Contact contact : contacts){
             for (ContactInfoItem item : info.getItems()){
@@ -77,7 +77,7 @@ public class ContactList {
         return associatedContacts;
     }
 
-    public ArrayList<Contact> getContactsWith(ContactInfo sharedContactInfo) {
+    public ArrayList<Contact> getContactsWith(Info sharedContactInfo) {
         ArrayList<Contact> associatedContacts = new ArrayList<>();
         for (Contact contact : contacts){
             if (contact.hasContactInfoItemIn(sharedContactInfo))

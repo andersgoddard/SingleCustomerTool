@@ -1,13 +1,13 @@
 package DatabaseFields;
 
-import ContactInfo.ContactInfo;
+import ContactInfo.Info;
 
 public interface DatabaseFields {
     String getName();
 
-    void setContactInfo(ContactInfo info);
+    void setContactInfo(Info info);
 
-    ContactInfo getContactInfo();
+    Info getContactInfo();
 
     void setPrimaryKey(String primaryKey);
 
