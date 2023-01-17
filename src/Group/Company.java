@@ -15,13 +15,6 @@ public class Company implements Group, Associatable {
     String emailDomain;
     ContactInfo sharedContactInfo;
 
-    private Company(String name) {
-        this.name = name;
-        this.companyId = UUID.randomUUID().toString();
-        this.sharedContactInfo = new ContactInfo();
-        CompanyList.getInstance().add(this);
-    }
-
     public static Company create(String name) {
         return new Company(name);
     }
@@ -32,17 +25,19 @@ public class Company implements Group, Associatable {
         return company;
     }
 
-    // Getter Methods
+    private Company(String name) {
+        this.name = name;
+        this.companyId = UUID.randomUUID().toString();
+        this.sharedContactInfo = new ContactInfo();
+        CompanyList.getInstance().add(this);
+    }
+
     public String getName() {
         return name;
     }
 
     public String getUniqueIdentifier() {
         return companyId;
-    }
-
-    public String getEmailDomain() {
-        return emailDomain;
     }
 
     @Override
@@ -78,9 +73,12 @@ public class Company implements Group, Associatable {
         associateContacts();
     }
 
-
-    // Helper Methods
     private void associateContacts() {
         ContactAssociater.create().associate(this);
     }
+
+    public String getEmailDomain() {
+        return emailDomain;
+    }
+
 }

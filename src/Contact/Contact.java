@@ -23,23 +23,13 @@ public class Contact implements Associatable {
 
     private Contact(DatabaseFields fields) {
         this.fields = fields;
-        setUniqueIdentifier();
+        setUniqueIdentifier(new BasicUniqueIdentifierGenerator());
         CompanyAssociater.create().associate(this);
         ContactList.getInstance().add(this);
     }
 
-    private void setUniqueIdentifier() {
-        /*    Checks the global list of Contacts (the singleton class ContactList) for Contacts containing any of the contact information
-         *    contained in this Contact. If one is found, the UUID for that Contact is set as the UUID for this one, otherwise a new random
-         *    UUID is set.
-         */
-        ContactList allContacts = ContactList.getInstance();
-        Contact similarContact = allContacts.contains(fields.getName(), fields.getContactInfo());
-        if (similarContact == null) {
-            this.uniqueIdentifier = UUID.randomUUID().toString();
-        } else {
-            ContactMerger.merge(similarContact, this);
-        }
+    private void setUniqueIdentifier(UniqueIdentifierGenerator generator){
+        this.uniqueIdentifier = generator.getUniqueIdentifierFor(this);
     }
 
     public void setNewUniqueIdentifier() {
@@ -64,18 +54,6 @@ public class Contact implements Associatable {
             }
         }
         return false;
-    }
-
-    public String getName() {
-        return fields.getName();
-    }
-
-    public void setCompanyId(String companyId) {
-        this.companyId = companyId;
-    }
-
-    public String getCompanyId() {
-        return companyId;
     }
 
     public boolean hasContactInfoItem(ContactInfoItem item) {
@@ -108,6 +86,18 @@ public class Contact implements Associatable {
 
     public void removeFromChildContacts(ArrayList<Contact> children) {
         childContacts.removeAll(children);
+    }
+
+    public String getName() {
+        return fields.getName();
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
+
+    public String getCompanyId() {
+        return companyId;
     }
 
     public ArrayList<Contact> getChildContacts() {
