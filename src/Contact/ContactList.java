@@ -1,5 +1,6 @@
 package Contact;
 
+import java.util.List;
 import java.util.ArrayList;
 
 import ContactInfo.Info;
@@ -25,8 +26,8 @@ public class ContactList {
     public static void separateIncorrectlyMergedContacts() {
             ContactList contacts = ContactList.getInstance();
             for (Contact contact : contacts.get()) {
-                ArrayList<Contact> children = contact.getChildContacts();
-                ArrayList<Contact> removedChildren = new ArrayList<>();
+                List<Contact> children = contact.getChildContacts();
+                List<Contact> removedChildren = new ArrayList<>();
                 if (children != null) {
                     for (Contact child : children) {
                         ContactSplitter.split(child);
@@ -66,8 +67,8 @@ public class ContactList {
         return null;
     }
 
-    public ArrayList<Contact> getContactsWith(String emailDomain) {
-        ArrayList<Contact> associatedContacts = new ArrayList<>();
+    public List<Contact> getContactsWith(String emailDomain) {
+        List<Contact> associatedContacts = new ArrayList<>();
 
         for (Contact contact : contacts){
             if (contact.hasEmailDomain(emailDomain))
@@ -77,8 +78,8 @@ public class ContactList {
         return associatedContacts;
     }
 
-    public ArrayList<Contact> getContactsWith(Info sharedContactInfo) {
-        ArrayList<Contact> associatedContacts = new ArrayList<>();
+    public List<Contact> getContactsWith(Info sharedContactInfo) {
+        List<Contact> associatedContacts = new ArrayList<>();
         for (Contact contact : contacts){
             if (contact.hasContactInfoItemIn(sharedContactInfo))
                 associatedContacts.add(contact);
@@ -86,7 +87,7 @@ public class ContactList {
         return associatedContacts;
     }
 
-    public ArrayList<Contact> get() {
+    public List<Contact> get() {
         return contacts;
     }
 }

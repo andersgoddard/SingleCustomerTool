@@ -3,9 +3,9 @@ package Contact;
 import ContactInfo.Info;
 import ContactInfo.ContactInfoItem;
 import Associaters.Associatable;
-import Associaters.CompanyAssociater;
 import DatabaseFields.DatabaseFields;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -13,7 +13,7 @@ import java.util.UUID;
 
 public class Contact implements Associatable {
     private String uniqueIdentifier;
-    private ArrayList<Contact> childContacts;
+    private List<Contact> childContacts;
     private String companyId;
     private final DatabaseFields fields;
 
@@ -23,13 +23,6 @@ public class Contact implements Associatable {
 
     private Contact(DatabaseFields fields) {
         this.fields = fields;
-        setUniqueIdentifier(new BasicUniqueIdentifierGenerator());
-        CompanyAssociater.create().associate(this);
-        ContactList.getInstance().add(this);
-    }
-
-    private void setUniqueIdentifier(UniqueIdentifierGenerator generator){
-        this.uniqueIdentifier = generator.getUniqueIdentifierFor(this);
     }
 
     public void setNewUniqueIdentifier() {
@@ -68,8 +61,8 @@ public class Contact implements Associatable {
         return false;
     }
 
-    private ArrayList<String> getEmailDomains(){
-        ArrayList<String> emailDomains = new ArrayList<>();
+    private List<String> getEmailDomains(){
+        List<String> emailDomains = new ArrayList<>();
         for (ContactInfoItem item : fields.getContactInfo().getItems()) {
             if (item.isEmail()) {
                 emailDomains.add(item.getEmailDomain());
@@ -84,7 +77,7 @@ public class Contact implements Associatable {
         childContacts.add(contact);
     }
 
-    public void removeFromChildContacts(ArrayList<Contact> children) {
+    public void removeFromChildContacts(List<Contact> children) {
         childContacts.removeAll(children);
     }
 
@@ -100,7 +93,7 @@ public class Contact implements Associatable {
         return companyId;
     }
 
-    public ArrayList<Contact> getChildContacts() {
+    public List<Contact> getChildContacts() {
         return childContacts;
     }
 
