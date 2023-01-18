@@ -3,14 +3,16 @@ package Associaters;
 import Contact.Contact;
 import Group.Company;
 import Group.CompanyList;
+import com.google.inject.Provides;
+import com.google.inject.Singleton;
 
 public class CompanyAssociater implements Associater {
-
-    private CompanyAssociater(){}
-
+    @Provides
+    @Singleton
     public static CompanyAssociater create(){
         return new CompanyAssociater();
     }
+
     public void associate(Associatable associatable){
         Contact contact = (Contact)associatable;
         contact.setCompanyId(getCompanyIdFromEmailDomain(contact));

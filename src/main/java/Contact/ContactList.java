@@ -6,19 +6,21 @@ import java.util.ArrayList;
 import ContactInfo.Info;
 import ContactInfo.ContactInfoItem;
 import Group.CompanyList;
+import com.google.inject.Provides;
+import com.google.inject.Singleton;
 
 /* A singleton class representing all of the Contacts */
-public class ContactList {
-    private final ArrayList<Contact> contacts;
+public class ContactList implements IContactList {
+    private static ArrayList<Contact> contacts;
     private static ContactList list = null;
 
-    private ContactList() {
-        contacts = new ArrayList<>();
-    }
-
+    @Provides
+    @Singleton
     public static ContactList getInstance() {
-        if (list == null)
+        if (list == null) {
             list = new ContactList();
+            contacts = new ArrayList<>();
+        }
 
         return list;
     }

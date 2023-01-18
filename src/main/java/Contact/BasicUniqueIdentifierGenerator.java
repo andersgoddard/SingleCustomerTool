@@ -1,8 +1,12 @@
 package Contact;
 
+import com.google.inject.Inject;
+
 import java.util.UUID;
 
 public class BasicUniqueIdentifierGenerator implements UniqueIdentifierGenerator {
+    @Inject
+    public BasicUniqueIdentifierGenerator(){}
     public String getUniqueIdentifierFor(Contact contact) {
         String uniqueIdentifier;
         ContactList allContacts = ContactList.getInstance();

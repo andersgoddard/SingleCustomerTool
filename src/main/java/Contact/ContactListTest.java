@@ -6,6 +6,8 @@ import ContactInfo.EmailAddress;
 import DatabaseFields.SimpleDatabaseFields;
 import DatabaseFields.DatabaseFields;
 import Utilities.ContactFactory;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,12 +26,13 @@ public class ContactListTest {
         contacts = ContactList.getInstance();
         associater = CompanyAssociater.create();
         generator = new BasicUniqueIdentifierGenerator();
-        factory = new ContactFactory();
         fields = new SimpleDatabaseFields("Mr Andrew Goddard");
         fields.setPrimaryKey("2000000");
         ContactInfo info = new ContactInfo();
         info.add(EmailAddress.create("andersgoddard@gmail.com"));
         fields.setContactInfo(info);
+        Injector injector = Guice.createInjector(new ContactFactoryModule());
+        factory = injector.getInstance(ContactFactory.class);
     }
     @Test
     public void testEmptyContactList(){
@@ -38,14 +41,14 @@ public class ContactListTest {
 
     @Test
     public void testOneContact(){
-        Contact contact = factory.create(fields, generator, associater, contacts);
+        Contact contact = factory.create(fields);
         assertEquals(1, contacts.size());
     }
 
     @Test
     public void testTwoContacts(){
-        Contact contact1 = factory.create(fields, generator, associater, contacts);
-        Contact contact2 = factory.create(fields, generator, associater, contacts);
+        Contact contact1 = factory.create(fields);
+        Contact contact2 = factory.create(fields);
         assertEquals(2, contacts.size());
     }
 

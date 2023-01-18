@@ -4,6 +4,7 @@ import Associaters.CompanyAssociater;
 import Contact.ContactList;
 import Contact.Contact;
 import Contact.UniqueIdentifierGenerator;
+import Contact.ContactFactoryModule;
 import Contact.BasicUniqueIdentifierGenerator;
 import ContactInfo.ContactInfo;
 import ContactInfo.EmailAddress;
@@ -11,6 +12,8 @@ import ContactInfo.PhoneNumber;
 import DatabaseFields.DatabaseFields;
 import DatabaseFields.SimpleDatabaseFields;
 import Utilities.ContactFactory;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,13 +37,14 @@ public class CompanyTest {
         companies = CompanyList.getInstance();
         associater = CompanyAssociater.create();
         generator = new BasicUniqueIdentifierGenerator();
-        factory = new ContactFactory();
         fields = new SimpleDatabaseFields("Mr Andrew Goddard");
         fields.setPrimaryKey("2000000");
         ContactInfo info = new ContactInfo();
         info.add(PhoneNumber.create("07881266969"));
         info.add(EmailAddress.create("andersgoddard@gmail.com"));
         fields.setContactInfo(info);
+        Injector injector = Guice.createInjector(new ContactFactoryModule());
+        factory = injector.getInstance(ContactFactory.class);
     }
 
     @Test
@@ -69,8 +73,8 @@ public class CompanyTest {
         info2.add(EmailAddress.create("india@exampleco.com"));
         andrewFields.setContactInfo(info1);
         indiaFields.setContactInfo(info2);
-        Contact andrew = factory.create(andrewFields, generator, associater, contacts);
-        Contact india = factory.create(indiaFields, generator, associater, contacts);
+        Contact andrew = factory.create(andrewFields);
+        Contact india = factory.create(indiaFields);
         company.setEmailDomain("exampleco.com");
         assertEquals(andrew.getCompanyId(), india.getCompanyId());
     }
@@ -94,8 +98,8 @@ public class CompanyTest {
         andrewFields.setContactInfo(info1);
         indiaFields.setContactInfo(info2);
 
-        Contact andrew = factory.create(andrewFields, generator, associater, contacts);
-        Contact india = factory.create(indiaFields, generator, associater, contacts);
+        Contact andrew = factory.create(andrewFields);
+        Contact india = factory.create(indiaFields);
         Company exampleCo = Company.create("Another Example Company", "anotherexampleco.com");
         assertEquals(andrew.getCompanyId(), india.getCompanyId());
     }
@@ -112,8 +116,8 @@ public class CompanyTest {
         andrewFields.setContactInfo(info1);
         indiaFields.setContactInfo(info2);
 
-        Contact andrew = factory.create(andrewFields, generator, associater, contacts);
-        Contact india = factory.create(indiaFields, generator, associater, contacts);
+        Contact andrew = factory.create(andrewFields);
+        Contact india = factory.create(indiaFields);
         assertNotNull(andrew.getCompanyId());
         assertEquals(andrew.getCompanyId(), india.getCompanyId());
     }
@@ -140,7 +144,7 @@ public class CompanyTest {
         ContactInfo info = new ContactInfo();
         info.add(PhoneNumber.create("02070002000"));
         fields.setContactInfo(info);
-        Contact andrew = factory.create(fields, generator, associater, contacts);
+        Contact andrew = factory.create(fields);
         company.setSharedContactInfo("02070002000");
         assertEquals(company.getUniqueIdentifier(), andrew.getCompanyId());
     }
@@ -152,7 +156,7 @@ public class CompanyTest {
         ContactInfo info = new ContactInfo();
         info.add(PhoneNumber.create("02070002000"));
         fields.setContactInfo(info);
-        Contact andrew = factory.create(fields, generator, associater, contacts);
+        Contact andrew = factory.create(fields);
         assertEquals(company.getUniqueIdentifier(), andrew.getCompanyId());
     }
 
@@ -163,7 +167,7 @@ public class CompanyTest {
         ContactInfo info = new ContactInfo();
         info.add(EmailAddress.create("info@examplecompany.com"));
         fields.setContactInfo(info);
-        Contact andrew = factory.create(fields, generator, associater, contacts);
+        Contact andrew = factory.create(fields);
         assertEquals(company.getUniqueIdentifier(), andrew.getCompanyId());
     }
 
