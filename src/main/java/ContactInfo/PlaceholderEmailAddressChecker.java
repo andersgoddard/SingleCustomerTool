@@ -13,7 +13,7 @@ public class PlaceholderEmailAddressChecker {
     private static boolean checkPlaceholderFileFor(EmailAddress email) {
         BufferedReader reader;
         try {
-            reader = new BufferedReader(new FileReader("src/ContactInfo/placeholder_email_addresses.txt"));
+            reader = new BufferedReader(new FileReader("src/main/java/ContactInfo/placeholder_email_addresses.txt"));
             String line = reader.readLine();
             while (line != null){
                 if (line.equals(email.get()))

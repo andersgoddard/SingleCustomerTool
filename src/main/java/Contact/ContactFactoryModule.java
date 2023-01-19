@@ -10,6 +10,5 @@ public class ContactFactoryModule extends AbstractModule {
     protected void configure() {
         bind(UniqueIdentifierGenerator.class).to(BasicUniqueIdentifierGenerator.class);
         bind(Associater.class).to(CompanyAssociater.class);
-        bind(IContactList.class).to(ContactList.class);
     }
 }

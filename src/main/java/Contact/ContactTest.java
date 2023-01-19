@@ -16,14 +16,14 @@ import com.google.inject.Injector;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ContactTest {
-    ContactList contacts;
     DatabaseFields fields;
     ContactFactory factory;
+    ContactList contacts;
 
 
     @BeforeEach
     public void setUp(){
-        contacts = ContactList.getInstance(); // Need to understand why commenting this out makes the childContacts list null
+        contacts = ContactList.getInstance();
         fields = new SimpleDatabaseFields("Mr Andrew Goddard");
         fields.setPrimaryKey("2000000");
         ContactInfo info = new ContactInfo();
@@ -46,12 +46,6 @@ public class ContactTest {
         Contact contact = factory.create(fields);
         assertTrue(contact.hasContactInfoItem(EmailAddress.create("andersgoddard@gmail.com")));
     }
-
-//    @Test
-//    public void testContactAddedToContactList(){
-//        Contact contact = factory.create(fields);
-//        assertEquals(1, contacts.size());
-//    }
 
     @Test
     public void testContactHasUniqueIdentifier(){
@@ -137,6 +131,6 @@ public class ContactTest {
 
     @AfterEach
     public void tearDown(){
-  //      contacts.clear();
+        contacts.clear();
     }
 }

@@ -13,7 +13,7 @@ import java.util.UUID;
 
 public class Contact implements Associatable {
     private String uniqueIdentifier;
-    private List<Contact> childContacts;
+    private final List<Contact> childContacts;
     private String companyId;
     private final DatabaseFields fields;
 
@@ -22,6 +22,7 @@ public class Contact implements Associatable {
     }
 
     private Contact(DatabaseFields fields) {
+        childContacts = new ArrayList<>();
         this.fields = fields;
     }
 
@@ -72,8 +73,6 @@ public class Contact implements Associatable {
     }
 
     public void addToChildContacts(Contact contact) {
-        if (childContacts == null)
-            childContacts = new ArrayList<>();
         childContacts.add(contact);
     }
 
