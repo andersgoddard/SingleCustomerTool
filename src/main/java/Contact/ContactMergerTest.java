@@ -18,17 +18,14 @@ public class ContactMergerTest {
         Injector injector = Guice.createInjector(new ContactFactoryModule());
         ContactFactory factory = injector.getInstance(ContactFactory.class);
 
-        DatabaseFields fields1 = new SimpleDatabaseFields("Mr Andrew Goddard");
-        DatabaseFields fields2 = new SimpleDatabaseFields("Mr A Goddard");
-
         ContactInfo info = new ContactInfo();
         info.add(PhoneNumber.create("07881266969"));
-        fields1.setContactInfo(info);
+        DatabaseFields fields1 = new SimpleDatabaseFields("Mr Andrew Goddard", info, null);
         Contact andrew1 = factory.create(fields1);
 
         ContactInfo info2 = new ContactInfo();
         info2.add(EmailAddress.create("andersgoddard@gmail.com"));
-        fields2.setContactInfo(info2);
+        DatabaseFields fields2 = new SimpleDatabaseFields("Mr A Goddard", info2, null);
         Contact andrew2 = factory.create(fields2);
 
         assertNotEquals(andrew1.getUniqueIdentifier(), andrew2.getUniqueIdentifier());

@@ -21,25 +21,20 @@ public class ContactSplitterTest {
     @Test
     public void testBreakUpContact(){
         ContactList contacts = ContactList.getInstance();
-        CompanyAssociater associater = CompanyAssociater.create();
-        UniqueIdentifierGenerator generator = new BasicUniqueIdentifierGenerator();
         Injector injector = Guice.createInjector(new ContactFactoryModule());
         ContactFactory factory = injector.getInstance(ContactFactory.class);
 
         ContactInfo info = new ContactInfo();
-        DatabaseFields andrewFields = new SimpleDatabaseFields("Mr Andrew Goddard");
-        DatabaseFields indiaFields = new SimpleDatabaseFields("Mrs India Goddard");
-
         info.add(PhoneNumber.create("07881266969"));
         info.add(PhoneNumber.create("07746142639"));
         info.add(EmailAddress.create("andersgoddard@gmail.com"));
-        andrewFields.setContactInfo(info);
+        DatabaseFields andrewFields = new SimpleDatabaseFields("Mr Andrew Goddard", info, null);
         Contact andrew = factory.create(andrewFields);
 
         ContactInfo info2 = new ContactInfo();
         info2.add(EmailAddress.create("indiabettsgoddard@outlook.com"));
         info2.add(PhoneNumber.create("07746142639"));
-        indiaFields.setContactInfo(info2);
+        DatabaseFields indiaFields = new SimpleDatabaseFields("Mrs India Goddard", info2, null);
         Contact india = factory.create(indiaFields);
 
         assertEquals(andrew.getUniqueIdentifier(), india.getUniqueIdentifier());

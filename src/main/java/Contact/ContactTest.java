@@ -24,12 +24,11 @@ public class ContactTest {
     @BeforeEach
     public void setUp(){
         contacts = ContactList.getInstance();
-        fields = new SimpleDatabaseFields("Mr Andrew Goddard");
-        fields.setPrimaryKey("2000000");
         ContactInfo info = new ContactInfo();
         info.add(PhoneNumber.create("07881266969"));
         info.add(EmailAddress.create("andersgoddard@gmail.com"));
-        fields.setContactInfo(info);
+        String primaryKey = "2000000";
+        fields = new SimpleDatabaseFields("Mr Andrew Goddard", info, primaryKey);
         Injector injector = Guice.createInjector(new ContactFactoryModule());
         factory = injector.getInstance(ContactFactory.class);
     }
@@ -56,12 +55,10 @@ public class ContactTest {
     @Test
     public void testSameUniqueIdentifierForSameContact(){
         Contact contact1 = factory.create(fields);
-        DatabaseFields fields2 = new SimpleDatabaseFields("Mr A Goddard");
         ContactInfo info = new ContactInfo();
         info.add(PhoneNumber.create("07881266969"));
         info.add(EmailAddress.create("andrewnmngoddard@outlook.com"));
-        fields2.setContactInfo(info);
-        fields2.setPrimaryKey("2000001");
+        DatabaseFields fields2 = new SimpleDatabaseFields("Mr A Goddard", info, "2000001");
         Contact contact2 = factory.create(fields2);
         assertEquals(contact1.getUniqueIdentifier(), contact2.getUniqueIdentifier());
     }
@@ -69,11 +66,10 @@ public class ContactTest {
     @Test
     public void testSecondContactAddedToChildContactsOnMerge(){
         Contact contact = factory.create(fields);
-        DatabaseFields fields2 = new SimpleDatabaseFields("Mrs India Goddard");
         ContactInfo info2 = new ContactInfo();
         info2.add(EmailAddress.create("indiabettsgoddard@outlook.com"));
         info2.add(PhoneNumber.create("07881266969"));
-        fields2.setContactInfo(info2);
+        DatabaseFields fields2 = new SimpleDatabaseFields("Mrs India Goddard", info2, "2000002");
         Contact india = factory.create(fields2);
 
         assertEquals(1, contact.getChildContacts().size());
@@ -81,12 +77,10 @@ public class ContactTest {
 
     @Test
     public void testContactShouldntMergeOnCompanySharedPhoneNumberOnContactCreation(){
-        DatabaseFields fields1 = new SimpleDatabaseFields("Mr Andrew Goddard");
-        DatabaseFields fields2 = new SimpleDatabaseFields("Mrs India Goddard");
         ContactInfo info = new ContactInfo();
         info.add(PhoneNumber.create("02078932000"));
-        fields1.setContactInfo(info);
-        fields2.setContactInfo(info);
+        DatabaseFields fields1 = new SimpleDatabaseFields("Mr Andrew Goddard", info, null);
+        DatabaseFields fields2 = new SimpleDatabaseFields("Mrs India Goddard", info, null);
         Company company = Company.create("Example Company");
         company.setSharedContactInfo("02078932000");
         Contact contact1 = factory.create(fields1);
@@ -96,12 +90,10 @@ public class ContactTest {
 
     @Test
     public void testContactShouldMergeOnNameAndCompanySharedContactInfo(){
-        DatabaseFields fields1 = new SimpleDatabaseFields("Mr Andrew Goddard");
-        DatabaseFields fields2 = new SimpleDatabaseFields("Mr Andrew Goddard");
         ContactInfo info = new ContactInfo();
         info.add(PhoneNumber.create("02078932000"));
-        fields1.setContactInfo(info);
-        fields2.setContactInfo(info);
+        DatabaseFields fields1 = new SimpleDatabaseFields("Mr Andrew Goddard", info, null);
+        DatabaseFields fields2 = new SimpleDatabaseFields("Mr Andrew Goddard", info, null);
         Company company = Company.create("Example Company");
 
         company.setSharedContactInfo("02078932000");
@@ -113,12 +105,10 @@ public class ContactTest {
 
     @Test
     public void testMergedContactShouldSplitOnCompanySharedPhoneNumberSet(){
-        DatabaseFields fields1 = new SimpleDatabaseFields("Mr Andrew Goddard");
-        DatabaseFields fields2 = new SimpleDatabaseFields("Mrs India Goddard");
         ContactInfo info = new ContactInfo();
         info.add(PhoneNumber.create("02078932000"));
-        fields1.setContactInfo(info);
-        fields2.setContactInfo(info);
+        DatabaseFields fields1 = new SimpleDatabaseFields("Mr Andrew Goddard", info, null);
+        DatabaseFields fields2 = new SimpleDatabaseFields("Mrs India Goddard", info, null);
 
         Contact contact1 = factory.create(fields1);
         Contact contact2 = factory.create(fields2);

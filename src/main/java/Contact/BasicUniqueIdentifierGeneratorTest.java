@@ -30,11 +30,10 @@ public class BasicUniqueIdentifierGeneratorTest {
         contacts = ContactList.getInstance();
         companies = CompanyList.getInstance();
         associater = CompanyAssociater.create();
-        fields = new SimpleDatabaseFields("Mr Andrew Goddard");
         ContactInfo info = new ContactInfo();
         info.add(PhoneNumber.create("07881266969"));
         info.add(EmailAddress.create("andersgoddard@gmail.com"));
-        fields.setContactInfo(info);
+        fields = new SimpleDatabaseFields("Mr Andrew Goddard", info, null);
         generator = new BasicUniqueIdentifierGenerator();
         Injector injector = Guice.createInjector(new ContactFactoryModule());
         factory = injector.getInstance(ContactFactory.class);
@@ -50,11 +49,10 @@ public class BasicUniqueIdentifierGeneratorTest {
     @Test
     public void testSameUniqueIdentifierForSameContact(){
         Contact contact1 = factory.create(fields);
-        DatabaseFields fields2 = new SimpleDatabaseFields("Mr A Goddard");
         ContactInfo info = new ContactInfo();
         info.add(PhoneNumber.create("07881266969"));
         info.add(EmailAddress.create("andrewnmngoddard@outlook.com"));
-        fields2.setContactInfo(info);
+        DatabaseFields fields2 = new SimpleDatabaseFields("Mr A Goddard", info, null);
         Contact contact2 = factory.create(fields2);
         String uniqueIdentifier1 = generator.getUniqueIdentifierFor(contact1);
         String uniqueIdentifier2 = generator.getUniqueIdentifierFor(contact2);

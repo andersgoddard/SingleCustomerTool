@@ -26,11 +26,9 @@ public class ContactListTest {
         contacts = ContactList.getInstance();
         associater = CompanyAssociater.create();
         generator = new BasicUniqueIdentifierGenerator();
-        fields = new SimpleDatabaseFields("Mr Andrew Goddard");
-        fields.setPrimaryKey("2000000");
         ContactInfo info = new ContactInfo();
         info.add(EmailAddress.create("andersgoddard@gmail.com"));
-        fields.setContactInfo(info);
+        fields = new SimpleDatabaseFields("Mr Andrew Goddard", info, "2000000");
         Injector injector = Guice.createInjector(new ContactFactoryModule());
         factory = injector.getInstance(ContactFactory.class);
     }

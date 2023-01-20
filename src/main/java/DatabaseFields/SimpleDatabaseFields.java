@@ -7,12 +7,18 @@ public class SimpleDatabaseFields implements DatabaseFields {
     Info info;
     String primaryKey;
 
-    public SimpleDatabaseFields(String name) {
+    public SimpleDatabaseFields(String name, Info info, String primaryKey) {
         this.name = name;
+        this.info = info;
+        this.primaryKey = primaryKey;
     }
 
-    public SimpleDatabaseFields(String salutation, String firstName, String lastName) {
+    public SimpleDatabaseFields(String salutation, String firstName, String lastName,
+                                Info info,
+                                String primaryKey) {
         this.name = salutation + " " + firstName + " " + lastName;
+        this.info = info;
+        this.primaryKey = primaryKey;
     }
 
     @Override
@@ -21,18 +27,8 @@ public class SimpleDatabaseFields implements DatabaseFields {
     }
 
     @Override
-    public void setContactInfo(Info info) {
-        this.info = info;
-    }
-
-    @Override
     public Info getContactInfo() {
         return info;
-    }
-
-    @Override
-    public void setPrimaryKey(String primaryKey) {
-        this.primaryKey = primaryKey;
     }
 
     @Override
