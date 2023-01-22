@@ -4,7 +4,7 @@ package Contact;
 public class ContactSplitter {
 
     /*  The candidate Contact's UUID is reset to a random UUID. The main Contact is not used. */
-    public static void split(Contact incorrectlyMergedContact) {
+    public void split(Contact incorrectlyMergedContact) {
         incorrectlyMergedContact.setNewUniqueIdentifier();
     }
 }

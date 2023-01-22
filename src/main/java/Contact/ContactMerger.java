@@ -4,7 +4,7 @@ package Contact;
 public class ContactMerger {
 
 /*  To 'merge' the candidate Contact with the main Contact, the candidate Contact's UUID is set to the main Contact's UUID */
-    public static void merge(Contact main, Contact candidate) {
+    public void merge(Contact main, Contact candidate) {
         candidate.setNewUniqueIdentifier(main.getUniqueIdentifier());
         main.addToChildContacts(candidate);
     }

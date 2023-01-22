@@ -17,9 +17,11 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ContactMergerTest {
     ContactList contacts;
     ContactFactory factory;
+    ContactMerger merger;
     @BeforeEach
     public void setUp(){
         contacts = ContactList.getInstance();
+        merger = new ContactMerger();
         Injector injector = Guice.createInjector(new ContactFactoryModule());
         this.factory = injector.getInstance(ContactFactory.class);
     }
@@ -37,7 +39,7 @@ public class ContactMergerTest {
         Contact andrew2 = factory.create(fields2);
 
         assertNotEquals(andrew1.getUniqueIdentifier(), andrew2.getUniqueIdentifier());
-        ContactMerger.merge(andrew1, andrew2);
+        merger.merge(andrew1, andrew2);
         assertEquals(andrew1.getUniqueIdentifier(), andrew2.getUniqueIdentifier());
         assertEquals(1, andrew1.getChildContacts().size());
         assertTrue(andrew1.getChildContacts().contains(andrew2));
@@ -64,8 +66,8 @@ public class ContactMergerTest {
         assertNotEquals(andrew1.getUniqueIdentifier(), andrew3.getUniqueIdentifier());
         assertNotEquals(andrew2.getUniqueIdentifier(), andrew3.getUniqueIdentifier());
 
-        ContactMerger.merge(andrew1, andrew2);
-        ContactMerger.merge(andrew1, andrew3);
+        merger.merge(andrew1, andrew2);
+        merger.merge(andrew1, andrew3);
         assertEquals(andrew1.getUniqueIdentifier(), andrew2.getUniqueIdentifier());
         assertEquals(andrew1.getUniqueIdentifier(), andrew3.getUniqueIdentifier());
         assertEquals(andrew2.getUniqueIdentifier(), andrew3.getUniqueIdentifier());

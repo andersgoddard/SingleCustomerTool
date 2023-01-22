@@ -1,6 +1,5 @@
 package Contact;
 
-import Associaters.CompanyAssociater;
 import ContactInfo.ContactInfo;
 import ContactInfo.PhoneNumber;
 import ContactInfo.EmailAddress;
@@ -39,7 +38,8 @@ public class ContactSplitterTest {
 
         assertEquals(andrew.getUniqueIdentifier(), india.getUniqueIdentifier());
         assertEquals(1, andrew.getChildContacts().size());
-        ContactSplitter.split(india);
+        ContactSplitter splitter = new ContactSplitter();
+        splitter.split(india);
         andrew.removeFromChildContacts(new ArrayList<>(List.of(india)));
         assertNotEquals(andrew.getUniqueIdentifier(), india.getUniqueIdentifier());
         assertEquals(0, andrew.getChildContacts().size());

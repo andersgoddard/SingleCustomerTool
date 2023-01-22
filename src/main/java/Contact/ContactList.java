@@ -6,16 +6,20 @@ import java.util.ArrayList;
 import ContactInfo.Info;
 import ContactInfo.ContactInfoItem;
 import Group.CompanyList;
+import com.google.inject.Provides;
+import com.google.inject.Singleton;
 
 /* A singleton class representing all of the Contacts */
 public class ContactList {
     private final List<Contact> contacts;
     private static ContactList list = null;
 
-    private ContactList(){
+    ContactList(){
         this.contacts = new ArrayList<>();
     }
 
+    @Provides
+    @Singleton
     public static ContactList getInstance() {
         if (list == null) {
             list = new ContactList();
@@ -26,12 +30,13 @@ public class ContactList {
 
     public static void separateIncorrectlyMergedContacts() {
             ContactList contacts = ContactList.getInstance();
+            ContactSplitter splitter = new ContactSplitter();
             for (Contact contact : contacts.get()) {
                 List<Contact> children = contact.getChildContacts();
                 List<Contact> removedChildren = new ArrayList<>();
                 if (children != null) {
                     for (Contact child : children) {
-                        ContactSplitter.split(child);
+                        splitter.split(child);
                         removedChildren.add(child);
                     }
                     contact.removeFromChildContacts(removedChildren);
