@@ -2,7 +2,8 @@ package Group;
 
 import Associaters.Associatable;
 import Associaters.ContactAssociater;
-import Contact.ContactList;
+import Directory.CompanyDirectory;
+import Directory.ContactDirectory;
 import ContactInfo.ContactInfoItem;
 import ContactInfo.ContactInfoParser;
 import ContactInfo.ContactInfo;
@@ -29,7 +30,7 @@ public class Company implements Group, Associatable {
         this.name = name;
         this.companyId = UUID.randomUUID().toString();
         this.sharedContactInfo = new ContactInfo();
-        CompanyList.getInstance().add(this);
+        CompanyDirectory.getInstance().add(this);
     }
 
     public String getName() {
@@ -65,7 +66,7 @@ public class Company implements Group, Associatable {
     public void setSharedContactInfo(ContactInfo info) {
         this.sharedContactInfo.addAll(info);
         associateContacts();
-        ContactList.separateIncorrectlyMergedContacts();
+        ContactDirectory.separateIncorrectlyMergedContacts();
     }
 
     public void setEmailDomain(String emailDomain) {

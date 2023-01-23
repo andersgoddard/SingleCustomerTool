@@ -5,6 +5,8 @@ import ContactInfo.EmailAddress;
 import ContactInfo.PhoneNumber;
 import DatabaseFields.SimpleDatabaseFields;
 import DatabaseFields.DatabaseFields;
+import Directory.Directory;
+import Directory.ContactDirectory;
 import Group.Company;
 import Utilities.ContactFactory;
 import org.junit.jupiter.api.AfterEach;
@@ -17,13 +19,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ContactTest {
     ContactFactory factory;
-    ContactList contacts;
+    Directory contacts;
     Injector injector;
 
 
     @BeforeEach
     public void setUp(){
-        contacts = ContactList.getInstance();
+        contacts = ContactDirectory.getInstance();
         injector = Guice.createInjector(new ContactFactoryModule());
         factory = injector.getInstance(ContactFactory.class);
     }

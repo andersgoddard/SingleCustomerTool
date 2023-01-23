@@ -1,7 +1,7 @@
 package Associaters;
 
 import Contact.Contact;
-import Contact.ContactList;
+import Directory.ContactDirectory;
 import Group.Company;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class ContactAssociater implements Associater {
     }
 
     private static ArrayList<Contact> getAssociatedContacts(Company company){
-        ContactList list = ContactList.getInstance();
+        ContactDirectory list = ContactDirectory.getInstance();
         ArrayList<Contact> associatedContacts = new ArrayList<>();
         associatedContacts.addAll(list.getContactsWith(company.getEmailDomain()));
         associatedContacts.addAll(list.getContactsWith(company.getSharedContactInfo()));

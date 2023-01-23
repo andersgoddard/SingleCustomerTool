@@ -1,7 +1,9 @@
 package Group;
 
 import Associaters.CompanyAssociater;
-import Contact.ContactList;
+import Directory.Directory;
+import Directory.CompanyDirectory;
+import Directory.ContactDirectory;
 import Contact.Contact;
 import Contact.UniqueIdentifierGenerator;
 import Contact.ContactFactoryModule;
@@ -22,8 +24,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class CompanyTest {
     Company company;
-    ContactList contacts;
-    CompanyList companies;
+    Directory contacts;
+    Directory companies;
     DatabaseFields fields;
     UniqueIdentifierGenerator generator;
     CompanyAssociater associater;
@@ -33,8 +35,8 @@ public class CompanyTest {
     @BeforeEach
     public void setUp(){
         company = Company.create("Example Company");
-        contacts = ContactList.getInstance();
-        companies = CompanyList.getInstance();
+        contacts = ContactDirectory.getInstance();
+        companies = CompanyDirectory.getInstance();
         associater = CompanyAssociater.create();
         generator = new BasicUniqueIdentifierGenerator();
         ContactInfo info = new ContactInfo();

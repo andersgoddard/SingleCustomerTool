@@ -1,37 +1,40 @@
-package Contact;
+package Directory;
 
 import java.util.List;
 import java.util.ArrayList;
 
+import Associaters.Associatable;
+import Contact.Contact;
+import Contact.ContactSplitter;
 import ContactInfo.Info;
 import ContactInfo.ContactInfoItem;
-import Group.CompanyList;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 
 /* A singleton class representing all of the Contacts */
-public class ContactList {
-    private final List<Contact> contacts;
-    private static ContactList list = null;
+public class ContactDirectory implements  Directory {
+    private final List<Associatable> contacts;
+    private static ContactDirectory list = null;
 
-    ContactList(){
+    ContactDirectory(){
         this.contacts = new ArrayList<>();
     }
 
     @Provides
     @Singleton
-    public static ContactList getInstance() {
+    public static ContactDirectory getInstance() {
         if (list == null) {
-            list = new ContactList();
+            list = new ContactDirectory();
         }
 
         return list;
     }
 
     public static void separateIncorrectlyMergedContacts() {
-            ContactList contacts = ContactList.getInstance();
+            ContactDirectory contacts = ContactDirectory.getInstance();
             ContactSplitter splitter = new ContactSplitter();
-            for (Contact contact : contacts.get()) {
+            for (Associatable associatable : contacts.get()) {
+                Contact contact = (Contact)associatable;
                 List<Contact> children = contact.getChildContacts();
                 List<Contact> removedChildren = new ArrayList<>();
                 if (children != null) {
@@ -54,17 +57,18 @@ public class ContactList {
         return contacts.size();
     }
 
-    public void add(Contact contact) {
+    @Override
+    public void add(Associatable contact) {
         contacts.add(contact);
     }
-
 
 /*  Loops through all Contacts in the ContactList and checks whether there is any crossover in the contact information.
 *   Returns the Contact containing a ContactInfoItem in the info parameter, otherwise null
 */
     public Contact contains(String name, Info info) {
-        CompanyList companies = CompanyList.getInstance();
-        for (Contact contact : contacts){
+        CompanyDirectory companies = CompanyDirectory.getInstance();
+        for (Associatable associatable : contacts){
+            Contact contact = (Contact)associatable;
             for (ContactInfoItem item : info.getItems()){
                 if ((contact.hasContactInfoItem(item)) && (companies.doesNotContain(item) || contact.getName().equals(name)))
                     return contact;
@@ -76,7 +80,8 @@ public class ContactList {
     public List<Contact> getContactsWith(String emailDomain) {
         List<Contact> associatedContacts = new ArrayList<>();
 
-        for (Contact contact : contacts){
+        for (Associatable associatable : contacts){
+            Contact contact = (Contact)associatable;
             if (contact.hasEmailDomain(emailDomain))
                 associatedContacts.add(contact);
         }
@@ -86,14 +91,15 @@ public class ContactList {
 
     public List<Contact> getContactsWith(Info sharedContactInfo) {
         List<Contact> associatedContacts = new ArrayList<>();
-        for (Contact contact : contacts){
+        for (Associatable associatable : contacts){
+            Contact contact = (Contact)associatable;
             if (contact.hasContactInfoItemIn(sharedContactInfo))
                 associatedContacts.add(contact);
         }
         return associatedContacts;
     }
 
-    public List<Contact> get() {
+    public List<Associatable> get() {
         return contacts;
     }
 }

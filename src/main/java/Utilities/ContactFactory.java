@@ -4,13 +4,13 @@ import Associaters.Associater;
 import Contact.Contact;
 import DatabaseFields.DatabaseFields;
 import Contact.UniqueIdentifierGenerator;
-import Contact.ContactList;
+import Directory.ContactDirectory;
 import com.google.inject.Inject;
 
 public class ContactFactory implements Factory {
     UniqueIdentifierGenerator generator;
     Associater associater;
-    ContactList contacts;
+    ContactDirectory contacts;
 
     @Inject
     public ContactFactory(UniqueIdentifierGenerator generator,
@@ -20,7 +20,7 @@ public class ContactFactory implements Factory {
     }
 
     public Contact create(DatabaseFields fields) {
-        contacts = ContactList.getInstance();
+        contacts = ContactDirectory.getInstance();
         Contact contact = Contact.create(fields);
         String uniqueIdentifier = getUniqueIdentifierFor(contact);
         contact.setNewUniqueIdentifier(uniqueIdentifier);

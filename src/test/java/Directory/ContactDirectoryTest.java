@@ -1,6 +1,10 @@
-package Contact;
+package Directory;
 
 import Associaters.CompanyAssociater;
+import Contact.BasicUniqueIdentifierGenerator;
+import Contact.Contact;
+import Contact.ContactFactoryModule;
+import Contact.UniqueIdentifierGenerator;
 import ContactInfo.ContactInfo;
 import ContactInfo.EmailAddress;
 import DatabaseFields.SimpleDatabaseFields;
@@ -14,8 +18,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ContactListTest {
-    ContactList contacts;
+public class ContactDirectoryTest {
+    Directory contacts;
     DatabaseFields fields;
     CompanyAssociater associater;
     UniqueIdentifierGenerator generator;
@@ -23,7 +27,7 @@ public class ContactListTest {
 
     @BeforeEach
     public void setUp(){
-        contacts = ContactList.getInstance();
+        contacts = ContactDirectory.getInstance();
         associater = CompanyAssociater.create();
         generator = new BasicUniqueIdentifierGenerator();
         ContactInfo info = new ContactInfo();

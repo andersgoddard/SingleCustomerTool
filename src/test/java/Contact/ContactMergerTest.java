@@ -5,6 +5,8 @@ import ContactInfo.PhoneNumber;
 import ContactInfo.EmailAddress;
 import DatabaseFields.DatabaseFields;
 import DatabaseFields.SimpleDatabaseFields;
+import Directory.Directory;
+import Directory.ContactDirectory;
 import Utilities.ContactFactory;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -15,12 +17,12 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ContactMergerTest {
-    ContactList contacts;
+    Directory contacts;
     ContactFactory factory;
     ContactMerger merger;
     @BeforeEach
     public void setUp(){
-        contacts = ContactList.getInstance();
+        contacts = ContactDirectory.getInstance();
         merger = new ContactMerger();
         Injector injector = Guice.createInjector(new ContactFactoryModule());
         this.factory = injector.getInstance(ContactFactory.class);

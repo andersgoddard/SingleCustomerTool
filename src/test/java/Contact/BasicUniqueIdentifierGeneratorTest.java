@@ -6,7 +6,9 @@ import ContactInfo.PhoneNumber;
 import ContactInfo.EmailAddress;
 import DatabaseFields.DatabaseFields;
 import DatabaseFields.SimpleDatabaseFields;
-import Group.CompanyList;
+import Directory.Directory;
+import Directory.CompanyDirectory;
+import Directory.ContactDirectory;
 import Utilities.ContactFactory;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -17,8 +19,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class BasicUniqueIdentifierGeneratorTest {
-    ContactList contacts;
-    CompanyList companies;
+    Directory contacts;
+    Directory companies;
     DatabaseFields fields;
     UniqueIdentifierGenerator generator;
     CompanyAssociater associater;
@@ -27,8 +29,8 @@ public class BasicUniqueIdentifierGeneratorTest {
 
     @BeforeEach
     public void setUp(){
-        contacts = ContactList.getInstance();
-        companies = CompanyList.getInstance();
+        contacts = ContactDirectory.getInstance();
+        companies = CompanyDirectory.getInstance();
         associater = CompanyAssociater.create();
         ContactInfo info = new ContactInfo();
         info.add(PhoneNumber.create("07881266969"));

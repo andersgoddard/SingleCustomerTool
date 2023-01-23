@@ -1,6 +1,7 @@
-package Group;
+package Directory;
 
 import ContactInfo.PhoneNumber;
+import Group.Company;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,11 +9,11 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class CompanyListTest {
-    CompanyList list;
+public class CompanyDirectoryTest {
+    CompanyDirectory list;
     @BeforeEach
     public void setUp(){
-        this.list = CompanyList.getInstance();
+        this.list = CompanyDirectory.getInstance();
     }
 
     @Test
