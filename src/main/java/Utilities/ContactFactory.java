@@ -21,7 +21,6 @@ public class ContactFactory implements Factory {
 
     public Contact create(DatabaseFields fields) {
         contacts = ContactList.getInstance();
-        System.out.println(contacts.size());
         Contact contact = Contact.create(fields);
         String uniqueIdentifier = getUniqueIdentifierFor(contact);
         contact.setNewUniqueIdentifier(uniqueIdentifier);
