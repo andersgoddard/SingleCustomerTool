@@ -4,13 +4,14 @@ import Associaters.Associater;
 import Contact.Contact;
 import DatabaseFields.DatabaseFields;
 import Contact.UniqueIdentifierGenerator;
+import Directory.Directory;
 import Directory.ContactDirectory;
 import com.google.inject.Inject;
 
 public class ContactFactory implements Factory {
     UniqueIdentifierGenerator generator;
     Associater associater;
-    ContactDirectory contacts;
+    Directory contacts;
 
     @Inject
     public ContactFactory(UniqueIdentifierGenerator generator,

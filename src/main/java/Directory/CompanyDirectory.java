@@ -7,7 +7,7 @@ import Group.Company;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CompanyDirectory implements Directory {
+public class CompanyDirectory implements Directory, ContactInfoIdentifier {
     private static CompanyDirectory list = null;
     private final List<Associatable> companies;
     private CompanyDirectory() {
@@ -21,6 +21,7 @@ public class CompanyDirectory implements Directory {
         return list;
     }
 
+    @Override
     public void clear() {
         list = null;
         companies.clear();
@@ -36,14 +37,12 @@ public class CompanyDirectory implements Directory {
         companies.add(company);
     }
 
+    @Override
     public int size() {
         return companies.size();
     }
 
-    public void add(Company company) {
-        companies.add(company);
-    }
-
+    @Override
     public boolean doesNotContain(ContactInfoItem item) {
         for (Associatable associatable : list.get()){
             Company company = (Company)associatable;

@@ -8,7 +8,4 @@ public interface Directory {
     int size();
     void clear();
     List<Associatable> get();
-    static Directory getInstance() {
-        return null;
-    }
 }

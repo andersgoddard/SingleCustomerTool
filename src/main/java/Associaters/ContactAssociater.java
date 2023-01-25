@@ -2,8 +2,10 @@ package Associaters;
 
 import Contact.Contact;
 import Directory.ContactDirectory;
+import Directory.ContactInfoIdentifier;
 import Group.Company;
 
+import java.util.List;
 import java.util.ArrayList;
 
 public class ContactAssociater implements Associater {
@@ -15,17 +17,17 @@ public class ContactAssociater implements Associater {
 
     public void associate(Associatable associatable) {
         Company company = (Company)associatable;
-        ArrayList<Contact> associatedContacts = getAssociatedContacts(company);
+        List<Contact> associatedContacts = getAssociatedContacts(company);
         for (Contact contact : associatedContacts) {
             contact.setCompanyId(company.getUniqueIdentifier());
         }
     }
 
-    private static ArrayList<Contact> getAssociatedContacts(Company company){
-        ContactDirectory list = ContactDirectory.getInstance();
-        ArrayList<Contact> associatedContacts = new ArrayList<>();
-        associatedContacts.addAll(list.getContactsWith(company.getEmailDomain()));
-        associatedContacts.addAll(list.getContactsWith(company.getSharedContactInfo()));
+    private static List<Contact> getAssociatedContacts(Company company){
+        ContactInfoIdentifier directory = ContactDirectory.getInstance();
+        List<Contact> associatedContacts = new ArrayList<>();
+        associatedContacts.addAll(directory.getContactsWith(company.getEmailDomain()));
+        associatedContacts.addAll(directory.getContactsWith(company.getSharedContactInfo()));
         return associatedContacts;
     }
 }
