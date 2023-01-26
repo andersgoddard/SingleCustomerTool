@@ -9,7 +9,7 @@ import ContactInfo.Info;
 import ContactInfo.ContactInfoItem;
 
 /* A singleton class representing all of the Contacts */
-public class ContactDirectory implements Directory, ContactInfoIdentifier {
+public class ContactDirectory implements Directory, ContactRetriever {
     private final List<Associatable> contacts;
     private static ContactDirectory list = null;
 
@@ -47,12 +47,18 @@ public class ContactDirectory implements Directory, ContactInfoIdentifier {
     }
 
     @Override
+    public boolean doesNotContain(ContactInfoItem item) {
+        return true;
+    }
+
+    @Override
     public Contact contains(String name, Info info) {
-        ContactInfoIdentifier companies = CompanyDirectory.getInstance();
+        Directory companies = CompanyDirectory.getInstance();
         for (Associatable associatable : contacts){
             Contact contact = (Contact)associatable;
             for (ContactInfoItem item : info.getItems()){
-                if ((contact.hasContactInfoItem(item)) && (companies.doesNotContain(item) || contact.getName().equals(name)))
+                if ((contact.hasContactInfoItem(item))
+                        && (companies.doesNotContain(item) || contact.getName().equals(name)))
                     return contact;
             }
         }
