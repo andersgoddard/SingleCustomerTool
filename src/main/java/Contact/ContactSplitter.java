@@ -24,6 +24,6 @@ public class ContactSplitter {
     }
 
     public void split(Contact incorrectlyMergedContact) {
-        incorrectlyMergedContact.setNewUniqueIdentifier();
+        incorrectlyMergedContact.setUniqueIdentifier();
     }
 }

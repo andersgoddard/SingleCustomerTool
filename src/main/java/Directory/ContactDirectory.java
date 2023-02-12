@@ -48,7 +48,7 @@ public class ContactDirectory implements Directory, ContactRetriever {
 
     @Override
     public boolean doesNotContain(ContactInfoItem item) {
-        return true;
+        return true; // This needs implementing if ever used
     }
 
     @Override

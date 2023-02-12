@@ -24,7 +24,7 @@ public class ContactFactory implements Factory {
         contacts = ContactDirectory.getInstance();
         Contact contact = Contact.create(fields);
         String uniqueIdentifier = getUniqueIdentifierFor(contact);
-        contact.setNewUniqueIdentifier(uniqueIdentifier);
+        contact.setUniqueIdentifier(uniqueIdentifier);
         associater.associate(contact);
         contacts.add(contact);
         return contact;

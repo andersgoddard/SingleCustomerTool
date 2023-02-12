@@ -26,12 +26,12 @@ public class Contact implements Associatable {
         this.fields = fields;
     }
 
-    public void setNewUniqueIdentifier() {
+    public void setUniqueIdentifier() {
         /*  Sets a new random UUID for the Contact. Used by the ContactSplitter class.*/
         this.uniqueIdentifier = UUID.randomUUID().toString();
     }
 
-    public void setNewUniqueIdentifier(String uniqueIdentifier) {
+    public void setUniqueIdentifier(String uniqueIdentifier) {
         /*  Sets the String uniqueIdentifier as the UUID for the Contact. Used by the ContactMerger class. */
         this.uniqueIdentifier = uniqueIdentifier;
     }
