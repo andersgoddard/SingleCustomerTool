@@ -4,15 +4,15 @@ import Associaters.CompanyAssociater;
 import Directory.Directory;
 import Directory.CompanyDirectory;
 import Directory.ContactDirectory;
-import Contact.Contact;
+import Contact.ContactImpl;
 import Contact.UniqueIdentifierGenerator;
 import Contact.ContactFactoryModule;
 import Contact.BasicUniqueIdentifierGenerator;
-import ContactInfo.ContactInfo;
+import ContactInfo.ContactInfoImpl;
 import ContactInfo.EmailAddress;
 import ContactInfo.PhoneNumber;
 import DatabaseFields.DatabaseFields;
-import DatabaseFields.SimpleDatabaseFields;
+import DatabaseFields.DatabaseFieldsImpl;
 import Utilities.ContactFactory;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -39,10 +39,10 @@ public class CompanyTest {
         companies = CompanyDirectory.getInstance();
         associater = CompanyAssociater.create();
         generator = new BasicUniqueIdentifierGenerator();
-        ContactInfo info = new ContactInfo();
+        ContactInfoImpl info = new ContactInfoImpl();
         info.add(PhoneNumber.create("07881266969"));
         info.add(EmailAddress.create("andersgoddard@gmail.com"));
-        fields = new SimpleDatabaseFields("Mr Andrew Goddard", info, "2000000");
+        fields = new DatabaseFieldsImpl("Mr Andrew Goddard", info, "2000000");
         Injector injector = Guice.createInjector(new ContactFactoryModule());
         factory = injector.getInstance(ContactFactory.class);
     }
@@ -65,14 +65,14 @@ public class CompanyTest {
 
     @Test
     public void testContactsAssociatedWhenEmailDomainSet(){
-        ContactInfo info1 = new ContactInfo();
-        ContactInfo info2 = new ContactInfo();
+        ContactInfoImpl info1 = new ContactInfoImpl();
+        ContactInfoImpl info2 = new ContactInfoImpl();
         info1.add(EmailAddress.create("andrew@exampleco.com"));
         info2.add(EmailAddress.create("india@exampleco.com"));
-        DatabaseFields andrewFields = new SimpleDatabaseFields("Andrew", info1, null);
-        DatabaseFields indiaFields = new SimpleDatabaseFields("India", info2, null);
-        Contact andrew = factory.create(andrewFields);
-        Contact india = factory.create(indiaFields);
+        DatabaseFields andrewFields = new DatabaseFieldsImpl("Andrew", info1, null);
+        DatabaseFields indiaFields = new DatabaseFieldsImpl("India", info2, null);
+        ContactImpl andrew = factory.create(andrewFields);
+        ContactImpl india = factory.create(indiaFields);
         company.setEmailDomain("exampleco.com");
         assertEquals(andrew.getCompanyId(), india.getCompanyId());
     }
@@ -87,15 +87,15 @@ public class CompanyTest {
 
     @Test
     public void testContactsAssociatedWhenCompanyCreatedWithDomain(){
-        ContactInfo info1 = new ContactInfo();
-        ContactInfo info2 = new ContactInfo();
+        ContactInfoImpl info1 = new ContactInfoImpl();
+        ContactInfoImpl info2 = new ContactInfoImpl();
         info1.add(EmailAddress.create("andrew@anotherexampleco.com"));
         info2.add(EmailAddress.create("india@anotherexampleco.com"));
-        DatabaseFields andrewFields = new SimpleDatabaseFields("Andrew", info1, null);
-        DatabaseFields indiaFields = new SimpleDatabaseFields("India", info2, null);
+        DatabaseFields andrewFields = new DatabaseFieldsImpl("Andrew", info1, null);
+        DatabaseFields indiaFields = new DatabaseFieldsImpl("India", info2, null);
 
-        Contact andrew = factory.create(andrewFields);
-        Contact india = factory.create(indiaFields);
+        ContactImpl andrew = factory.create(andrewFields);
+        ContactImpl india = factory.create(indiaFields);
         Company exampleCo = Company.create("Another Example Company", "anotherexampleco.com");
         assertEquals(andrew.getCompanyId(), india.getCompanyId());
     }
@@ -103,15 +103,15 @@ public class CompanyTest {
     @Test
     public void testCompanyAssociatedWhenContactCreated(){
         company.setEmailDomain("exampleco.com");
-        ContactInfo info1 = new ContactInfo();
-        ContactInfo info2 = new ContactInfo();
+        ContactInfoImpl info1 = new ContactInfoImpl();
+        ContactInfoImpl info2 = new ContactInfoImpl();
         info1.add(EmailAddress.create("andrew@exampleco.com"));
         info2.add(EmailAddress.create("india@exampleco.com"));
-        DatabaseFields andrewFields = new SimpleDatabaseFields("Andrew", info1, null);
-        DatabaseFields indiaFields = new SimpleDatabaseFields("India", info2, null);
+        DatabaseFields andrewFields = new DatabaseFieldsImpl("Andrew", info1, null);
+        DatabaseFields indiaFields = new DatabaseFieldsImpl("India", info2, null);
 
-        Contact andrew = factory.create(andrewFields);
-        Contact india = factory.create(indiaFields);
+        ContactImpl andrew = factory.create(andrewFields);
+        ContactImpl india = factory.create(indiaFields);
         assertNotNull(andrew.getCompanyId());
         assertEquals(andrew.getCompanyId(), india.getCompanyId());
     }
@@ -124,7 +124,7 @@ public class CompanyTest {
 
     @Test
     public void testCompanyPhoneNumbersAddedAsList(){
-        ContactInfo numbers = new ContactInfo();
+        ContactInfoImpl numbers = new ContactInfoImpl();
         numbers.add(PhoneNumber.create("02078930000"));
         numbers.add(PhoneNumber.create("02088882000"));
         company.setSharedContactInfo(numbers);
@@ -134,10 +134,10 @@ public class CompanyTest {
 
     @Test
     public void testCompanyAssociatedWithContactBySharedPhoneNumberOnCompanyCreation(){
-        ContactInfo info = new ContactInfo();
+        ContactInfoImpl info = new ContactInfoImpl();
         info.add(PhoneNumber.create("02070002000"));
-        DatabaseFields fields = new SimpleDatabaseFields("Andrew", info, null);
-        Contact andrew = factory.create(fields);
+        DatabaseFields fields = new DatabaseFieldsImpl("Andrew", info, null);
+        ContactImpl andrew = factory.create(fields);
         company.setSharedContactInfo("02070002000");
         assertEquals(company.getUniqueIdentifier(), andrew.getCompanyId());
     }
@@ -145,20 +145,20 @@ public class CompanyTest {
     @Test
     public void testContactAssociatedWithCompanyOnContactCreation(){
         company.setSharedContactInfo("02070002000");
-        ContactInfo info = new ContactInfo();
+        ContactInfoImpl info = new ContactInfoImpl();
         info.add(PhoneNumber.create("02070002000"));
-        DatabaseFields fields = new SimpleDatabaseFields("Andrew", info, null);
-        Contact andrew = factory.create(fields);
+        DatabaseFields fields = new DatabaseFieldsImpl("Andrew", info, null);
+        ContactImpl andrew = factory.create(fields);
         assertEquals(company.getUniqueIdentifier(), andrew.getCompanyId());
     }
 
     @Test
     public void testContactAssociatedBySharedEmailAddress(){
         company.setSharedContactInfo("info@examplecompany.com");
-        ContactInfo info = new ContactInfo();
+        ContactInfoImpl info = new ContactInfoImpl();
         info.add(EmailAddress.create("info@examplecompany.com"));
-        DatabaseFields fields = new SimpleDatabaseFields("Andrew", info, null);
-        Contact andrew = factory.create(fields);
+        DatabaseFields fields = new DatabaseFieldsImpl("Andrew", info, null);
+        ContactImpl andrew = factory.create(fields);
         assertEquals(company.getUniqueIdentifier(), andrew.getCompanyId());
     }
 

@@ -10,7 +10,7 @@ import java.util.List;
 public class ContactSplitter {
     public void separateIncorrectlyMergedContacts(Directory contacts) {
         for (Associatable associatable : contacts.get()) {
-            Contact contact = (Contact) associatable;
+            ContactImpl contact = (ContactImpl) associatable;
             List<Contact> children = contact.getChildContacts();
             List<Contact> removedChildren = new ArrayList<>();
             if (children != null) {

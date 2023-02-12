@@ -1,11 +1,11 @@
 package DatabaseFields;
 
-import ContactInfo.Info;
+import ContactInfo.ContactInfo;
 
 public interface DatabaseFields {
     String getName();
 
-    Info getContactInfo();
+    ContactInfo getContactInfo();
 
     String getPrimaryKey();
 }

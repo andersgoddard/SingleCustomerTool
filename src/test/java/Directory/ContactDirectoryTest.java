@@ -2,12 +2,12 @@ package Directory;
 
 import Associaters.CompanyAssociater;
 import Contact.BasicUniqueIdentifierGenerator;
-import Contact.Contact;
+import Contact.ContactImpl;
 import Contact.ContactFactoryModule;
 import Contact.UniqueIdentifierGenerator;
-import ContactInfo.ContactInfo;
+import ContactInfo.ContactInfoImpl;
 import ContactInfo.EmailAddress;
-import DatabaseFields.SimpleDatabaseFields;
+import DatabaseFields.DatabaseFieldsImpl;
 import DatabaseFields.DatabaseFields;
 import Utilities.ContactFactory;
 import com.google.inject.Guice;
@@ -30,9 +30,9 @@ public class ContactDirectoryTest {
         contacts = ContactDirectory.getInstance();
         associater = CompanyAssociater.create();
         generator = new BasicUniqueIdentifierGenerator();
-        ContactInfo info = new ContactInfo();
+        ContactInfoImpl info = new ContactInfoImpl();
         info.add(EmailAddress.create("andersgoddard@gmail.com"));
-        fields = new SimpleDatabaseFields("Mr Andrew Goddard", info, "2000000");
+        fields = new DatabaseFieldsImpl("Mr Andrew Goddard", info, "2000000");
         Injector injector = Guice.createInjector(new ContactFactoryModule());
         factory = injector.getInstance(ContactFactory.class);
     }
@@ -43,14 +43,14 @@ public class ContactDirectoryTest {
 
     @Test
     public void testOneContact(){
-        Contact contact = factory.create(fields);
+        ContactImpl contact = factory.create(fields);
         assertEquals(1, contacts.size());
     }
 
     @Test
     public void testTwoContacts(){
-        Contact contact1 = factory.create(fields);
-        Contact contact2 = factory.create(fields);
+        ContactImpl contact1 = factory.create(fields);
+        ContactImpl contact2 = factory.create(fields);
         assertEquals(2, contacts.size());
     }
 

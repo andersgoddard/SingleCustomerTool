@@ -1,5 +1,5 @@
 package Contact;
 
 public interface UniqueIdentifierGenerator {
-    String getUniqueIdentifierFor(Contact contact);
+    String getUniqueIdentifierFor(ContactImpl contact);
 }

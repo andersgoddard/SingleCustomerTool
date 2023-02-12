@@ -1,7 +1,7 @@
 package Utilities;
 
 import Associaters.Associater;
-import Contact.Contact;
+import Contact.ContactImpl;
 import DatabaseFields.DatabaseFields;
 import Contact.UniqueIdentifierGenerator;
 import Directory.Directory;
@@ -20,9 +20,9 @@ public class ContactFactory implements Factory {
         this.associater = associater;
     }
 
-    public Contact create(DatabaseFields fields) {
+    public ContactImpl create(DatabaseFields fields) {
         contacts = ContactDirectory.getInstance();
-        Contact contact = Contact.create(fields);
+        ContactImpl contact = ContactImpl.create(fields);
         String uniqueIdentifier = getUniqueIdentifierFor(contact);
         contact.setUniqueIdentifier(uniqueIdentifier);
         associater.associate(contact);
@@ -30,7 +30,7 @@ public class ContactFactory implements Factory {
         return contact;
     }
 
-    private String getUniqueIdentifierFor(Contact contact){
+    private String getUniqueIdentifierFor(ContactImpl contact){
         return generator.getUniqueIdentifierFor(contact);
     }
 }

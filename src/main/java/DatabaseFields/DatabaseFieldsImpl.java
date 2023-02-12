@@ -1,21 +1,21 @@
 package DatabaseFields;
 
-import ContactInfo.Info;
+import ContactInfo.ContactInfo;
 
-public class SimpleDatabaseFields implements DatabaseFields {
+public class DatabaseFieldsImpl implements DatabaseFields {
     String name;
-    Info info;
+    ContactInfo info;
     String primaryKey;
 
-    public SimpleDatabaseFields(String name, Info info, String primaryKey) {
+    public DatabaseFieldsImpl(String name, ContactInfo info, String primaryKey) {
         this.name = name;
         this.info = info;
         this.primaryKey = primaryKey;
     }
 
-    public SimpleDatabaseFields(String salutation, String firstName, String lastName,
-                                Info info,
-                                String primaryKey) {
+    public DatabaseFieldsImpl(String salutation, String firstName, String lastName,
+                              ContactInfo info,
+                              String primaryKey) {
         this.name = salutation + " " + firstName + " " + lastName;
         this.info = info;
         this.primaryKey = primaryKey;
@@ -27,7 +27,7 @@ public class SimpleDatabaseFields implements DatabaseFields {
     }
 
     @Override
-    public Info getContactInfo() {
+    public ContactInfo getContactInfo() {
         return info;
     }
 

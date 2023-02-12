@@ -1,12 +1,12 @@
 package Directory;
 
-import Contact.Contact;
-import ContactInfo.Info;
+import Contact.ContactImpl;
+import ContactInfo.ContactInfo;
 
 import java.util.List;
 
 public interface ContactRetriever {
-    Contact contains(String name, Info info);
-    List<Contact> getContactsWith(String emailDomain);
-    List<Contact> getContactsWith(Info sharedContactInfo);
+    ContactImpl contains(String name, ContactInfo info);
+    List<ContactImpl> getContactsWith(String emailDomain);
+    List<ContactImpl> getContactsWith(ContactInfo sharedContactInfo);
 }

@@ -5,10 +5,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class ContactInfoTest {
+public class ContactInfoImplTest {
     @Test
     public void testContactInfo(){
-        ContactInfo info = new ContactInfo();
+        ContactInfo info = new ContactInfoImpl();
         info.add(PhoneNumber.create("07881266969"));
         info.add(PhoneNumber.create("01472210284"));
         info.add(EmailAddress.create("andersgoddard@gmail.com"));

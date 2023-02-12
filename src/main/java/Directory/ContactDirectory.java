@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.ArrayList;
 
 import Associaters.Associatable;
-import Contact.Contact;
-import ContactInfo.Info;
+import Contact.ContactImpl;
+import ContactInfo.ContactInfo;
 import ContactInfo.ContactInfoItem;
 
 /* A singleton class representing all of the Contacts */
@@ -52,10 +52,10 @@ public class ContactDirectory implements Directory, ContactRetriever {
     }
 
     @Override
-    public Contact contains(String name, Info info) {
+    public ContactImpl contains(String name, ContactInfo info) {
         Directory companies = CompanyDirectory.getInstance();
         for (Associatable associatable : contacts){
-            Contact contact = (Contact)associatable;
+            ContactImpl contact = (ContactImpl)associatable;
             for (ContactInfoItem item : info.getItems()){
                 if ((contact.hasContactInfoItem(item))
                         && (companies.doesNotContain(item) || contact.getName().equals(name)))
@@ -66,11 +66,11 @@ public class ContactDirectory implements Directory, ContactRetriever {
     }
 
     @Override
-    public List<Contact> getContactsWith(String emailDomain) {
-        List<Contact> associatedContacts = new ArrayList<>();
+    public List<ContactImpl> getContactsWith(String emailDomain) {
+        List<ContactImpl> associatedContacts = new ArrayList<>();
 
         for (Associatable associatable : contacts){
-            Contact contact = (Contact)associatable;
+            ContactImpl contact = (ContactImpl)associatable;
             if (contact.hasEmailDomain(emailDomain))
                 associatedContacts.add(contact);
         }
@@ -79,10 +79,10 @@ public class ContactDirectory implements Directory, ContactRetriever {
     }
 
     @Override
-    public List<Contact> getContactsWith(Info sharedContactInfo) {
-        List<Contact> associatedContacts = new ArrayList<>();
+    public List<ContactImpl> getContactsWith(ContactInfo sharedContactInfo) {
+        List<ContactImpl> associatedContacts = new ArrayList<>();
         for (Associatable associatable : contacts){
-            Contact contact = (Contact)associatable;
+            ContactImpl contact = (ContactImpl)associatable;
             if (contact.hasContactInfoItemIn(sharedContactInfo))
                 associatedContacts.add(contact);
         }

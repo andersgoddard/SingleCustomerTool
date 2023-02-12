@@ -1,10 +1,10 @@
 package Contact;
 
-import ContactInfo.ContactInfo;
+import ContactInfo.ContactInfoImpl;
 import ContactInfo.PhoneNumber;
 import ContactInfo.EmailAddress;
 import DatabaseFields.DatabaseFields;
-import DatabaseFields.SimpleDatabaseFields;
+import DatabaseFields.DatabaseFieldsImpl;
 import Directory.ContactDirectory;
 import Utilities.ContactFactory;
 import com.google.inject.Guice;
@@ -24,18 +24,18 @@ public class ContactSplitterTest {
         Injector injector = Guice.createInjector(new ContactFactoryModule());
         ContactFactory factory = injector.getInstance(ContactFactory.class);
 
-        ContactInfo info = new ContactInfo();
+        ContactInfoImpl info = new ContactInfoImpl();
         info.add(PhoneNumber.create("07881266969"));
         info.add(PhoneNumber.create("07746142639"));
         info.add(EmailAddress.create("andersgoddard@gmail.com"));
-        DatabaseFields andrewFields = new SimpleDatabaseFields("Mr Andrew Goddard", info, null);
-        Contact andrew = factory.create(andrewFields);
+        DatabaseFields andrewFields = new DatabaseFieldsImpl("Mr Andrew Goddard", info, null);
+        ContactImpl andrew = factory.create(andrewFields);
 
-        ContactInfo info2 = new ContactInfo();
+        ContactInfoImpl info2 = new ContactInfoImpl();
         info2.add(EmailAddress.create("indiabettsgoddard@outlook.com"));
         info2.add(PhoneNumber.create("07746142639"));
-        DatabaseFields indiaFields = new SimpleDatabaseFields("Mrs India Goddard", info2, null);
-        Contact india = factory.create(indiaFields);
+        DatabaseFields indiaFields = new DatabaseFieldsImpl("Mrs India Goddard", info2, null);
+        ContactImpl india = factory.create(indiaFields);
 
         assertEquals(andrew.getUniqueIdentifier(), india.getUniqueIdentifier());
         assertEquals(1, andrew.getChildContacts().size());

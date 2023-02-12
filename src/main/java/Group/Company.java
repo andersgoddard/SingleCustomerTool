@@ -3,11 +3,12 @@ package Group;
 import Associaters.Associatable;
 import Associaters.ContactAssociater;
 import Contact.ContactSplitter;
+import ContactInfo.ContactInfoParser;
 import Directory.CompanyDirectory;
 import Directory.ContactDirectory;
 import ContactInfo.ContactInfoItem;
-import ContactInfo.ContactInfoParser;
-import ContactInfo.ContactInfo;
+import ContactInfo.ContactInfoParserImpl;
+import ContactInfo.ContactInfoImpl;
 
 import java.util.UUID;
 
@@ -15,7 +16,7 @@ public class Company implements Group, Associatable {
     String name;
     String companyId;
     String emailDomain;
-    ContactInfo sharedContactInfo;
+    ContactInfoImpl sharedContactInfo;
 
     public static Company create(String name) {
         return new Company(name);
@@ -30,7 +31,7 @@ public class Company implements Group, Associatable {
     private Company(String name) {
         this.name = name;
         this.companyId = UUID.randomUUID().toString();
-        this.sharedContactInfo = new ContactInfo();
+        this.sharedContactInfo = new ContactInfoImpl();
         CompanyDirectory.getInstance().add(this);
     }
 
@@ -52,7 +53,7 @@ public class Company implements Group, Associatable {
     }
 
     @Override
-    public ContactInfo getSharedContactInfo() {
+    public ContactInfoImpl getSharedContactInfo() {
         return sharedContactInfo;
     }
 
@@ -67,13 +68,14 @@ public class Company implements Group, Associatable {
     // Setter Methods
     @Override
     public void setSharedContactInfo(String item) {
-        ContactInfo info = new ContactInfo();
-        info.add(ContactInfoParser.parse(item).get(0));
+        ContactInfoImpl info = new ContactInfoImpl();
+        ContactInfoParser parser = new ContactInfoParserImpl();
+        info.add(parser.parse(item).get(0));
         setSharedContactInfo(info);
     }
 
     @Override
-    public void setSharedContactInfo(ContactInfo info) {
+    public void setSharedContactInfo(ContactInfoImpl info) {
         this.sharedContactInfo.addAll(info);
         associateContacts();
         separateIncorrectlyMergedContacts();

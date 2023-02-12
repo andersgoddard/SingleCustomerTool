@@ -1,7 +1,7 @@
 package DatabaseFields;
 
-import ContactInfo.Info;
 import ContactInfo.ContactInfo;
+import ContactInfo.ContactInfoImpl;
 import ContactInfo.PhoneNumber;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,15 +10,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-public class SimpleDatabaseFieldsTest {
+public class DatabaseFieldsImplTest {
     DatabaseFields fields;
 
     @BeforeEach
     public void setUp(){
-        Info info = new ContactInfo();
+        ContactInfo info = new ContactInfoImpl();
         info.add(PhoneNumber.create("07881266969"));
         String primaryKey = "000";
-        fields = new SimpleDatabaseFields("Mr Andrew Goddard", info, primaryKey){};
+        fields = new DatabaseFieldsImpl("Mr Andrew Goddard", info, primaryKey){};
     }
 
     @Test
@@ -28,8 +28,8 @@ public class SimpleDatabaseFieldsTest {
 
     @Test
     public void tetDatabaseFieldsNameComponents(){
-        DatabaseFields fields = new SimpleDatabaseFields("Mr", "Andrew", "Goddard",
-                                                          new ContactInfo(),
+        DatabaseFields fields = new DatabaseFieldsImpl("Mr", "Andrew", "Goddard",
+                                                          new ContactInfoImpl(),
                                                 null);
         assertEquals("Mr Andrew Goddard", fields.getName());
     }

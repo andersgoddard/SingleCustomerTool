@@ -1,102 +1,35 @@
 package Contact;
 
-import ContactInfo.Info;
+import ContactInfo.ContactInfo;
 import ContactInfo.ContactInfoItem;
-import Associaters.Associatable;
 import DatabaseFields.DatabaseFields;
 
 import java.util.List;
-import java.util.ArrayList;
-import java.util.UUID;
 
-/* Represents a single contact, for example a person in a database. Largely a data-carrying class. */
+public interface Contact {
+    void setUniqueIdentifier();
 
-public class Contact implements Associatable {
-    private String uniqueIdentifier;
-    private final List<Contact> childContacts;
-    private String companyId;
-    private final DatabaseFields fields;
+    void setUniqueIdentifier(String uniqueIdentifier);
 
-    public static Contact create(DatabaseFields fields) {
-        return new Contact(fields);
-    }
+    String getUniqueIdentifier();
 
-    private Contact(DatabaseFields fields) {
-        childContacts = new ArrayList<>();
-        this.fields = fields;
-    }
+    boolean hasContactInfoItemIn(ContactInfo sharedContactInfo);
 
-    public void setUniqueIdentifier() {
-        /*  Sets a new random UUID for the Contact. Used by the ContactSplitter class.*/
-        this.uniqueIdentifier = UUID.randomUUID().toString();
-    }
+    boolean hasContactInfoItem(ContactInfoItem item);
 
-    public void setUniqueIdentifier(String uniqueIdentifier) {
-        /*  Sets the String uniqueIdentifier as the UUID for the Contact. Used by the ContactMerger class. */
-        this.uniqueIdentifier = uniqueIdentifier;
-    }
+    boolean hasEmailDomain(String emailDomain);
 
-    public String getUniqueIdentifier() {
-        return uniqueIdentifier;
-    }
+    void addToChildContacts(Contact contact);
 
-    public boolean hasContactInfoItemIn(Info sharedContactInfo) {
-        for (ContactInfoItem item : sharedContactInfo.getItems()){
-            for (ContactInfoItem existingItem : fields.getContactInfo().getItems()){
-                if (item.get().equals(existingItem.get()))
-                    return true;
-            }
-        }
-        return false;
-    }
+    void removeFromChildContacts(List<Contact> children);
 
-    public boolean hasContactInfoItem(ContactInfoItem item) {
-        return fields.getContactInfo().contains(item);
-    }
+    String getName();
 
-    public boolean hasEmailDomain(String emailDomain) {
-        for (String domain : getEmailDomains()){
-            if (domain.equals(emailDomain))
-                return true;
-        }
-        return false;
-    }
+    void setCompanyId(String companyId);
 
-    private List<String> getEmailDomains(){
-        List<String> emailDomains = new ArrayList<>();
-        for (ContactInfoItem item : fields.getContactInfo().getItems()) {
-            if (item.isEmail()) {
-                emailDomains.add(item.getEmailDomain());
-            }
-        }
-        return emailDomains;
-    }
+    String getCompanyId();
 
-    public void addToChildContacts(Contact contact) {
-        childContacts.add(contact);
-    }
+    List<Contact> getChildContacts();
 
-    public void removeFromChildContacts(List<Contact> children) {
-        childContacts.removeAll(children);
-    }
-
-    public String getName() {
-        return fields.getName();
-    }
-
-    public void setCompanyId(String companyId) {
-        this.companyId = companyId;
-    }
-
-    public String getCompanyId() {
-        return companyId;
-    }
-
-    public List<Contact> getChildContacts() {
-        return childContacts;
-    }
-
-    public DatabaseFields getDatabaseFields() {
-        return fields;
-    }
+    DatabaseFields getDatabaseFields();
 }

@@ -3,6 +3,7 @@ package ContactInfo;
 public class PhoneNumber implements ContactInfoItem {
     String number;
     String originalNumber;
+
     private PhoneNumber(String number) {
         this.originalNumber = number;
         this.number = number;

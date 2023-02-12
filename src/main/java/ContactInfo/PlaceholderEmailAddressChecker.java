@@ -6,11 +6,11 @@ import java.io.IOException;
 
 public class PlaceholderEmailAddressChecker {
     public static boolean isPlaceholder(String emailAddress) {
-        EmailAddress email = EmailAddress.create(emailAddress);
+        ContactInfoItem email = EmailAddress.create(emailAddress);
         return checkPlaceholderFileFor(email);
     }
 
-    private static boolean checkPlaceholderFileFor(EmailAddress email) {
+    private static boolean checkPlaceholderFileFor(ContactInfoItem email) {
         BufferedReader reader;
         try {
             reader = new BufferedReader(new FileReader("src/main/java/ContactInfo/placeholder_email_addresses.txt"));

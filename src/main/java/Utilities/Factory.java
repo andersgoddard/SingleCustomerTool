@@ -1,8 +1,8 @@
 package Utilities;
 
-import Contact.Contact;
+import Contact.ContactImpl;
 import DatabaseFields.DatabaseFields;
 
 public interface Factory {
-    Contact create(DatabaseFields fields);
+    ContactImpl create(DatabaseFields fields);
 }

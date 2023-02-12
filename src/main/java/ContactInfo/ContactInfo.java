@@ -1,26 +1,13 @@
 package ContactInfo;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class ContactInfo implements Info {
-    ArrayList<ContactInfoItem> items = new ArrayList<>();
-    public void add(ContactInfoItem item) {
-        items.add(item);
-    }
+public interface ContactInfo {
+    void add(ContactInfoItem item);
 
-    public void addAll(Info info) {
-        items.addAll(info.getItems());
-    }
+    void addAll(ContactInfo info);
 
-    public boolean contains(ContactInfoItem item) {
-        for (ContactInfoItem existingItem : items){
-            if (existingItem.get().equals(item.get()))
-                return true;
-        }
-        return false;
-    }
+    boolean contains(ContactInfoItem item);
 
-    public ArrayList<ContactInfoItem> getItems() {
-        return items;
-    }
+    List<ContactInfoItem> getItems();
 }

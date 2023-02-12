@@ -8,9 +8,9 @@ import java.util.UUID;
 public class BasicUniqueIdentifierGenerator implements UniqueIdentifierGenerator {
     @Inject
     public BasicUniqueIdentifierGenerator(){}
-    public String getUniqueIdentifierFor(Contact contact) {
+    public String getUniqueIdentifierFor(ContactImpl contact) {
         String uniqueIdentifier;
-        Contact similarContact = ContactDirectory.getInstance()
+        ContactImpl similarContact = ContactDirectory.getInstance()
                                 .contains(contact.getDatabaseFields().getName(),
                                         contact.getDatabaseFields().getContactInfo());
         if (similarContact == null) {

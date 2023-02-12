@@ -1,6 +1,6 @@
 package Associaters;
 
-import Contact.Contact;
+import Contact.ContactImpl;
 import Group.Company;
 import Directory.Directory;
 import Directory.CompanyDirectory;
@@ -15,12 +15,12 @@ public class CompanyAssociater implements Associater {
     }
 
     public void associate(Associatable associatable){
-        Contact contact = (Contact)associatable;
+        ContactImpl contact = (ContactImpl)associatable;
         contact.setCompanyId(getCompanyIdFromEmailDomain(contact));
         contact.setCompanyId(getCompanyIdFromContactInfo(contact));
     }
 
-    private static String getCompanyIdFromEmailDomain(Contact contact) {
+    private static String getCompanyIdFromEmailDomain(ContactImpl contact) {
         Directory allCompanies = CompanyDirectory.getInstance();
         for (Associatable associatable : allCompanies.get()){
             Company company = (Company)associatable;
@@ -30,7 +30,7 @@ public class CompanyAssociater implements Associater {
         return contact.getCompanyId();
     }
 
-    private static String getCompanyIdFromContactInfo(Contact contact) {
+    private static String getCompanyIdFromContactInfo(ContactImpl contact) {
         Directory allCompanies = CompanyDirectory.getInstance();
         for (Associatable associatable : allCompanies.get()){
             Company company = (Company)associatable;

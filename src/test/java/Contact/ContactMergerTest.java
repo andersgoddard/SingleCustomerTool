@@ -1,10 +1,10 @@
 package Contact;
 
-import ContactInfo.ContactInfo;
+import ContactInfo.ContactInfoImpl;
 import ContactInfo.PhoneNumber;
 import ContactInfo.EmailAddress;
 import DatabaseFields.DatabaseFields;
-import DatabaseFields.SimpleDatabaseFields;
+import DatabaseFields.DatabaseFieldsImpl;
 import Directory.Directory;
 import Directory.ContactDirectory;
 import Utilities.ContactFactory;
@@ -30,15 +30,15 @@ public class ContactMergerTest {
 
     @Test
     public void testMergeTwoContacts(){
-        ContactInfo info = new ContactInfo();
+        ContactInfoImpl info = new ContactInfoImpl();
         info.add(PhoneNumber.create("07881266969"));
-        DatabaseFields fields1 = new SimpleDatabaseFields("Mr Andrew Goddard", info, null);
-        Contact andrew1 = factory.create(fields1);
+        DatabaseFields fields1 = new DatabaseFieldsImpl("Mr Andrew Goddard", info, null);
+        ContactImpl andrew1 = factory.create(fields1);
 
-        ContactInfo info2 = new ContactInfo();
+        ContactInfoImpl info2 = new ContactInfoImpl();
         info2.add(EmailAddress.create("andersgoddard@gmail.com"));
-        DatabaseFields fields2 = new SimpleDatabaseFields("Mr A Goddard", info2, null);
-        Contact andrew2 = factory.create(fields2);
+        DatabaseFields fields2 = new DatabaseFieldsImpl("Mr A Goddard", info2, null);
+        ContactImpl andrew2 = factory.create(fields2);
 
         assertNotEquals(andrew1.getUniqueIdentifier(), andrew2.getUniqueIdentifier());
         merger.merge(andrew1, andrew2);
@@ -49,20 +49,20 @@ public class ContactMergerTest {
 
     @Test
     public void testMergeThreeContacts(){
-        ContactInfo info = new ContactInfo();
+        ContactInfoImpl info = new ContactInfoImpl();
         info.add(PhoneNumber.create("07881266969"));
-        DatabaseFields fields1 = new SimpleDatabaseFields("Mr Andrew Goddard", info, null);
-        Contact andrew1 = factory.create(fields1);
+        DatabaseFields fields1 = new DatabaseFieldsImpl("Mr Andrew Goddard", info, null);
+        ContactImpl andrew1 = factory.create(fields1);
 
-        ContactInfo info2 = new ContactInfo();
+        ContactInfoImpl info2 = new ContactInfoImpl();
         info2.add(EmailAddress.create("andersgoddard@gmail.com"));
-        DatabaseFields fields2 = new SimpleDatabaseFields("Mr A Goddard", info2, null);
-        Contact andrew2 = factory.create(fields2);
+        DatabaseFields fields2 = new DatabaseFieldsImpl("Mr A Goddard", info2, null);
+        ContactImpl andrew2 = factory.create(fields2);
 
-        ContactInfo info3 = new ContactInfo();
+        ContactInfoImpl info3 = new ContactInfoImpl();
         info3.add(EmailAddress.create("aiandbgoddard@gmail.com"));
-        DatabaseFields fields3 = new SimpleDatabaseFields("Mr A Goddard", info3, null);
-        Contact andrew3 = factory.create(fields3);
+        DatabaseFields fields3 = new DatabaseFieldsImpl("Mr A Goddard", info3, null);
+        ContactImpl andrew3 = factory.create(fields3);
 
         assertNotEquals(andrew1.getUniqueIdentifier(), andrew2.getUniqueIdentifier());
         assertNotEquals(andrew1.getUniqueIdentifier(), andrew3.getUniqueIdentifier());

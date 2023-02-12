@@ -1,6 +1,6 @@
 package Associaters;
 
-import Contact.Contact;
+import Contact.ContactImpl;
 import Directory.ContactDirectory;
 import Directory.ContactRetriever;
 import Group.Company;
@@ -17,15 +17,15 @@ public class ContactAssociater implements Associater {
 
     public void associate(Associatable associatable) {
         Company company = (Company)associatable;
-        List<Contact> associatedContacts = getAssociatedContacts(company);
-        for (Contact contact : associatedContacts) {
+        List<ContactImpl> associatedContacts = getAssociatedContacts(company);
+        for (ContactImpl contact : associatedContacts) {
             contact.setCompanyId(company.getUniqueIdentifier());
         }
     }
 
-    private static List<Contact> getAssociatedContacts(Company company){
+    private static List<ContactImpl> getAssociatedContacts(Company company){
         ContactRetriever directory = ContactDirectory.getInstance();
-        List<Contact> associatedContacts = new ArrayList<>();
+        List<ContactImpl> associatedContacts = new ArrayList<>();
         associatedContacts.addAll(directory.getContactsWith(company.getEmailDomain()));
         associatedContacts.addAll(directory.getContactsWith(company.getSharedContactInfo()));
         return associatedContacts;
