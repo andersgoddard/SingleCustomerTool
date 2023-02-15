@@ -1,6 +1,6 @@
 package Contact;
 
-import Directory.ContactDirectoryImpl;
+import Directory.ContactDirectoryImpl; // Concrete Dependency, as is ContactMerger one
 import com.google.inject.Inject;
 
 import java.util.UUID;
@@ -16,7 +16,7 @@ public class BasicUniqueIdentifierGenerator implements UniqueIdentifierGenerator
         if (similarContact == null) {
             uniqueIdentifier = UUID.randomUUID().toString();
         } else {
-            Merger merger = new ContactMerger();
+            Merger merger = new ContactMerger(); // Concrete Dependency
             merger.merge(similarContact, contact);
             uniqueIdentifier = similarContact.getUniqueIdentifier();
         }

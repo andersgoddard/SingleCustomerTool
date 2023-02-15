@@ -1,22 +1,22 @@
 package Utilities;
 
-import Associaters.Associater;
+import Associaters.CompanyAssociater;
 import Contact.Contact;
 import Contact.ContactImpl;
 import DatabaseFields.DatabaseFields;
 import Contact.UniqueIdentifierGenerator;
-import Directory.Directory;
+import Directory.ContactDirectory;
 import Directory.ContactDirectoryImpl;
 import com.google.inject.Inject;
 
 public class ContactImplFactory implements Factory {
     UniqueIdentifierGenerator generator;
-    Associater associater;
-    Directory contacts;
+    CompanyAssociater associater;
+    ContactDirectory contacts;
 
     @Inject
     public ContactImplFactory(UniqueIdentifierGenerator generator,
-                              Associater associater){
+                              CompanyAssociater associater){
         this.generator = generator;
         this.associater = associater;
     }
