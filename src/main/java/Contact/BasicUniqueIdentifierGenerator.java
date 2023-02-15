@@ -16,7 +16,7 @@ public class BasicUniqueIdentifierGenerator implements UniqueIdentifierGenerator
         if (similarContact == null) {
             uniqueIdentifier = UUID.randomUUID().toString();
         } else {
-            ContactMerger merger = new ContactMerger();
+            Merger merger = new ContactMerger();
             merger.merge(similarContact, contact);
             uniqueIdentifier = similarContact.getUniqueIdentifier();
         }

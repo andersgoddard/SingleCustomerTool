@@ -8,7 +8,7 @@ import DatabaseFields.DatabaseFieldsImpl;
 import DatabaseFields.DatabaseFields;
 import Directory.Directory;
 import Directory.ContactDirectoryImpl;
-import Group.Company;
+import Group.CompanyImpl;
 import Utilities.ContactImplFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -113,7 +113,7 @@ public class ContactImplTest {
         info.add(PhoneNumber.create("02078932000"));
         DatabaseFields fields1 = new DatabaseFieldsImpl("Mr Andrew Goddard", info, null);
         DatabaseFields fields2 = new DatabaseFieldsImpl("Mrs India Goddard", info, null);
-        Company company = Company.create("Example Company");
+        CompanyImpl company = CompanyImpl.create("Example Company");
         company.setSharedContactInfo("02078932000");
         Contact contact1 = factory.create(fields1);
         Contact contact2 = factory.create(fields2);
@@ -126,7 +126,7 @@ public class ContactImplTest {
         info.add(PhoneNumber.create("02078932000"));
         DatabaseFields fields1 = new DatabaseFieldsImpl("Mr Andrew Goddard", info, null);
         DatabaseFields fields2 = new DatabaseFieldsImpl("Mr Andrew Goddard", info, null);
-        Company company = Company.create("Example Company");
+        CompanyImpl company = CompanyImpl.create("Example Company");
 
         company.setSharedContactInfo("02078932000");
         Contact contact1 = factory.create(fields1);
@@ -146,7 +146,7 @@ public class ContactImplTest {
         Contact contact2 = factory.create(fields2);
         assertEquals(contact1.getUniqueIdentifier(), contact2.getUniqueIdentifier());
 
-        Company company = Company.create("Example Company");
+        CompanyImpl company = CompanyImpl.create("Example Company");
         company.setSharedContactInfo("02078932000");
         assertNotEquals(contact1.getUniqueIdentifier(), contact2.getUniqueIdentifier());
     }

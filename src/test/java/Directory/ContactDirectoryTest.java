@@ -23,14 +23,13 @@ public class ContactDirectoryTest {
     Directory contacts;
     DatabaseFields fields;
     CompanyAssociaterImpl associater;
-    UniqueIdentifierGenerator generator;
+    UniqueIdentifierGenerator generator = new BasicUniqueIdentifierGenerator();
     ContactImplFactory factory;
 
     @BeforeEach
     public void setUp(){
         contacts = ContactDirectoryImpl.getInstance();
         associater = CompanyAssociaterImpl.create();
-        generator = new BasicUniqueIdentifierGenerator();
         ContactInfo info = new ContactInfoImpl();
         info.add(EmailAddress.create("andersgoddard@gmail.com"));
         fields = new DatabaseFieldsImpl("Mr Andrew Goddard", info, "2000000");

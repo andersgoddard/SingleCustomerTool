@@ -1,13 +1,13 @@
 package Group;
 
-import ContactInfo.ContactInfoImpl;
+import ContactInfo.ContactInfo;
 
 public interface Group {
     String getUniqueIdentifier();
 
     void setSharedContactInfo(String info);
 
-    void setSharedContactInfo(ContactInfoImpl info);
+    void setSharedContactInfo(ContactInfo info);
 
-    ContactInfoImpl getSharedContactInfo();
+    ContactInfo getSharedContactInfo();
 }

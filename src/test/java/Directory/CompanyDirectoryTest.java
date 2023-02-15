@@ -1,7 +1,7 @@
 package Directory;
 
 import ContactInfo.PhoneNumber;
-import Group.Company;
+import Group.CompanyImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,14 +18,14 @@ public class CompanyDirectoryTest {
 
     @Test
     public void testOneCompany(){
-        Company company = Company.create("Residential Land");
+        CompanyImpl company = CompanyImpl.create("Residential Land");
         assertEquals(1, list.size());
     }
 
     @Test
     public void testTwoCompanies(){
-        Company company = Company.create("Residential Land");
-        Company company2 = Company.create("Example Co");
+        CompanyImpl company = CompanyImpl.create("Residential Land");
+        CompanyImpl company2 = CompanyImpl.create("Example Co");
         assertEquals(2, list.size());
     }
 
@@ -36,7 +36,7 @@ public class CompanyDirectoryTest {
 
     @Test
     public void testDoesNotContainSharedPhoneNumber(){
-        Company company = Company.create("Example Co");
+        CompanyImpl company = CompanyImpl.create("Example Co");
         company.setSharedContactInfo("02078002000");
         assertFalse(list.doesNotContain(PhoneNumber.create("02078002000")));
     }

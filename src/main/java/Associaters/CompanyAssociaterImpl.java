@@ -1,7 +1,7 @@
 package Associaters;
 
 import Contact.Contact;
-import Group.Company;
+import Group.CompanyImpl;
 import Directory.CompanyDirectory;
 import Directory.CompanyDirectoryImpl;
 import com.google.inject.Provides;
@@ -21,7 +21,7 @@ public class CompanyAssociaterImpl implements CompanyAssociater {
 
     private String getCompanyIdFromEmailDomain(Contact contact) {
         CompanyDirectory allCompanies = CompanyDirectoryImpl.getInstance();
-        for (Company company : allCompanies.get()){
+        for (CompanyImpl company : allCompanies.get()){
             if (contact.hasEmailDomain(company.getEmailDomain()))
                 return company.getUniqueIdentifier();
         }
@@ -30,7 +30,7 @@ public class CompanyAssociaterImpl implements CompanyAssociater {
 
     private String getCompanyIdFromContactInfo(Contact contact) {
         CompanyDirectory allCompanies = CompanyDirectoryImpl.getInstance();
-        for (Company company : allCompanies.get()){
+        for (CompanyImpl company : allCompanies.get()){
             if (contact.hasContactInfoItemIn(company.getSharedContactInfo()))
                 return company.getUniqueIdentifier();
         }

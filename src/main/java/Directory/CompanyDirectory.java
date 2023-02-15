@@ -1,7 +1,7 @@
 package Directory;
 
-import Group.Company;
+import Group.CompanyImpl;
 
-public interface CompanyDirectory extends Directory<Company> {
+public interface CompanyDirectory extends Directory<CompanyImpl> {
 
 }

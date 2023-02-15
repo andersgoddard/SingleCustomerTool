@@ -1,8 +1,8 @@
 package Associaters;
 
-import Group.Company;
+import Group.CompanyImpl;
 
-public interface ContactAssociater extends Associater<Company> {
+public interface ContactAssociater extends Associater<CompanyImpl> {
     @Override
-    void associate(Company company);
+    void associate(CompanyImpl company);
 }

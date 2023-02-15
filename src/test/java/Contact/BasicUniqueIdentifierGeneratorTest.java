@@ -23,7 +23,7 @@ public class BasicUniqueIdentifierGeneratorTest {
     Directory contacts;
     Directory companies;
     DatabaseFields fields;
-    UniqueIdentifierGenerator generator;
+    UniqueIdentifierGenerator generator = new BasicUniqueIdentifierGenerator();
     CompanyAssociaterImpl associater;
     ContactImplFactory factory;
 
@@ -37,7 +37,6 @@ public class BasicUniqueIdentifierGeneratorTest {
         info.add(PhoneNumber.create("07881266969"));
         info.add(EmailAddress.create("andersgoddard@gmail.com"));
         fields = new DatabaseFieldsImpl("Mr Andrew Goddard", info, null);
-        generator = new BasicUniqueIdentifierGenerator();
         Injector injector = Guice.createInjector(new ContactFactoryModule());
         factory = injector.getInstance(ContactImplFactory.class);
     }

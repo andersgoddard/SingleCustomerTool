@@ -1,7 +1,8 @@
 package Group;
 
 import Associaters.CompanyAssociaterImpl;
-import Directory.Directory;
+import Directory.CompanyDirectory;
+import Directory.ContactDirectory;
 import Directory.CompanyDirectoryImpl;
 import Directory.ContactDirectoryImpl;
 import Contact.ContactImpl;
@@ -22,23 +23,22 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CompanyTest {
-    Company company;
-    Directory contacts;
-    Directory companies;
+public class CompanyImplTest {
+    CompanyImpl company;
+    ContactDirectory contacts;
+    CompanyDirectory companies;
     DatabaseFields fields;
-    UniqueIdentifierGenerator generator;
+    UniqueIdentifierGenerator generator = new BasicUniqueIdentifierGenerator();
     CompanyAssociaterImpl associater;
     ContactImplFactory factory;
 
 
     @BeforeEach
     public void setUp(){
-        company = Company.create("Example Company");
+        company = CompanyImpl.create("Example Company");
         contacts = ContactDirectoryImpl.getInstance();
         companies = CompanyDirectoryImpl.getInstance();
         associater = CompanyAssociaterImpl.create();
-        generator = new BasicUniqueIdentifierGenerator();
         ContactInfoImpl info = new ContactInfoImpl();
         info.add(PhoneNumber.create("07881266969"));
         info.add(EmailAddress.create("andersgoddard@gmail.com"));
@@ -79,7 +79,7 @@ public class CompanyTest {
 
     @Test
     public void testCompanyCreatedWithEmailDomain(){
-        Company company2 = Company.create("Another Example Company", "anotherexampleco.com");
+        CompanyImpl company2 = CompanyImpl.create("Another Example Company", "anotherexampleco.com");
         assertEquals("Another Example Company", company2.getName());
         assertEquals("anotherexampleco.com", company2.getEmailDomain());
         assertNotNull(company2.getUniqueIdentifier());
@@ -96,7 +96,7 @@ public class CompanyTest {
 
         ContactImpl andrew = factory.create(andrewFields);
         ContactImpl india = factory.create(indiaFields);
-        Company exampleCo = Company.create("Another Example Company", "anotherexampleco.com");
+        CompanyImpl exampleCo = CompanyImpl.create("Another Example Company", "anotherexampleco.com");
         assertEquals(andrew.getCompanyId(), india.getCompanyId());
     }
 

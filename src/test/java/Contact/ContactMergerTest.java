@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ContactMergerTest {
     Directory contacts;
     ContactImplFactory factory;
-    ContactMerger merger;
+    Merger merger;
     @BeforeEach
     public void setUp(){
         contacts = ContactDirectoryImpl.getInstance();

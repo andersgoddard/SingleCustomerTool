@@ -40,7 +40,7 @@ public class ContactSplitterTest {
 
         assertEquals(andrew.getUniqueIdentifier(), india.getUniqueIdentifier());
         assertEquals(1, andrew.getChildContacts().size());
-        ContactSplitter splitter = new ContactSplitter();
+        Splitter splitter = new ContactSplitter();
         splitter.split(india);
         andrew.removeFromChildContacts(new ArrayList<>(List.of(india)));
         assertNotEquals(andrew.getUniqueIdentifier(), india.getUniqueIdentifier());

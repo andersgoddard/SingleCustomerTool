@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /* Represents a tool to split two Contacts that have been merged into one but do not represent the same person in the real world */
-public class ContactSplitter {
+public class ContactSplitter implements Splitter {
     public void separateIncorrectlyMergedContacts(ContactDirectory contacts) {
         for (Contact contact : contacts.get()) {
             List<Contact> children = contact.getChildContacts();

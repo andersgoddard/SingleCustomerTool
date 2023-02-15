@@ -1,14 +1,14 @@
 package Directory;
 
 import ContactInfo.ContactInfoItem;
-import Group.Company;
+import Group.CompanyImpl;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CompanyDirectoryImpl implements CompanyDirectory {
     private static CompanyDirectoryImpl list = null;
-    private final List<Company> companies;
+    private final List<CompanyImpl> companies;
     private CompanyDirectoryImpl() {
         companies = new ArrayList<>();
     }
@@ -27,12 +27,12 @@ public class CompanyDirectoryImpl implements CompanyDirectory {
     }
 
     @Override
-    public List<Company> get() {
+    public List<CompanyImpl> get() {
         return companies;
     }
 
     @Override
-    public void add(Company company) {
+    public void add(CompanyImpl company) {
         companies.add(company);
     }
 
@@ -42,7 +42,7 @@ public class CompanyDirectoryImpl implements CompanyDirectory {
     }
 
     public boolean doesNotContain(ContactInfoItem item) {
-        for (Company company : list.get()){
+        for (CompanyImpl company : list.get()){
             if (company.hasSharedContactInfoItem(item))
                 return false;
         }
