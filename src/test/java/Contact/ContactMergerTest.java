@@ -1,13 +1,14 @@
 package Contact;
 
+import ContactInfo.ContactInfo;
 import ContactInfo.ContactInfoImpl;
 import ContactInfo.PhoneNumber;
 import ContactInfo.EmailAddress;
 import DatabaseFields.DatabaseFields;
 import DatabaseFields.DatabaseFieldsImpl;
 import Directory.Directory;
-import Directory.ContactDirectory;
-import Utilities.ContactFactory;
+import Directory.ContactDirectoryImpl;
+import Utilities.ContactImplFactory;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.junit.jupiter.api.AfterEach;
@@ -18,27 +19,27 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ContactMergerTest {
     Directory contacts;
-    ContactFactory factory;
+    ContactImplFactory factory;
     ContactMerger merger;
     @BeforeEach
     public void setUp(){
-        contacts = ContactDirectory.getInstance();
+        contacts = ContactDirectoryImpl.getInstance();
         merger = new ContactMerger();
         Injector injector = Guice.createInjector(new ContactFactoryModule());
-        this.factory = injector.getInstance(ContactFactory.class);
+        this.factory = injector.getInstance(ContactImplFactory.class);
     }
 
     @Test
     public void testMergeTwoContacts(){
-        ContactInfoImpl info = new ContactInfoImpl();
+        ContactInfo info = new ContactInfoImpl();
         info.add(PhoneNumber.create("07881266969"));
         DatabaseFields fields1 = new DatabaseFieldsImpl("Mr Andrew Goddard", info, null);
-        ContactImpl andrew1 = factory.create(fields1);
+        Contact andrew1 = factory.create(fields1);
 
-        ContactInfoImpl info2 = new ContactInfoImpl();
+        ContactInfo info2 = new ContactInfoImpl();
         info2.add(EmailAddress.create("andersgoddard@gmail.com"));
         DatabaseFields fields2 = new DatabaseFieldsImpl("Mr A Goddard", info2, null);
-        ContactImpl andrew2 = factory.create(fields2);
+        Contact andrew2 = factory.create(fields2);
 
         assertNotEquals(andrew1.getUniqueIdentifier(), andrew2.getUniqueIdentifier());
         merger.merge(andrew1, andrew2);
@@ -49,20 +50,20 @@ public class ContactMergerTest {
 
     @Test
     public void testMergeThreeContacts(){
-        ContactInfoImpl info = new ContactInfoImpl();
+        ContactInfo info = new ContactInfoImpl();
         info.add(PhoneNumber.create("07881266969"));
         DatabaseFields fields1 = new DatabaseFieldsImpl("Mr Andrew Goddard", info, null);
-        ContactImpl andrew1 = factory.create(fields1);
+        Contact andrew1 = factory.create(fields1);
 
-        ContactInfoImpl info2 = new ContactInfoImpl();
+        ContactInfo info2 = new ContactInfoImpl();
         info2.add(EmailAddress.create("andersgoddard@gmail.com"));
         DatabaseFields fields2 = new DatabaseFieldsImpl("Mr A Goddard", info2, null);
-        ContactImpl andrew2 = factory.create(fields2);
+        Contact andrew2 = factory.create(fields2);
 
-        ContactInfoImpl info3 = new ContactInfoImpl();
+        ContactInfo info3 = new ContactInfoImpl();
         info3.add(EmailAddress.create("aiandbgoddard@gmail.com"));
         DatabaseFields fields3 = new DatabaseFieldsImpl("Mr A Goddard", info3, null);
-        ContactImpl andrew3 = factory.create(fields3);
+        Contact andrew3 = factory.create(fields3);
 
         assertNotEquals(andrew1.getUniqueIdentifier(), andrew2.getUniqueIdentifier());
         assertNotEquals(andrew1.getUniqueIdentifier(), andrew3.getUniqueIdentifier());

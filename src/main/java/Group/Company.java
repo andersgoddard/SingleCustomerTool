@@ -1,18 +1,17 @@
 package Group;
 
-import Associaters.Associatable;
-import Associaters.ContactAssociater;
+import Associaters.ContactAssociaterImpl;
 import Contact.ContactSplitter;
 import ContactInfo.ContactInfoParser;
-import Directory.CompanyDirectory;
-import Directory.ContactDirectory;
+import Directory.CompanyDirectoryImpl;
+import Directory.ContactDirectoryImpl;
 import ContactInfo.ContactInfoItem;
 import ContactInfo.ContactInfoParserImpl;
 import ContactInfo.ContactInfoImpl;
 
 import java.util.UUID;
 
-public class Company implements Group, Associatable {
+public class Company implements Group {
     String name;
     String companyId;
     String emailDomain;
@@ -32,7 +31,11 @@ public class Company implements Group, Associatable {
         this.name = name;
         this.companyId = UUID.randomUUID().toString();
         this.sharedContactInfo = new ContactInfoImpl();
-        CompanyDirectory.getInstance().add(this);
+        CompanyDirectoryImpl.getInstance().add(this);
+    }
+
+    public void setId(String id){
+
     }
 
     public void setEmailDomain(String emailDomain) {
@@ -41,7 +44,7 @@ public class Company implements Group, Associatable {
     }
 
     private void associateContacts() {
-        ContactAssociater.create().associate(this);
+        ContactAssociaterImpl.create().associate(this);
     }
 
     public String getName() {
@@ -83,7 +86,7 @@ public class Company implements Group, Associatable {
 
     private void separateIncorrectlyMergedContacts(){
         ContactSplitter splitter = new ContactSplitter();
-        splitter.separateIncorrectlyMergedContacts(ContactDirectory.getInstance());
+        splitter.separateIncorrectlyMergedContacts(ContactDirectoryImpl.getInstance());
     }
 
     public String getEmailDomain() {

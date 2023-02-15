@@ -2,7 +2,6 @@ package Contact;
 
 import ContactInfo.ContactInfo;
 import ContactInfo.ContactInfoItem;
-import Associaters.Associatable;
 import DatabaseFields.DatabaseFields;
 
 import java.util.List;
@@ -11,7 +10,7 @@ import java.util.UUID;
 
 /* Represents a single contact, for example a person in a database. Largely a data-carrying class. */
 
-public class ContactImpl implements Contact, Associatable {
+public class ContactImpl implements Contact {
     private String uniqueIdentifier;
     private final List<Contact> childContacts;
     private String companyId;
@@ -24,6 +23,10 @@ public class ContactImpl implements Contact, Associatable {
     private ContactImpl(DatabaseFields fields) {
         childContacts = new ArrayList<>();
         this.fields = fields;
+    }
+
+    public void setId(String id){
+
     }
 
     public void setUniqueIdentifier() {

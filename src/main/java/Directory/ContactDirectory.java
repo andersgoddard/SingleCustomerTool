@@ -1,91 +1,12 @@
 package Directory;
 
-import java.util.List;
-import java.util.ArrayList;
-
-import Associaters.Associatable;
-import Contact.ContactImpl;
+import Contact.Contact;
 import ContactInfo.ContactInfo;
-import ContactInfo.ContactInfoItem;
 
-/* A singleton class representing all of the Contacts */
-public class ContactDirectory implements Directory, ContactRetriever {
-    private final List<Associatable> contacts;
-    private static ContactDirectory list = null;
+import java.util.List;
 
-    ContactDirectory(){
-        this.contacts = new ArrayList<>();
-    }
-
-    public static ContactDirectory getInstance() {
-        if (list == null) {
-            list = new ContactDirectory();
-        }
-
-        return list;
-    }
-
-    @Override
-    public void clear() {
-        list = null;
-        contacts.clear();
-    }
-
-    @Override
-    public int size() {
-        return contacts.size();
-    }
-
-    @Override
-    public void add(Associatable contact) {
-        contacts.add(contact);
-    }
-
-    @Override
-    public List<Associatable> get() {
-        return contacts;
-    }
-
-    @Override
-    public boolean doesNotContain(ContactInfoItem item) {
-        return true; // This needs implementing if ever used
-    }
-
-    @Override
-    public ContactImpl contains(String name, ContactInfo info) {
-        Directory companies = CompanyDirectory.getInstance();
-        for (Associatable associatable : contacts){
-            ContactImpl contact = (ContactImpl)associatable;
-            for (ContactInfoItem item : info.getItems()){
-                if ((contact.hasContactInfoItem(item))
-                        && (companies.doesNotContain(item) || contact.getName().equals(name)))
-                    return contact;
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public List<ContactImpl> getContactsWith(String emailDomain) {
-        List<ContactImpl> associatedContacts = new ArrayList<>();
-
-        for (Associatable associatable : contacts){
-            ContactImpl contact = (ContactImpl)associatable;
-            if (contact.hasEmailDomain(emailDomain))
-                associatedContacts.add(contact);
-        }
-
-        return associatedContacts;
-    }
-
-    @Override
-    public List<ContactImpl> getContactsWith(ContactInfo sharedContactInfo) {
-        List<ContactImpl> associatedContacts = new ArrayList<>();
-        for (Associatable associatable : contacts){
-            ContactImpl contact = (ContactImpl)associatable;
-            if (contact.hasContactInfoItemIn(sharedContactInfo))
-                associatedContacts.add(contact);
-        }
-        return associatedContacts;
-    }
+public interface ContactDirectory extends Directory<Contact> {
+    Contact contains(String name, ContactInfo info);
+    List<Contact> getContactsWith(String emailDomain);
+    List<Contact> getContactsWith(ContactInfo sharedContactInfo);
 }

@@ -1,9 +1,9 @@
 package Group;
 
-import Associaters.CompanyAssociater;
+import Associaters.CompanyAssociaterImpl;
 import Directory.Directory;
-import Directory.CompanyDirectory;
-import Directory.ContactDirectory;
+import Directory.CompanyDirectoryImpl;
+import Directory.ContactDirectoryImpl;
 import Contact.ContactImpl;
 import Contact.UniqueIdentifierGenerator;
 import Contact.ContactFactoryModule;
@@ -13,7 +13,7 @@ import ContactInfo.EmailAddress;
 import ContactInfo.PhoneNumber;
 import DatabaseFields.DatabaseFields;
 import DatabaseFields.DatabaseFieldsImpl;
-import Utilities.ContactFactory;
+import Utilities.ContactImplFactory;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.junit.jupiter.api.AfterEach;
@@ -28,23 +28,23 @@ public class CompanyTest {
     Directory companies;
     DatabaseFields fields;
     UniqueIdentifierGenerator generator;
-    CompanyAssociater associater;
-    ContactFactory factory;
+    CompanyAssociaterImpl associater;
+    ContactImplFactory factory;
 
 
     @BeforeEach
     public void setUp(){
         company = Company.create("Example Company");
-        contacts = ContactDirectory.getInstance();
-        companies = CompanyDirectory.getInstance();
-        associater = CompanyAssociater.create();
+        contacts = ContactDirectoryImpl.getInstance();
+        companies = CompanyDirectoryImpl.getInstance();
+        associater = CompanyAssociaterImpl.create();
         generator = new BasicUniqueIdentifierGenerator();
         ContactInfoImpl info = new ContactInfoImpl();
         info.add(PhoneNumber.create("07881266969"));
         info.add(EmailAddress.create("andersgoddard@gmail.com"));
         fields = new DatabaseFieldsImpl("Mr Andrew Goddard", info, "2000000");
         Injector injector = Guice.createInjector(new ContactFactoryModule());
-        factory = injector.getInstance(ContactFactory.class);
+        factory = injector.getInstance(ContactImplFactory.class);
     }
 
     @Test

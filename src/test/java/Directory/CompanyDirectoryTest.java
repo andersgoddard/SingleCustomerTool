@@ -10,10 +10,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class CompanyDirectoryTest {
-    CompanyDirectory list;
+    CompanyDirectoryImpl list;
     @BeforeEach
     public void setUp(){
-        this.list = CompanyDirectory.getInstance();
+        this.list = CompanyDirectoryImpl.getInstance();
     }
 
     @Test

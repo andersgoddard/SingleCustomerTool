@@ -1,12 +1,13 @@
 package Contact;
 
+import ContactInfo.ContactInfo;
 import ContactInfo.ContactInfoImpl;
 import ContactInfo.PhoneNumber;
 import ContactInfo.EmailAddress;
 import DatabaseFields.DatabaseFields;
 import DatabaseFields.DatabaseFieldsImpl;
-import Directory.ContactDirectory;
-import Utilities.ContactFactory;
+import Directory.ContactDirectoryImpl;
+import Utilities.ContactImplFactory;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.junit.jupiter.api.Test;
@@ -20,22 +21,22 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 public class ContactSplitterTest {
     @Test
     public void testBreakUpContact(){
-        ContactDirectory contacts = ContactDirectory.getInstance();
+        ContactDirectoryImpl contacts = ContactDirectoryImpl.getInstance();
         Injector injector = Guice.createInjector(new ContactFactoryModule());
-        ContactFactory factory = injector.getInstance(ContactFactory.class);
+        ContactImplFactory factory = injector.getInstance(ContactImplFactory.class);
 
-        ContactInfoImpl info = new ContactInfoImpl();
+        ContactInfo info = new ContactInfoImpl();
         info.add(PhoneNumber.create("07881266969"));
         info.add(PhoneNumber.create("07746142639"));
         info.add(EmailAddress.create("andersgoddard@gmail.com"));
         DatabaseFields andrewFields = new DatabaseFieldsImpl("Mr Andrew Goddard", info, null);
-        ContactImpl andrew = factory.create(andrewFields);
+        Contact andrew = factory.create(andrewFields);
 
-        ContactInfoImpl info2 = new ContactInfoImpl();
+        ContactInfo info2 = new ContactInfoImpl();
         info2.add(EmailAddress.create("indiabettsgoddard@outlook.com"));
         info2.add(PhoneNumber.create("07746142639"));
         DatabaseFields indiaFields = new DatabaseFieldsImpl("Mrs India Goddard", info2, null);
-        ContactImpl india = factory.create(indiaFields);
+        Contact india = factory.create(indiaFields);
 
         assertEquals(andrew.getUniqueIdentifier(), india.getUniqueIdentifier());
         assertEquals(1, andrew.getChildContacts().size());

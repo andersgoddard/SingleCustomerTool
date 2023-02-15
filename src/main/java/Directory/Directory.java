@@ -1,14 +1,13 @@
 package Directory;
 
-import Associaters.Associatable;
 import ContactInfo.ContactInfoItem;
 
 import java.util.List;
 
-public interface Directory {
-    void add(Associatable associatable);
+public interface Directory<T> {
+    void add(T associatable);
     int size();
     void clear();
-    List<Associatable> get();
+    List<T> get();
     boolean doesNotContain(ContactInfoItem item);
 }
