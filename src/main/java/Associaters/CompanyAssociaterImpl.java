@@ -3,7 +3,7 @@ package Associaters;
 import Contact.Contact;
 import Group.CompanyImpl;
 import Directory.CompanyDirectory;
-import Directory.CompanyDirectoryImpl;
+import Directory.CompanyDirectoryImpl; // Concrete Dependency
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 

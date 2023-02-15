@@ -88,6 +88,7 @@ public class CompanyImpl implements Company {
         splitter.separateIncorrectlyMergedContacts(ContactDirectoryImpl.getInstance());
     }
 
+    @Override
     public String getEmailDomain() {
         return emailDomain;
     }
