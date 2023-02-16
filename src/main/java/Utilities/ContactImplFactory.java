@@ -19,10 +19,10 @@ public class ContactImplFactory implements Factory {
                               CompanyAssociater associater){
         this.generator = generator;
         this.associater = associater;
+        this.contacts = ContactDirectoryImpl.getInstance(); // Ideally want Guice to inject this
     }
 
     public ContactImpl create(DatabaseFields fields) {
-        contacts = ContactDirectoryImpl.getInstance();
         ContactImpl contact = ContactImpl.create(fields);
         String uniqueIdentifier = getUniqueIdentifierFor(contact);
         contact.setUniqueIdentifier(uniqueIdentifier);

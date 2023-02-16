@@ -2,6 +2,8 @@ package Directory;
 
 import ContactInfo.ContactInfoItem;
 import Group.Company;
+import com.google.inject.Provides;
+import com.google.inject.Singleton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,10 +11,12 @@ import java.util.List;
 public class CompanyDirectoryImpl implements CompanyDirectory {
     private static CompanyDirectoryImpl list = null;
     private final List<Company> companies;
-    private CompanyDirectoryImpl() {
+    CompanyDirectoryImpl() {
         companies = new ArrayList<>();
     }
 
+    @Provides
+    @Singleton
     public static CompanyDirectoryImpl getInstance() {
         if (list == null)
             list = new CompanyDirectoryImpl();

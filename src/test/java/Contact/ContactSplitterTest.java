@@ -6,8 +6,10 @@ import ContactInfo.PhoneNumber;
 import ContactInfo.EmailAddress;
 import DatabaseFields.DatabaseFields;
 import DatabaseFields.DatabaseFieldsImpl;
+import Directory.CompanyDirectoryImpl;
 import Directory.ContactDirectoryImpl;
 import Utilities.ContactImplFactory;
+import Utilities.ContactImplFactoryModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.junit.jupiter.api.Test;
@@ -22,7 +24,7 @@ public class ContactSplitterTest {
     @Test
     public void testBreakUpContact(){
         ContactDirectoryImpl contacts = ContactDirectoryImpl.getInstance();
-        Injector injector = Guice.createInjector(new ContactFactoryModule());
+        Injector injector = Guice.createInjector(new ContactImplFactoryModule(CompanyDirectoryImpl.getInstance()));
         ContactImplFactory factory = injector.getInstance(ContactImplFactory.class);
 
         ContactInfo info = new ContactInfoImpl();

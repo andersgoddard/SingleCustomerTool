@@ -1,10 +1,8 @@
 package Directory;
 
 import Associaters.CompanyAssociaterImpl;
-import Contact.BasicUniqueIdentifierGenerator;
 import Contact.Contact;
-import Contact.ContactFactoryModule;
-import Contact.UniqueIdentifierGenerator;
+import Utilities.ContactImplFactoryModule;
 import ContactInfo.ContactInfo;
 import ContactInfo.ContactInfoImpl;
 import ContactInfo.EmailAddress;
@@ -20,20 +18,19 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ContactDirectoryTest {
-    Directory contacts;
+    ContactDirectory contacts;
     DatabaseFields fields;
     CompanyAssociaterImpl associater;
-    UniqueIdentifierGenerator generator = new BasicUniqueIdentifierGenerator();
     ContactImplFactory factory;
 
     @BeforeEach
     public void setUp(){
         contacts = ContactDirectoryImpl.getInstance();
-        associater = CompanyAssociaterImpl.create();
+        associater = new CompanyAssociaterImpl(CompanyDirectoryImpl.getInstance());
         ContactInfo info = new ContactInfoImpl();
         info.add(EmailAddress.create("andersgoddard@gmail.com"));
         fields = new DatabaseFieldsImpl("Mr Andrew Goddard", info, "2000000");
-        Injector injector = Guice.createInjector(new ContactFactoryModule());
+        Injector injector = Guice.createInjector(new ContactImplFactoryModule(CompanyDirectoryImpl.getInstance()));
         factory = injector.getInstance(ContactImplFactory.class);
     }
     @Test

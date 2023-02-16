@@ -7,10 +7,12 @@ import ContactInfo.PhoneNumber;
 import ContactInfo.EmailAddress;
 import DatabaseFields.DatabaseFields;
 import DatabaseFields.DatabaseFieldsImpl;
-import Directory.Directory;
+import Directory.ContactDirectory;
+import Directory.CompanyDirectory;
 import Directory.CompanyDirectoryImpl;
 import Directory.ContactDirectoryImpl;
 import Utilities.ContactImplFactory;
+import Utilities.ContactImplFactoryModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,8 +22,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class BasicUniqueIdentifierGeneratorTest {
-    Directory contacts;
-    Directory companies;
+    ContactDirectory contacts;
+    CompanyDirectory companies;
     DatabaseFields fields;
     UniqueIdentifierGenerator generator = new BasicUniqueIdentifierGenerator();
     CompanyAssociaterImpl associater;
@@ -32,12 +34,12 @@ public class BasicUniqueIdentifierGeneratorTest {
     public void setUp(){
         contacts = ContactDirectoryImpl.getInstance();
         companies = CompanyDirectoryImpl.getInstance();
-        associater = CompanyAssociaterImpl.create();
+        associater = new CompanyAssociaterImpl(CompanyDirectoryImpl.getInstance());
         ContactInfo info = new ContactInfoImpl();
         info.add(PhoneNumber.create("07881266969"));
         info.add(EmailAddress.create("andersgoddard@gmail.com"));
         fields = new DatabaseFieldsImpl("Mr Andrew Goddard", info, null);
-        Injector injector = Guice.createInjector(new ContactFactoryModule());
+        Injector injector = Guice.createInjector(new ContactImplFactoryModule(CompanyDirectoryImpl.getInstance()));
         factory = injector.getInstance(ContactImplFactory.class);
     }
 
