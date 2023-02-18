@@ -1,16 +1,12 @@
 package Contact;
 
-import ContactInfo.ContactInfo;
-import ContactInfo.ContactInfoImpl;
-import ContactInfo.PhoneNumber;
-import ContactInfo.EmailAddress;
-import DatabaseFields.DatabaseFields;
-import DatabaseFields.DatabaseFieldsImpl;
 import Directory.ContactDirectory;
 import Directory.ContactDirectoryImpl;
 import Directory.CompanyDirectoryImpl;
+import Stubs.DatabaseFieldsStub;
 import Utilities.ContactImplFactory;
 import Utilities.ContactImplFactoryModule;
+
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.junit.jupiter.api.AfterEach;
@@ -23,6 +19,7 @@ public class ContactMergerTest {
     ContactDirectory contacts;
     ContactImplFactory factory;
     Merger merger;
+
     @BeforeEach
     public void setUp(){
         contacts = ContactDirectoryImpl.getInstance();
@@ -32,53 +29,36 @@ public class ContactMergerTest {
     }
 
     @Test
-    public void testMergeTwoContacts(){
-        ContactInfo info = new ContactInfoImpl();
-        info.add(PhoneNumber.create("07881266969"));
-        DatabaseFields fields1 = new DatabaseFieldsImpl("Mr Andrew Goddard", info, null);
-        Contact andrew1 = factory.create(fields1);
+    public void mergeTwoContacts(){
+        Contact contact1 = factory.create(new DatabaseFieldsStub());
+        Contact contact2 = factory.create(new DatabaseFieldsStub());
+        assertNotEquals(contact1.getUniqueIdentifier(), contact2.getUniqueIdentifier());
 
-        ContactInfo info2 = new ContactInfoImpl();
-        info2.add(EmailAddress.create("andersgoddard@gmail.com"));
-        DatabaseFields fields2 = new DatabaseFieldsImpl("Mr A Goddard", info2, null);
-        Contact andrew2 = factory.create(fields2);
+        merger.merge(contact1, contact2);
 
-        assertNotEquals(andrew1.getUniqueIdentifier(), andrew2.getUniqueIdentifier());
-        merger.merge(andrew1, andrew2);
-        assertEquals(andrew1.getUniqueIdentifier(), andrew2.getUniqueIdentifier());
-        assertEquals(1, andrew1.getChildContacts().size());
-        assertTrue(andrew1.getChildContacts().contains(andrew2));
+        assertEquals(contact1.getUniqueIdentifier(), contact2.getUniqueIdentifier());
+        assertEquals(1, contact1.getChildContacts().size());
+        assertTrue(contact1.getChildContacts().contains(contact2));
     }
 
     @Test
-    public void testMergeThreeContacts(){
-        ContactInfo info = new ContactInfoImpl();
-        info.add(PhoneNumber.create("07881266969"));
-        DatabaseFields fields1 = new DatabaseFieldsImpl("Mr Andrew Goddard", info, null);
-        Contact andrew1 = factory.create(fields1);
+    public void mergeThreeContacts(){
+        Contact contact1 = factory.create(new DatabaseFieldsStub());
+        Contact contact2 = factory.create(new DatabaseFieldsStub());
+        Contact contact3 = factory.create(new DatabaseFieldsStub());
+        assertNotEquals(contact1.getUniqueIdentifier(), contact2.getUniqueIdentifier());
+        assertNotEquals(contact1.getUniqueIdentifier(), contact3.getUniqueIdentifier());
+        assertNotEquals(contact2.getUniqueIdentifier(), contact3.getUniqueIdentifier());
 
-        ContactInfo info2 = new ContactInfoImpl();
-        info2.add(EmailAddress.create("andersgoddard@gmail.com"));
-        DatabaseFields fields2 = new DatabaseFieldsImpl("Mr A Goddard", info2, null);
-        Contact andrew2 = factory.create(fields2);
+        merger.merge(contact1, contact2);
+        merger.merge(contact1, contact3);
 
-        ContactInfo info3 = new ContactInfoImpl();
-        info3.add(EmailAddress.create("aiandbgoddard@gmail.com"));
-        DatabaseFields fields3 = new DatabaseFieldsImpl("Mr A Goddard", info3, null);
-        Contact andrew3 = factory.create(fields3);
-
-        assertNotEquals(andrew1.getUniqueIdentifier(), andrew2.getUniqueIdentifier());
-        assertNotEquals(andrew1.getUniqueIdentifier(), andrew3.getUniqueIdentifier());
-        assertNotEquals(andrew2.getUniqueIdentifier(), andrew3.getUniqueIdentifier());
-
-        merger.merge(andrew1, andrew2);
-        merger.merge(andrew1, andrew3);
-        assertEquals(andrew1.getUniqueIdentifier(), andrew2.getUniqueIdentifier());
-        assertEquals(andrew1.getUniqueIdentifier(), andrew3.getUniqueIdentifier());
-        assertEquals(andrew2.getUniqueIdentifier(), andrew3.getUniqueIdentifier());
-        assertEquals(2, andrew1.getChildContacts().size());
-        assertTrue(andrew1.getChildContacts().contains(andrew2));
-        assertTrue(andrew1.getChildContacts().contains(andrew3));
+        assertEquals(contact1.getUniqueIdentifier(), contact2.getUniqueIdentifier());
+        assertEquals(contact1.getUniqueIdentifier(), contact3.getUniqueIdentifier());
+        assertEquals(contact2.getUniqueIdentifier(), contact3.getUniqueIdentifier());
+        assertEquals(2, contact1.getChildContacts().size());
+        assertTrue(contact1.getChildContacts().contains(contact2));
+        assertTrue(contact1.getChildContacts().contains(contact3));
     }
 
     @AfterEach
