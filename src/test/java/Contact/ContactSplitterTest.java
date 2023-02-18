@@ -1,11 +1,12 @@
 package Contact;
 
-import Directory.CompanyDirectoryImpl;
+import Stubs.CompanyDirectoryStub;
 import Stubs.ContactDirectoryStub;
 import Stubs.ContactRegistrarStub;
 import Stubs.DatabaseFieldsStub;
 import Utilities.ContactImplFactory;
 import Utilities.ContactImplFactoryModule;
+
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,7 +25,7 @@ public class ContactSplitterTest {
         merger = new ContactMerger();
         splitter = new ContactSplitter();
         registrar = new ContactRegistrarStub(new ContactDirectoryStub());
-        Injector injector = Guice.createInjector(new ContactImplFactoryModule(CompanyDirectoryImpl.getInstance()));
+        Injector injector = Guice.createInjector(new ContactImplFactoryModule(new CompanyDirectoryStub()));
         this.factory = injector.getInstance(ContactImplFactory.class);
     }
 

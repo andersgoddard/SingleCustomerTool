@@ -1,6 +1,6 @@
 package Contact;
 
-import Directory.CompanyDirectoryImpl;
+import Stubs.CompanyDirectoryStub;
 import Stubs.ContactDirectoryStub;
 import Stubs.ContactRegistrarStub;
 import Stubs.DatabaseFieldsStub;
@@ -23,7 +23,7 @@ public class ContactMergerTest {
     public void setUp(){
         registrar = new ContactRegistrarStub(new ContactDirectoryStub());
         merger = new ContactMerger();
-        Injector injector = Guice.createInjector(new ContactImplFactoryModule(CompanyDirectoryImpl.getInstance()));
+        Injector injector = Guice.createInjector(new ContactImplFactoryModule(new CompanyDirectoryStub()));
         this.factory = injector.getInstance(ContactImplFactory.class);
     }
 

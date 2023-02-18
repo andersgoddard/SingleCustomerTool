@@ -2,13 +2,10 @@ package Contact;
 
 import ContactInfo.ContactInfo;
 import ContactInfo.ContactInfoItem;
-import Directory.CompanyDirectoryImpl;
-import Stubs.ContactDirectoryStub;
-import Stubs.DatabaseFieldsStub;
-import Stubs.ContactInfoStub;
-import Stubs.ContactInfoItemStub;
 import Utilities.ContactImplFactory;
 import Utilities.ContactImplFactoryModule;
+import Stubs.*;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import com.google.inject.Guice;
@@ -26,7 +23,7 @@ public class ContactImplTest {
     @BeforeEach
     public void setUp(){
         registrar = new ContactRegistrarImpl(new ContactDirectoryStub());
-        injector = Guice.createInjector(new ContactImplFactoryModule(CompanyDirectoryImpl.getInstance()));
+        injector = Guice.createInjector(new ContactImplFactoryModule(new CompanyDirectoryStub()));
         factory = injector.getInstance(ContactImplFactory.class);
     }
 
@@ -101,10 +98,30 @@ public class ContactImplTest {
 
     @Test
     public void contactHasContactInfoItemInSharedContactInfo(){
-//    boolean hasContactInfoItemIn(ContactInfo sharedContactInfo);
+        ContactInfoItem email = new ContactInfoItemStub(){
+            @Override
+            public String get() {
+                return "andersgoddard@gmail.com";
+            }
+        };
 
+        ContactInfo info = new ContactInfoStub(){
+            @Override
+            public List<ContactInfoItem> getItems(){
+                return List.of(email);
+            }
+        };
+
+        Contact contact = factory.create(new DatabaseFieldsStub(){
+            @Override
+            public ContactInfo getContactInfo(){
+                return info;
+            }
+        }, registrar);
+
+        assertTrue(contact.hasContactInfoItemIn(info));
     }
-
+    
     @Test
     public void contactHasContactInfoItem(){
         ContactInfoItem email = new ContactInfoItemStub(){

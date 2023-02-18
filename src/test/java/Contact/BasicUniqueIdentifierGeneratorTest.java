@@ -4,8 +4,6 @@ import ContactInfo.ContactInfo;
 import ContactInfo.ContactInfoItem;
 import DatabaseFields.DatabaseFields;
 import Directory.ContactDirectory;
-import Directory.CompanyDirectory;
-import Directory.CompanyDirectoryImpl;
 import Stubs.*;
 import Utilities.ContactImplFactory;
 import Utilities.ContactImplFactoryModule;
@@ -21,7 +19,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class BasicUniqueIdentifierGeneratorTest {
     ContactDirectory contacts;
-    CompanyDirectory companies;
     UniqueIdentifierGenerator generator = new BasicUniqueIdentifierGenerator();
     ContactImplFactory factory;
     ContactRegistrar registrar;
@@ -29,9 +26,8 @@ public class BasicUniqueIdentifierGeneratorTest {
     @BeforeEach
     public void setUp(){
         contacts = new ContactDirectoryStub();
-        companies = CompanyDirectoryImpl.getInstance();
         registrar = new ContactRegistrarStub(contacts);
-        Injector injector = Guice.createInjector(new ContactImplFactoryModule(companies));
+        Injector injector = Guice.createInjector(new ContactImplFactoryModule(new CompanyDirectoryStub()));
         factory = injector.getInstance(ContactImplFactory.class);
     }
 

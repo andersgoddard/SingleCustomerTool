@@ -1,24 +1,36 @@
 package DatabaseFields;
 
 import ContactInfo.ContactInfo;
-import ContactInfo.ContactInfoImpl;
-import ContactInfo.PhoneNumber;
+import ContactInfo.ContactInfoItem;
+import Stubs.ContactInfoItemStub;
+import Stubs.ContactInfoStub;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DatabaseFieldsImplTest {
     DatabaseFields fields;
 
     @BeforeEach
     public void setUp(){
-        ContactInfo info = new ContactInfoImpl();
-        info.add(PhoneNumber.create("07881266969"));
-        String primaryKey = "000";
-        fields = new DatabaseFieldsImpl("Mr Andrew Goddard", info, primaryKey){};
+        ContactInfoItem phone = new ContactInfoItemStub(){
+            @Override
+            public String get(){
+                return "07881266969";
+            }
+        };
+
+        ContactInfo info = new ContactInfoStub(){
+            @Override
+            public List<ContactInfoItem> getItems(){
+                return List.of(phone);
+            }
+        };
+
+        fields = new DatabaseFieldsImpl("Mr Andrew Goddard", info, "000"){};
     }
 
     @Test
@@ -27,20 +39,20 @@ public class DatabaseFieldsImplTest {
     }
 
     @Test
-    public void tetDatabaseFieldsNameComponents(){
+    public void fullNameFromNameComponents(){
         DatabaseFields fields = new DatabaseFieldsImpl("Mr", "Andrew", "Goddard",
-                                                          new ContactInfoImpl(),
+                                                          new ContactInfoStub(),
                                                 null);
         assertEquals("Mr Andrew Goddard", fields.getName());
     }
 
     @Test
-    public void testContactInfoDatabaseFields(){
-        assertTrue(fields.getContactInfo().contains(PhoneNumber.create("07881266969")));
+    public void getterForPrimaryKey(){
+        assertEquals("000", fields.getPrimaryKey());
     }
 
     @Test
-    public void testDatabaseFieldsPrimaryKey(){
-        assertEquals("000", fields.getPrimaryKey());
+    public void testContactInfoDatabaseFields(){
+        assertEquals(1, fields.getContactInfo().getItems().size());
     }
 }
