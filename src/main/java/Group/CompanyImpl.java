@@ -83,7 +83,7 @@ public class CompanyImpl implements Company {
         separateIncorrectlyMergedContacts();
     }
 
-    private void separateIncorrectlyMergedContacts(){
+    private void separateIncorrectlyMergedContacts(){ // Don't think this is being tested and may have side effects
         Splitter splitter = new ContactSplitter();
         splitter.separateIncorrectlyMergedContacts(ContactDirectoryImpl.getInstance());
     }

@@ -2,6 +2,8 @@ package Directory;
 
 import Associaters.CompanyAssociaterImpl;
 import Contact.Contact;
+import Contact.ContactRegistrar;
+import Contact.ContactRegistrarImpl;
 import Utilities.ContactImplFactoryModule;
 import ContactInfo.ContactInfo;
 import ContactInfo.ContactInfoImpl;
@@ -17,16 +19,18 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ContactDirectoryTest {
+public class ContactDirectoryImplTest {
     ContactDirectory contacts;
     DatabaseFields fields;
     CompanyAssociaterImpl associater;
     ContactImplFactory factory;
+    ContactRegistrar registerer;
 
     @BeforeEach
     public void setUp(){
         contacts = ContactDirectoryImpl.getInstance();
         associater = new CompanyAssociaterImpl(CompanyDirectoryImpl.getInstance());
+        registerer = new ContactRegistrarImpl(ContactDirectoryImpl.getInstance());
         ContactInfo info = new ContactInfoImpl();
         info.add(EmailAddress.create("andersgoddard@gmail.com"));
         fields = new DatabaseFieldsImpl("Mr Andrew Goddard", info, "2000000");
@@ -40,14 +44,14 @@ public class ContactDirectoryTest {
 
     @Test
     public void testOneContact(){
-        Contact contact = factory.create(fields);
+        Contact contact = factory.create(fields, registerer);
         assertEquals(1, contacts.size());
     }
 
     @Test
     public void testTwoContacts(){
-        Contact contact1 = factory.create(fields);
-        Contact contact2 = factory.create(fields);
+        Contact contact1 = factory.create(fields, registerer);
+        Contact contact2 = factory.create(fields, registerer);
         assertEquals(2, contacts.size());
     }
 

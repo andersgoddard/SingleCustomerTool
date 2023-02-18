@@ -6,10 +6,7 @@ import DatabaseFields.DatabaseFields;
 import Directory.ContactDirectory;
 import Directory.CompanyDirectory;
 import Directory.CompanyDirectoryImpl;
-import Directory.ContactDirectoryImpl;
-import Stubs.ContactInfoItemStub;
-import Stubs.ContactInfoStub;
-import Stubs.DatabaseFieldsStub;
+import Stubs.*;
 import Utilities.ContactImplFactory;
 import Utilities.ContactImplFactoryModule;
 
@@ -27,12 +24,13 @@ public class BasicUniqueIdentifierGeneratorTest {
     CompanyDirectory companies;
     UniqueIdentifierGenerator generator = new BasicUniqueIdentifierGenerator();
     ContactImplFactory factory;
-
+    ContactRegistrar registrar;
 
     @BeforeEach
     public void setUp(){
-        contacts = ContactDirectoryImpl.getInstance();
+        contacts = new ContactDirectoryStub();
         companies = CompanyDirectoryImpl.getInstance();
+        registrar = new ContactRegistrarStub(contacts);
         Injector injector = Guice.createInjector(new ContactImplFactoryModule(companies));
         factory = injector.getInstance(ContactImplFactory.class);
     }
@@ -44,7 +42,7 @@ public class BasicUniqueIdentifierGeneratorTest {
             public String getName() {
                 return "Mr Andrew Goddard";
             }
-        });
+        }, registrar);
 
         String uniqueIdentifier = generator.getUniqueIdentifierFor(contact, contacts);
 
@@ -55,8 +53,8 @@ public class BasicUniqueIdentifierGeneratorTest {
     public void sameUniqueIdentifierForSameContact(){
         List<ContactInfoItem> contactInfo = getContactInfoWith("07881266969");
         DatabaseFields fields = getDatabaseFieldsWith("Mr Andrew Goddard", contactInfo);
-        Contact contact1 = factory.create(fields);
-        Contact contact2 = factory.create(fields);
+        Contact contact1 = factory.create(fields, registrar);
+        Contact contact2 = factory.create(fields, registrar);
 
         String uniqueIdentifier1 = generator.getUniqueIdentifierFor(contact1, contacts);
         String uniqueIdentifier2 = generator.getUniqueIdentifierFor(contact2, contacts);
@@ -88,7 +86,7 @@ public class BasicUniqueIdentifierGeneratorTest {
             }
         };
 
-        DatabaseFields fields = new DatabaseFieldsStub(){
+        return new DatabaseFieldsStub(){
             @Override
             public ContactInfo getContactInfo(){
                 return info;
@@ -99,7 +97,5 @@ public class BasicUniqueIdentifierGeneratorTest {
                 return name;
             }
         };
-
-        return fields;
     }
 }

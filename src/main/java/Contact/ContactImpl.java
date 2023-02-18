@@ -25,10 +25,6 @@ public class ContactImpl implements Contact {
         this.fields = fields;
     }
 
-    public void setId(String id){
-
-    }
-
     public void setUniqueIdentifier() {
         /*  Sets a new random UUID for the Contact. Used by the ContactSplitter class.*/
         this.uniqueIdentifier = UUID.randomUUID().toString();

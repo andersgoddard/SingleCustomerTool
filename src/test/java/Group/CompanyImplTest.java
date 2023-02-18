@@ -7,6 +7,8 @@ import Directory.ContactDirectory;
 import Directory.CompanyDirectoryImpl;
 import Directory.ContactDirectoryImpl;
 import Contact.Contact;
+import Contact.ContactRegistrar;
+import Contact.ContactRegistrarImpl;
 import Utilities.ContactImplFactoryModule;
 import ContactInfo.ContactInfo;
 import ContactInfo.ContactInfoImpl;
@@ -30,12 +32,14 @@ public class CompanyImplTest {
     DatabaseFields fields;
     CompanyAssociater associater;
     ContactImplFactory factory;
+    ContactRegistrar registrar;
 
 
     @BeforeEach
     public void setUp(){
         company = CompanyImpl.create("Example Company");
         contacts = ContactDirectoryImpl.getInstance();
+        registrar = new ContactRegistrarImpl(contacts);
         companies = CompanyDirectoryImpl.getInstance();
         associater = new CompanyAssociaterImpl(companies);
         ContactInfo info = new ContactInfoImpl();
@@ -70,8 +74,8 @@ public class CompanyImplTest {
         info2.add(EmailAddress.create("india@exampleco.com"));
         DatabaseFields andrewFields = new DatabaseFieldsImpl("Andrew", info1, null);
         DatabaseFields indiaFields = new DatabaseFieldsImpl("India", info2, null);
-        Contact andrew = factory.create(andrewFields);
-        Contact india = factory.create(indiaFields);
+        Contact andrew = factory.create(andrewFields, registrar);
+        Contact india = factory.create(indiaFields, registrar);
         company.setEmailDomain("exampleco.com");
         assertEquals(andrew.getCompanyId(), india.getCompanyId());
     }
@@ -93,8 +97,8 @@ public class CompanyImplTest {
         DatabaseFields andrewFields = new DatabaseFieldsImpl("Andrew", info1, null);
         DatabaseFields indiaFields = new DatabaseFieldsImpl("India", info2, null);
 
-        Contact andrew = factory.create(andrewFields);
-        Contact india = factory.create(indiaFields);
+        Contact andrew = factory.create(andrewFields, registrar);
+        Contact india = factory.create(indiaFields, registrar);
         Company exampleCo = CompanyImpl.create("Another Example Company", "anotherexampleco.com");
         assertEquals(andrew.getCompanyId(), india.getCompanyId());
     }
@@ -109,8 +113,8 @@ public class CompanyImplTest {
         DatabaseFields andrewFields = new DatabaseFieldsImpl("Andrew", info1, null);
         DatabaseFields indiaFields = new DatabaseFieldsImpl("India", info2, null);
 
-        Contact andrew = factory.create(andrewFields);
-        Contact india = factory.create(indiaFields);
+        Contact andrew = factory.create(andrewFields, registrar);
+        Contact india = factory.create(indiaFields, registrar);
         assertNotNull(andrew.getCompanyId());
         assertEquals(andrew.getCompanyId(), india.getCompanyId());
     }
@@ -136,7 +140,7 @@ public class CompanyImplTest {
         ContactInfo info = new ContactInfoImpl();
         info.add(PhoneNumber.create("02070002000"));
         DatabaseFields fields = new DatabaseFieldsImpl("Andrew", info, null);
-        Contact andrew = factory.create(fields);
+        Contact andrew = factory.create(fields, registrar);
         company.setSharedContactInfo("02070002000");
         assertEquals(company.getUniqueIdentifier(), andrew.getCompanyId());
     }
@@ -147,7 +151,7 @@ public class CompanyImplTest {
         ContactInfo info = new ContactInfoImpl();
         info.add(PhoneNumber.create("02070002000"));
         DatabaseFields fields = new DatabaseFieldsImpl("Andrew", info, null);
-        Contact andrew = factory.create(fields);
+        Contact andrew = factory.create(fields, registrar);
         assertEquals(company.getUniqueIdentifier(), andrew.getCompanyId());
     }
 
@@ -157,7 +161,7 @@ public class CompanyImplTest {
         ContactInfo info = new ContactInfoImpl();
         info.add(EmailAddress.create("info@examplecompany.com"));
         DatabaseFields fields = new DatabaseFieldsImpl("Andrew", info, null);
-        Contact andrew = factory.create(fields);
+        Contact andrew = factory.create(fields, registrar);
         assertEquals(company.getUniqueIdentifier(), andrew.getCompanyId());
     }
 

@@ -1,53 +1,45 @@
 package Contact;
 
-import ContactInfo.ContactInfo;
-import ContactInfo.ContactInfoImpl;
-import ContactInfo.PhoneNumber;
-import ContactInfo.EmailAddress;
-import DatabaseFields.DatabaseFields;
-import DatabaseFields.DatabaseFieldsImpl;
 import Directory.CompanyDirectoryImpl;
-import Directory.ContactDirectoryImpl;
+import Stubs.ContactDirectoryStub;
+import Stubs.ContactRegistrarStub;
+import Stubs.DatabaseFieldsStub;
 import Utilities.ContactImplFactory;
 import Utilities.ContactImplFactoryModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ContactSplitterTest {
-    @Test
-    public void testBreakUpContact(){
-        ContactDirectoryImpl contacts = ContactDirectoryImpl.getInstance();
+    ContactImplFactory factory;
+    Merger merger;
+    Splitter splitter;
+    ContactRegistrar registrar;
+
+    @BeforeEach
+    public void setUp(){
+        merger = new ContactMerger();
+        splitter = new ContactSplitter();
+        registrar = new ContactRegistrarStub(new ContactDirectoryStub());
         Injector injector = Guice.createInjector(new ContactImplFactoryModule(CompanyDirectoryImpl.getInstance()));
-        ContactImplFactory factory = injector.getInstance(ContactImplFactory.class);
+        this.factory = injector.getInstance(ContactImplFactory.class);
+    }
 
-        ContactInfo info = new ContactInfoImpl();
-        info.add(PhoneNumber.create("07881266969"));
-        info.add(PhoneNumber.create("07746142639"));
-        info.add(EmailAddress.create("andersgoddard@gmail.com"));
-        DatabaseFields andrewFields = new DatabaseFieldsImpl("Mr Andrew Goddard", info, null);
-        Contact andrew = factory.create(andrewFields);
+    @Test
+    public void breakUpContact(){
+        Contact contact1 = factory.create(new DatabaseFieldsStub(), registrar);
+        Contact contact2 = factory.create(new DatabaseFieldsStub(), registrar);
+        merger.merge(contact1, contact2);
+        assertEquals(contact1.getUniqueIdentifier(), contact2.getUniqueIdentifier());
+        assertEquals(1, contact1.getChildContacts().size());
+        assertTrue(contact1.getChildContacts().contains(contact2));
 
-        ContactInfo info2 = new ContactInfoImpl();
-        info2.add(EmailAddress.create("indiabettsgoddard@outlook.com"));
-        info2.add(PhoneNumber.create("07746142639"));
-        DatabaseFields indiaFields = new DatabaseFieldsImpl("Mrs India Goddard", info2, null);
-        Contact india = factory.create(indiaFields);
+        splitter.split(contact1, contact2);
 
-        assertEquals(andrew.getUniqueIdentifier(), india.getUniqueIdentifier());
-        assertEquals(1, andrew.getChildContacts().size());
-        Splitter splitter = new ContactSplitter();
-        splitter.split(india);
-        andrew.removeFromChildContacts(new ArrayList<>(List.of(india)));
-        assertNotEquals(andrew.getUniqueIdentifier(), india.getUniqueIdentifier());
-        assertEquals(0, andrew.getChildContacts().size());
-
-        contacts.clear();
+        assertNotEquals(contact1.getUniqueIdentifier(), contact2.getUniqueIdentifier());
+        assertEquals(0, contact1.getChildContacts().size());
     }
 }
