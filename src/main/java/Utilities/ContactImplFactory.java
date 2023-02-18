@@ -32,6 +32,6 @@ public class ContactImplFactory implements Factory {
     }
 
     private String getUniqueIdentifierFor(Contact contact){
-        return generator.getUniqueIdentifierFor(contact);
+        return generator.getUniqueIdentifierFor(contact, contacts);
     }
 }

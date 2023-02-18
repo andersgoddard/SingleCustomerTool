@@ -52,10 +52,13 @@ public class ContactDirectoryImpl implements ContactDirectory {
 
     @Override
     public Contact contains(String name, ContactInfo info) {
-        Directory companies = CompanyDirectoryImpl.getInstance();
+        CompanyDirectory companies = CompanyDirectoryImpl.getInstance();
         for (Contact contact : contacts){
             for (ContactInfoItem item : info.getItems()){
+                // Condition 1 - the contacts have a shared piece of contact info
                 if ((contact.hasContactInfoItem(item))
+                        // Condition 2a - the contact info isn't shared within a company - i.e. info@ email or switchboard number
+                        // Condition 2b - the contacts have the same name
                         && (companies.doesNotContain(item) || contact.getName().equals(name)))
                     return contact;
             }
