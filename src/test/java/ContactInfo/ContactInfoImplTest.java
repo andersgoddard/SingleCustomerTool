@@ -13,6 +13,7 @@ public class ContactInfoImplTest {
         info.add(PhoneNumber.create("01472210284"));
         info.add(EmailAddress.create("andersgoddard@gmail.com"));
         info.add(EmailAddress.create("agodda02@mail.bbk.ac.uk"));
+
         assertTrue(info.contains(EmailAddress.create("andersgoddard@gmail.com")));
         assertFalse(info.contains(EmailAddress.create("agoddard@kfh.co.uk")));
     }

@@ -12,7 +12,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DatabaseFieldsImplTest {
-    DatabaseFields fields;
+    ContactInfo info;
 
     @BeforeEach
     public void setUp(){
@@ -23,36 +23,41 @@ public class DatabaseFieldsImplTest {
             }
         };
 
-        ContactInfo info = new ContactInfoStub(){
+        this.info = new ContactInfoStub(){
             @Override
             public List<ContactInfoItem> getItems(){
                 return List.of(phone);
             }
         };
-
-        fields = new DatabaseFieldsImpl("Mr Andrew Goddard", info, "000"){};
     }
 
     @Test
-    public void testDatabaseFieldsFullName(){
+    public void createWithFullName(){
+        DatabaseFields fields = new DatabaseFieldsImpl("Mr Andrew Goddard", info, "000");
+
         assertEquals("Mr Andrew Goddard", fields.getName());
     }
 
     @Test
-    public void fullNameFromNameComponents(){
+    public void createWithNameComponents(){
         DatabaseFields fields = new DatabaseFieldsImpl("Mr", "Andrew", "Goddard",
-                                                          new ContactInfoStub(),
+                                                          info,
                                                 null);
+
         assertEquals("Mr Andrew Goddard", fields.getName());
     }
 
     @Test
     public void getterForPrimaryKey(){
+        DatabaseFields fields = new DatabaseFieldsImpl("Mr Andrew Goddard", info, "000");
+
         assertEquals("000", fields.getPrimaryKey());
     }
 
     @Test
-    public void testContactInfoDatabaseFields(){
+    public void getContactInfo(){
+        DatabaseFields fields = new DatabaseFieldsImpl("Mr Andrew Goddard", info, "000");
+
         assertEquals(1, fields.getContactInfo().getItems().size());
     }
 }
